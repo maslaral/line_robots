@@ -10,6 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     scene = new Canvas(itemMenu, this);
+    scene->setSceneRect(170,1,554,466);
     ui->canvas->setScene(scene);
 }
 
