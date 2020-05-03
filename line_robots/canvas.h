@@ -21,6 +21,7 @@ private:
     QGraphicsLineItem *line;        // place holder for custom line obj
 
     int x, y;
+    QLineF test;
 };
 
 #endif // CANVAS_H
