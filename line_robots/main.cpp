@@ -4,6 +4,8 @@
 
 int main(int argc, char *argv[])
 {
+//    Q_INIT_RESOURCE(canvas);
+
     QApplication a(argc, argv);
     MainWindow w;
     w.show();

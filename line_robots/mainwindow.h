@@ -2,6 +2,11 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <QGraphicsView>
+#include <QComboBox>
+#include <QButtonGroup>
+
+class Canvas;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -17,5 +22,9 @@ public:
 
 private:
     Ui::MainWindow *ui;
+
+    Canvas *scene;
+    QGraphicsView *view;
+    QMenu *itemMenu;
 };
 #endif // MAINWINDOW_H
