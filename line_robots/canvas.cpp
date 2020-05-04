@@ -35,4 +35,5 @@ void Canvas::mousePressEvent(QGraphicsSceneMouseEvent *event)
         line->setPen(QPen(Qt::black, 10));
         addItem(line);
     }
+
 }

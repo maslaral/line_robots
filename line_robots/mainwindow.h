@@ -18,10 +18,18 @@ class MainWindow : public QMainWindow
 
 public:
     MainWindow(QWidget *parent = nullptr);
+    void addRobot(double x, double y);
+    void clearData();
+    void place();
     ~MainWindow();
+
+private slots:
+    void on_butClear_clicked();
 
 private:
     Ui::MainWindow *ui;
+
+    QVector<double> qv_x, qv_y;
 
     Canvas *scene;
     QGraphicsView *view;

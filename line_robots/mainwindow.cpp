@@ -14,8 +14,18 @@ MainWindow::MainWindow(QWidget *parent)
     ui->canvas->setScene(scene);
 }
 
+void MainWindow::clearData()
+{
+     scene->clear();
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
 }
 
+
+void MainWindow::on_butClear_clicked()
+{
+     clearData();
+}
