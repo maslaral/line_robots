@@ -1,5 +1,4 @@
-QT       += core gui \
-    quick
+QT       += core gui
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -17,15 +16,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    dragwidget.cpp \
+    canvas.cpp \
     main.cpp \
-    mainwindow.cpp \
-    robot.cpp
+    mainwindow.cpp
 
 HEADERS += \
-    dragwidget.h \
-    mainwindow.h \
-    robot.h
+    canvas.h \
+    mainwindow.h
 
 FORMS += \
     mainwindow.ui
