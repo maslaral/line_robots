@@ -10,12 +10,30 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     scene = new Canvas(itemMenu, this);
+
+    //Sets the size of the canvas
     scene->setSceneRect(170,1,554,466);
 
+    //sets the canvas on the scene
     ui->canvas->setScene(scene);
+
+    //Smoth out the movement of the robot
     ui->canvas->setRenderHint(QPainter::Antialiasing);
 
+    //Draw out the boundry of the scene
+    QPen mypen = QPen(Qt::blue);
 
+    QLineF TopLine(scene->sceneRect().topLeft(), scene->sceneRect().topRight());
+    QLineF LeftLine(scene->sceneRect().topLeft(), scene->sceneRect().bottomLeft());
+    QLineF RightLine(scene->sceneRect().topRight(), scene->sceneRect().bottomRight());
+    QLineF ButtomLine(scene->sceneRect().bottomLeft(), scene->sceneRect().bottomRight());
+
+    scene->addLine(TopLine,mypen);
+    scene->addLine(LeftLine,mypen);
+    scene->addLine(RightLine,mypen);
+    scene->addLine(ButtomLine,mypen);
+
+    //Add robot
     int RobotCount = 1;
 
     for(int i = 0; i< RobotCount; i++)
@@ -24,10 +42,12 @@ MainWindow::MainWindow(QWidget *parent)
         scene->addItem(Robot);
     }
 
+
    //Movement timer, advance is used for the progresion of the robot.
    timer = new QTimer(this);
    connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
    timer->start(100);
+
 
 
 
