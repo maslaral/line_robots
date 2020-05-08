@@ -17,11 +17,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = nullptr);
+    explicit MainWindow(QWidget *parent = nullptr);
     void addRobot(double x, double y);
     void clearData();
     void place();
     ~MainWindow();
+
+
 
 private slots:
     void on_butClear_clicked();
@@ -34,5 +36,8 @@ private:
     Canvas *scene;
     QGraphicsView *view;
     QMenu *itemMenu;
+
+    //movement
+    QTimer *timer;
 };
 #endif // MAINWINDOW_H

@@ -1,5 +1,5 @@
 #include "canvas.h"
-
+#include "ui_mainwindow.h"
 #include <QGraphicsSceneMouseEvent>
 #include <QDebug>
 #include <QGraphicsItem>
@@ -9,7 +9,9 @@ Canvas::Canvas(QMenu *itemMenu, QObject *parent)
     : QGraphicsScene(parent)
 {
     myItemMenu = itemMenu;
+
 }
+
 
 void Canvas::mousePressEvent(QGraphicsSceneMouseEvent *event)
 {
@@ -20,7 +22,7 @@ void Canvas::mousePressEvent(QGraphicsSceneMouseEvent *event)
 
 
         line = new QGraphicsLineItem(QLineF(x, 0, x, 466));
-        line->setPen(QPen(Qt::black, 10));
+        line->setPen(QPen(Qt::black, 1));
         addItem(line);
     }
     // horizontal line
@@ -32,8 +34,10 @@ void Canvas::mousePressEvent(QGraphicsSceneMouseEvent *event)
         line = new QGraphicsLineItem(QLineF(180, y, 160+554, y));
         qDebug() << "X: " << x << ", Y:" << y;
         qDebug() << test.length();
-        line->setPen(QPen(Qt::black, 10));
+        line->setPen(QPen(Qt::black, 1));
         addItem(line);
     }
 
+
 }
+

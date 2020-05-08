@@ -5,6 +5,9 @@
 #include <QGraphicsLineItem>
 #include <QMenu>
 #include <QPoint>
+#include <MyRobot.h>
+#include "ui_mainwindow.h"
+
 
 class Canvas : public QGraphicsScene
 {
