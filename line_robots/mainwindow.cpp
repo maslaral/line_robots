@@ -11,7 +11,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     scene = new Canvas(itemMenu, this);
     scene->setSceneRect(170,1,554,466);
+
     ui->canvas->setScene(scene);
+    ui->canvas->setRenderHint(QPainter::Antialiasing);
+
 
     int RobotCount = 1;
 
@@ -26,12 +29,17 @@ MainWindow::MainWindow(QWidget *parent)
    connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
    timer->start(100);
 
+
+
+
+
 }
 
 void MainWindow::clearData()
 {
      scene->clear();
 }
+
 
 MainWindow::~MainWindow()
 {
@@ -43,3 +51,5 @@ void MainWindow::on_butClear_clicked()
 {
      clearData();
 }
+
+

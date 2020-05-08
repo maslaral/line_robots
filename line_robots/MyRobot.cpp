@@ -71,7 +71,7 @@ void MyRobot::DoCollision()
         setRotation((rotation()+(180+qrand()%1)));
     }
     else{
-         setRotation((rotation()+(180+qrand()%-1)));
+         setRotation((rotation()+(-180+qrand()%-1)));
     }
 
     //see if the new position is in bounds +2 pushes away from the obeject it colides with

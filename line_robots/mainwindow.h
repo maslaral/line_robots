@@ -20,8 +20,9 @@ public:
     explicit MainWindow(QWidget *parent = nullptr);
     void addRobot(double x, double y);
     void clearData();
-    void place();
+    void pauseSimulation();
     ~MainWindow();
+
 
 
 
