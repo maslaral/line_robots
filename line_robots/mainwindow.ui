@@ -17,6 +17,16 @@
    <layout class="QGridLayout" name="gridLayout_3">
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout_2">
+      <item row="1" column="1">
+       <widget class="QWidget" name="statusBar" native="true">
+        <property name="minimumSize">
+         <size>
+          <width>0</width>
+          <height>24</height>
+         </size>
+        </property>
+       </widget>
+      </item>
       <item row="0" column="1">
        <widget class="QGraphicsView" name="canvas"/>
       </item>
@@ -86,7 +96,18 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="vDirection"/>
+                 <widget class="QComboBox" name="vDirection">
+                  <item>
+                   <property name="text">
+                    <string>Up </string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Down</string>
+                   </property>
+                  </item>
+                 </widget>
                 </item>
                </layout>
               </item>
@@ -102,8 +123,18 @@
                 <item>
                  <widget class="QComboBox" name="hDirection">
                   <property name="currentText">
-                   <string/>
+                   <string>Left</string>
                   </property>
+                  <item>
+                   <property name="text">
+                    <string>Left</string>
+                   </property>
+                  </item>
+                  <item>
+                   <property name="text">
+                    <string>Right</string>
+                   </property>
+                  </item>
                  </widget>
                 </item>
                </layout>
@@ -153,29 +184,26 @@
                 </property>
                </widget>
               </item>
-              <item>
-               <widget class="QPushButton" name="startPause">
-                <property name="text">
-                 <string>Start</string>
-                </property>
-               </widget>
-              </item>
              </layout>
+            </item>
+            <item>
+             <widget class="QPushButton" name="pauseButton">
+              <property name="text">
+               <string>Pause</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QPushButton" name="resetButton">
+              <property name="text">
+               <string>Reset</string>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
          </item>
         </layout>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QWidget" name="statusBar" native="true">
-        <property name="minimumSize">
-         <size>
-          <width>0</width>
-          <height>24</height>
-         </size>
-        </property>
        </widget>
       </item>
       <item row="1" column="0">
