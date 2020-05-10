@@ -1,14 +1,14 @@
-#ifndef ROBOT_H
-#define ROBOT_H
+#ifndef MYROBOT_H
+#define MYROBOT_H
 
 #include <QPainter>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 
-class Robot : public QGraphicsItem
+class MyRobot : public QGraphicsItem
 {
 public:
-    Robot();
+    MyRobot();
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setSpeed(double);
@@ -19,7 +19,6 @@ private:
     qreal angle;
     qreal speed;
     void DoCollision();
-    QPointF location;
 };
 
 #endif // MYITEM_H

@@ -10,16 +10,6 @@ Canvas::Canvas(QMenu *itemMenu, QObject *parent)
     : QGraphicsScene(parent)
 {
     myItemMenu = itemMenu;
-<<<<<<< HEAD
-}
-
-void Canvas::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
-{
-    if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-            event->acceptProposedAction();
-    } else {
-            event->ignore();
-=======
 }
 
 void Canvas::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
@@ -102,51 +92,8 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
         event->acceptProposedAction();
     } else {
         event->ignore();
->>>>>>> master
     }
-}
 
-<<<<<<< HEAD
-void Canvas::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
-{
-    if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-        event->acceptProposedAction();
-    } else {
-        event->ignore();
-    }
-}
-
-void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
-{
-    if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-
-        QByteArray itemData = event->mimeData()->data("application/x-dnditemdata");
-        QDataStream dataStream(&itemData, QIODevice::ReadOnly);
-        QString dragObjectType = event->mimeData()->text();
-
-        // TODO: figure out how to utilize direction
-        // gets the tooltip text that was passed via mimedata
-        if (dragObjectType == "Left Line" || dragObjectType == "Right Line") {
-            x = event->scenePos().x();
-            y = event->scenePos().y();
-
-            test = QLineF(180, y, 170 + 554, y);
-            line = new QGraphicsLineItem(QLineF(180, y, 160 + 554, y));
-            line->setPen(QPen(Qt::black, 3));
-            addItem(line);
-        } else {
-            x = event->scenePos().x();
-            y = event->scenePos().y();
-
-            line = new QGraphicsLineItem(QLineF(x, 0, x, 466));
-            line->setPen(QPen(Qt::black, 3));
-            addItem(line);
-        }
-        event->acceptProposedAction();
-    } else {
-        event->ignore();
-    }
-=======
     // for checking end points of lines
     j=0;
         for (i=5; i<items().count(); i++){
@@ -201,5 +148,4 @@ void Canvas::addHArrow(QPoint p2)
         triangle << QPointF(0,tmp) << QPointF(10, tmp+10) << QPointF(10, tmp-10);
     }
     addPolygon(triangle, QPen(Qt::black), QBrush(Qt::SolidPattern));
->>>>>>> master
 }

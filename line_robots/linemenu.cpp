@@ -9,11 +9,7 @@ LineMenu::LineMenu(QWidget *parent)
 
     // setting up the left arrow icon
     QLabel *leftIcon = new QLabel(this);
-<<<<<<< HEAD
     QPixmap left(":/images/left.png");
-=======
-    QPixmap left(":/resources/images/left.png");
->>>>>>> master
     const int w = 30;
     const int h = 30;
 
@@ -25,11 +21,7 @@ LineMenu::LineMenu(QWidget *parent)
 
     // setting up the right arrow icon
     QLabel *rightIcon = new QLabel(this);
-<<<<<<< HEAD
     QPixmap right(":/images/right.png");
-=======
-    QPixmap right(":/resources/images/right.png");
->>>>>>> master
 
     rightIcon->setPixmap(right.scaled(w, h, Qt::IgnoreAspectRatio));
     rightIcon->setToolTip("Right Line");	// DON'T CHANGE - used to create line object
@@ -39,11 +31,7 @@ LineMenu::LineMenu(QWidget *parent)
 
     // setting up the up arrow icon
     QLabel *upIcon = new QLabel(this);
-<<<<<<< HEAD
     QPixmap up(":/images/up.png");
-=======
-    QPixmap up(":/resources/images/up.png");
->>>>>>> master
 
     upIcon->setPixmap(up.scaled(w, h, Qt::IgnoreAspectRatio));
     upIcon->setToolTip("Up Line");			// DON'T CHANGE - used to create line object
@@ -53,11 +41,7 @@ LineMenu::LineMenu(QWidget *parent)
 
     // setting up the down arrow icon
     QLabel *downIcon = new QLabel(this);
-<<<<<<< HEAD
     QPixmap down(":/images/down.png");
-=======
-    QPixmap down(":/resources/images/down.png");
->>>>>>> master
 
     downIcon->setPixmap(down.scaled(w, h, Qt::IgnoreAspectRatio));
     downIcon->setToolTip("Down Line");		// DON'T CHANGE - used to create line object
