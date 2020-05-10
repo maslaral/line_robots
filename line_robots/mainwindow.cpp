@@ -13,7 +13,7 @@ MainWindow::MainWindow(QWidget *parent)
     scene = new Canvas(itemMenu, this);
 
     //Sets the size of the canvas
-    scene->setSceneRect(170,1,554,466);
+    scene->setSceneRect(0,0,554,466);
 
     //sets the canvas on the scene
     ui->canvas->setScene(scene);
@@ -49,12 +49,6 @@ MainWindow::MainWindow(QWidget *parent)
    timer = new QTimer(this);
    connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
    timer->start(100);
-
-
-
-
-
-
 }
 
 void MainWindow::clearData()
