@@ -33,7 +33,11 @@
            </property>
            <layout class="QGridLayout" name="gridLayout_5">
             <item row="0" column="0">
+<<<<<<< HEAD
              <widget class="LineMenu" name="frame">
+=======
+             <widget class="LineMenu" name="lineDraggable">
+>>>>>>> master
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -233,11 +237,14 @@
    <header location="global">linemenu.h</header>
    <container>1</container>
   </customwidget>
+<<<<<<< HEAD
   <customwidget>
    <class>robotBox1</class>
    <extends>QLabel</extends>
    <header location="global">robotbox1.h</header>
   </customwidget>
+=======
+>>>>>>> master
  </customwidgets>
  <resources/>
  <connections>
@@ -248,8 +255,13 @@
    <slot>close()</slot>
    <hints>
     <hint type="sourcelabel">
+<<<<<<< HEAD
      <x>366</x>
      <y>557</y>
+=======
+     <x>176</x>
+     <y>528</y>
+>>>>>>> master
     </hint>
     <hint type="destinationlabel">
      <x>221</x>

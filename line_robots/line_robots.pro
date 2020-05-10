@@ -20,15 +20,23 @@ SOURCES += \
     linemenu.cpp \
     main.cpp \
     mainwindow.cpp \
+<<<<<<< HEAD
     robot.cpp \
     robotbox1.cpp
+=======
+    robot.cpp
+>>>>>>> master
 
 HEADERS += \
     canvas.h \
     linemenu.h \
     mainwindow.h \
+<<<<<<< HEAD
     robot.h \
     robotbox1.h
+=======
+    robot.h
+>>>>>>> master
 
 FORMS += \
     mainwindow.ui
@@ -42,4 +50,4 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 RESOURCES += \
-    draggable.qrc
+    resources.qrc
