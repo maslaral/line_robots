@@ -16,16 +16,18 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-    MyRobot.cpp \
     canvas.cpp \
+    linemenu.cpp \
     main.cpp \
     mainwindow.cpp \
+    robot.cpp \
     robotbox1.cpp
 
 HEADERS += \
-    MyRobot.h \
     canvas.h \
+    linemenu.h \
     mainwindow.h \
+    robot.h \
     robotbox1.h
 
 FORMS += \

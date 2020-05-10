@@ -5,24 +5,20 @@
 #include <QGraphicsLineItem>
 #include <QMenu>
 #include <QPoint>
-#include <MyRobot.h>
-#include "ui_mainwindow.h"
+#include <robot.h>
 
 
 class Canvas : public QGraphicsScene
 {
-    Q_OBJECT
-
 public:
     explicit Canvas(QMenu *itemMenu, QObject *parent = nullptr);
-
-protected:
-    void mousePressEvent(QGraphicsSceneMouseEvent *event) override;
+    void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
+    void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
+    void dropEvent(QGraphicsSceneDragDropEvent *event) override;
 
 private:
     QMenu *myItemMenu;
-    QGraphicsLineItem *line;        // place holder for custom line obj
-
+    QGraphicsLineItem *line;        // place holder for custom line object
     int x, y;
     QLineF test;
 };

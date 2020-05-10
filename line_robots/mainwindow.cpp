@@ -72,12 +72,29 @@ MainWindow::~MainWindow()
 void MainWindow::on_butClear_clicked()
 {
     clearData();
+	
+	QPen mypen = QPen(Qt::blue);
+
+     QLineF TopLine(scene->sceneRect().topLeft(), scene->sceneRect().topRight());
+     QLineF LeftLine(scene->sceneRect().topLeft(), scene->sceneRect().bottomLeft());
+     QLineF RightLine(scene->sceneRect().topRight(), scene->sceneRect().bottomRight());
+     QLineF ButtomLine(scene->sceneRect().bottomLeft(), scene->sceneRect().bottomRight());
+
+     scene->addLine(TopLine,mypen);
+     scene->addLine(LeftLine,mypen);
+     scene->addLine(RightLine,mypen);
+     scene->addLine(ButtomLine,mypen);
 }
 
 void MainWindow::Mouse_Pressed()
 {
+    int barSpeed1;
+    double barSpeed2;
+    barSpeed1 = ui->progressBar->value();
+    barSpeed2 = static_cast<double>(barSpeed1);
     MyRobot *Robot = new MyRobot();
-    scene->addItem(Robot);
+    Robot->setSpeed(barSpeed2);
+    scene->addItem(Robot);    
 }
 
 
