@@ -19,12 +19,14 @@ SOURCES += \
     MyRobot.cpp \
     canvas.cpp \
     main.cpp \
-    mainwindow.cpp
+    mainwindow.cpp \
+    robotbox1.cpp
 
 HEADERS += \
     MyRobot.h \
     canvas.h \
-    mainwindow.h
+    mainwindow.h \
+    robotbox1.h
 
 FORMS += \
     mainwindow.ui
