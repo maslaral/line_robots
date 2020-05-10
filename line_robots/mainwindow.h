@@ -23,9 +23,6 @@ public:
     void pauseSimulation();
     ~MainWindow();
 
-
-
-
 private slots:
     void on_butClear_clicked();
 
