@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "canvas.h"
+#include "robotbox1.h"
 
 #include <QtWidgets>
 
@@ -33,14 +34,15 @@ MainWindow::MainWindow(QWidget *parent)
     scene->addLine(RightLine,mypen);
     scene->addLine(ButtomLine,mypen);
 
+    connect(ui->robot1, SIGNAL(Mouse_Pressed()), this, SLOT(Mouse_Pressed()));
     //Add robot
-    int RobotCount = 1;
+   // int RobotCount = 1;
 
-    for(int i = 0; i< RobotCount; i++)
-    {
-        MyRobot *Robot = new MyRobot();
-        scene->addItem(Robot);
-    }
+   // for(int i = 0; i< RobotCount; i++)
+   // {
+   //     MyRobot *Robot = new MyRobot();
+   //     scene->addItem(Robot);
+   // }
 
 
    //Movement timer, advance is used for the progresion of the robot.
@@ -69,7 +71,13 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_butClear_clicked()
 {
-     clearData();
+    clearData();
+}
+
+void MainWindow::Mouse_Pressed()
+{
+    MyRobot *Robot = new MyRobot();
+    scene->addItem(Robot);
 }
 
 
