@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/resources">
+        <file>images/robot.png</file>
+        <file>images/right.png</file>
+        <file>images/up.png</file>
+        <file>images/left.png</file>
+        <file>images/down.png</file>
+    </qresource>
+</RCC>
