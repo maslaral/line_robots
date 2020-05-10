@@ -23,11 +23,9 @@ public:
     void pauseSimulation();
     ~MainWindow();
 
-
-
-
 private slots:
     void on_butClear_clicked();
+    void Mouse_Pressed();
 
 private:
     Ui::MainWindow *ui;
