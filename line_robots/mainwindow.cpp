@@ -1,7 +1,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "canvas.h"
-#include "robotbox1.h"
+#include "robotmenu.h"
 
 #include <QtWidgets>
 
@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     scene->addLine(RightLine,mypen);
     scene->addLine(ButtomLine,mypen);
 
-    connect(ui->robot1, SIGNAL(Mouse_Pressed()), this, SLOT(Mouse_Pressed()));
+    connect(ui->robotmenu, SIGNAL(Mouse_Pressed()), this, SLOT(Mouse_Pressed()));
     //Add robot
    // int RobotCount = 1;
 
@@ -86,9 +86,9 @@ void MainWindow::Mouse_Pressed()
     double barSpeed2;
     barSpeed1 = ui->progressBar->value();
     barSpeed2 = static_cast<double>(barSpeed1);
-    MyRobot *Robot = new MyRobot();
-    Robot->setSpeed(barSpeed2);
-    scene->addItem(Robot);    
+    Robot *robot = new Robot();
+    robot->setSpeed(barSpeed2);
+    scene->addItem(robot);
 }
 
 

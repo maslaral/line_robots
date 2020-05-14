@@ -39,4 +39,5 @@ private:
     //movement
     QTimer *timer;
 };
+
 #endif // MAINWINDOW_H
