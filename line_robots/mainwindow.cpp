@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     scene->addLine(RightLine,mypen);
     scene->addLine(ButtomLine,mypen);
 
-    connect(ui->robotMenu, SIGNAL(Mouse_Pressed()), this, SLOT(Mouse_Pressed()));
+    // connect(ui->robotMenu, SIGNAL(Mouse_Pressed()), this, SLOT(Mouse_Pressed()));
     //Add robot
    // int RobotCount = 1;
 
@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
    // }
 
 
-   //Movement timer, advance is used for the progresion of the robot.
+   // movement timer, advance is used for the progresion of the robot.
    timer = new QTimer(this);
    connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
    timer->start(100);

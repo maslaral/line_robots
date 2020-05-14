@@ -8,10 +8,9 @@ Robot::Robot(int x, int y)
     setRotation(angle);
 
     // start position
-    int startX = x;
-    int startY = y;
-
-    setPos((mapToParent(startX, startY)));
+    this->x = x;
+    this->y = y;
+    setPos(x, y);
 }
 
 QRectF Robot::boundingRect() const
@@ -25,7 +24,6 @@ void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     QBrush Brush(Qt::gray);
 
     //basic colision detection
-
     if(scene()->collidingItems(this).isEmpty())
     {
         // no collision
@@ -40,8 +38,8 @@ void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
         DoCollision();
     }
 
-    painter -> fillRect(rec,Brush);
-    painter -> drawRect(rec);
+    painter->fillRect(rec, Brush);
+    painter->drawRect(rec);
 }
 
 void Robot::setSpeed(double barspeed)
@@ -51,13 +49,10 @@ void Robot::setSpeed(double barspeed)
 
 void Robot::advance(int phase)
 {
-    if(!phase) return;
-
-    // point is space where the robot is
-    QPointF location = this->pos();
+    if (!phase) return;
 
     // set speed on the canvas
-    setPos(mapToParent(0,-(speed)));
+    setPos(mapToParent(0, (-speed)));
 }
 
 void Robot::DoCollision()
