@@ -33,7 +33,7 @@
            </property>
            <layout class="QGridLayout" name="gridLayout_5">
             <item row="0" column="0">
-             <widget class="LineMenu" name="frame">
+             <widget class="LineMenu" name="lineMenu">
               <property name="frameShape">
                <enum>QFrame::StyledPanel</enum>
               </property>
@@ -52,34 +52,12 @@
            </property>
            <layout class="QGridLayout" name="gridLayout_7">
             <item row="0" column="0">
-             <widget class="robotBox1" name="robot1">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="mouseTracking">
-               <bool>true</bool>
-              </property>
+             <widget class="RobotMenu" name="robotMenu">
               <property name="frameShape">
-               <enum>QFrame::Box</enum>
+               <enum>QFrame::StyledPanel</enum>
               </property>
-              <property name="text">
-               <string>Green Robot</string>
-              </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="robot2">
-              <property name="mouseTracking">
-               <bool>false</bool>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Box</enum>
-              </property>
-              <property name="text">
-               <string/>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
               </property>
              </widget>
             </item>
@@ -220,7 +198,7 @@
      <x>0</x>
      <y>0</y>
      <width>793</width>
-     <height>26</height>
+     <height>22</height>
     </rect>
    </property>
   </widget>
@@ -234,9 +212,10 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>robotBox1</class>
-   <extends>QLabel</extends>
-   <header location="global">robotbox1.h</header>
+   <class>RobotMenu</class>
+   <extends>QFrame</extends>
+   <header location="global">robotmenu.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

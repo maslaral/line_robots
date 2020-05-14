@@ -34,7 +34,7 @@ MainWindow::MainWindow(QWidget *parent)
     scene->addLine(RightLine,mypen);
     scene->addLine(ButtomLine,mypen);
 
-    connect(ui->robotmenu, SIGNAL(Mouse_Pressed()), this, SLOT(Mouse_Pressed()));
+    connect(ui->robotMenu, SIGNAL(Mouse_Pressed()), this, SLOT(Mouse_Pressed()));
     //Add robot
    // int RobotCount = 1;
 
