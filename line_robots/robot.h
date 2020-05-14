@@ -1,14 +1,14 @@
-#ifndef MYROBOT_H
-#define MYROBOT_H
+#ifndef ROBOT_H
+#define ROBOT_H
 
 #include <QPainter>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 
-class MyRobot : public QGraphicsItem
+class Robot : public QGraphicsItem
 {
 public:
-    MyRobot();
+    Robot();
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setSpeed(double);

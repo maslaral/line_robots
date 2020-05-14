@@ -1,7 +1,7 @@
 #include "robot.h"
 #include "qprogressbar.h"
 
-MyRobot::MyRobot()
+Robot::Robot()
 {
     //start rotation
 
@@ -19,12 +19,12 @@ MyRobot::MyRobot()
     setPos((mapToParent(StartX,StartY)));
 }
 
-QRectF MyRobot::boundingRect() const
+QRectF Robot::boundingRect() const
 {
     return QRect(0,0,20,20);
 }
 
-void MyRobot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QRectF rec = boundingRect();
     QBrush Brush(Qt::gray);
@@ -48,17 +48,14 @@ void MyRobot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, Q
 
     painter -> fillRect(rec,Brush);
     painter -> drawRect(rec);
-
-
-
 }
 
-void MyRobot::setSpeed(double barspeed)
+void Robot::setSpeed(double barspeed)
 {
     speed = barspeed;
 }
 
-void MyRobot::advance(int phase)
+void Robot::advance(int phase)
 {
     if(!phase) return;
 
@@ -69,7 +66,7 @@ void MyRobot::advance(int phase)
     setPos(mapToParent(0,-(speed)));
 }
 
-void MyRobot::DoCollision()
+void Robot::DoCollision()
 {
     //get new position
     if(((qrand()%1)))

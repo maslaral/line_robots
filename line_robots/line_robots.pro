@@ -21,14 +21,14 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     robot.cpp \
-    robotbox1.cpp
+    robotmenu.cpp
 
 HEADERS += \
     canvas.h \
     linemenu.h \
     mainwindow.h \
     robot.h \
-    robotbox1.h
+    robotmenu.h
 
 FORMS += \
     mainwindow.ui

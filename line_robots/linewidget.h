@@ -1,5 +1,5 @@
-#ifndef LINEMENU_H
-#define LINEMENU_H
+#ifndef LINEWIDGET_H
+#define LINEWIDGET_H
 
 #include <QFrame>
 
@@ -8,13 +8,13 @@ class QDragEnterEvent;
 class QDropEvent;
 QT_END_NAMESPACE
 
-class LineMenu : public QFrame
+class LineWidget : public QFrame
 {
 public:
-    explicit LineMenu(QWidget *parent = nullptr);
+    explicit LineWidget(QWidget *parent = nullptr);
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
 };
 
-#endif // LINEMENU_H
+#endif // LINEWIDGET_H
