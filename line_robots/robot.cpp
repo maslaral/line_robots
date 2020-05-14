@@ -1,22 +1,17 @@
 #include "robot.h"
-#include "qprogressbar.h"
+#include <QProgressBar>
 
-Robot::Robot()
+Robot::Robot(int x, int y)
 {
-    //start rotation
-
+    // start rotation
     angle = 90;
     setRotation(angle);
-    //set speed
 
-    //speed = 5;
+    // start position
+    int startX = x;
+    int startY = y;
 
-    //start position
-
-    int StartX = 100;
-    int StartY = -100;
-
-    setPos((mapToParent(StartX,StartY)));
+    setPos((mapToParent(startX, startY)));
 }
 
 QRectF Robot::boundingRect() const
@@ -33,16 +28,15 @@ void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 
     if(scene()->collidingItems(this).isEmpty())
     {
-        //no collision
+        // no collision
         Brush.setColor(Qt::green);
-
     }
     else
     {
-        //else collision
+        // else collision
         Brush.setColor(Qt::red);
 
-        //set the position
+        // set the position
         DoCollision();
     }
 
@@ -59,16 +53,16 @@ void Robot::advance(int phase)
 {
     if(!phase) return;
 
-    //point is space where the robot is
+    // point is space where the robot is
     QPointF location = this->pos();
 
-    //set speed on the canvas
+    // set speed on the canvas
     setPos(mapToParent(0,-(speed)));
 }
 
 void Robot::DoCollision()
 {
-    //get new position
+    // get new position
     if(((qrand()%1)))
     {
         setRotation((rotation()+(180+qrand()%1)));
@@ -77,18 +71,18 @@ void Robot::DoCollision()
          setRotation((rotation()+(-180+qrand()%-1)));
     }
 
-    //see if the new position is in bounds +2 pushes away from the obeject it colides with
+    // see if the new position is in bounds +2 pushes away from the obeject it colides with
     QPointF newpoint = mapToParent(-(boundingRect().width()), -(boundingRect().width()+2));
 
     if(!scene()->sceneRect().contains((newpoint)))
     {
-        //move back inbounds
+        // move back inbounds
         newpoint = mapToParent(100,-100);
 
     }
     else
     {
-        //set new position
+        // set new position
         setPos(newpoint);
     }
 

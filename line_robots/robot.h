@@ -8,7 +8,7 @@
 class Robot : public QGraphicsItem
 {
 public:
-    Robot();
+    Robot(int, int);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setSpeed(double);

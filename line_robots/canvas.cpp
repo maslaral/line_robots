@@ -41,9 +41,6 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
         x = event->scenePos().x();
         y = event->scenePos().y();
 
-        // TODO: figure out how to utilize direction
-        // gets the tooltip text that was passed via mimedata
-        // horizontal line
         if (dragObjectType == "Left Line" || dragObjectType == "Right Line") {
             point1.setX(0);
             point1.setY(y);
@@ -87,6 +84,12 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
                 addItem(line);
                 addVArrow(point1);
             }
+        }
+
+        else if (dragObjectType == "Circle Robot") {
+            Robot* newRobot = new Robot(x, y);
+            newRobot->setSpeed(10);
+            addItem(newRobot);
         }
 
         event->acceptProposedAction();
