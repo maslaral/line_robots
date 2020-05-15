@@ -155,7 +155,7 @@
              </rect>
             </property>
             <property name="text">
-             <string>Pause</string>
+             <string>Run</string>
             </property>
            </widget>
            <widget class="QPushButton" name="resetButton">
@@ -198,7 +198,7 @@
              <rect>
               <x>13</x>
               <y>52</y>
-              <width>101</width>
+              <width>102</width>
               <height>55</height>
              </rect>
             </property>
