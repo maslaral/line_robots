@@ -51,6 +51,7 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
             if (dragObjectType == "Left Line"){
                 line = new QGraphicsLineItem(QLineF(point2, point1));
                 line->setPen(QPen(Qt::black, 3));
+                line->setAcceptDrops(true);
                 addItem(line);
                 addHArrow(point1);
             }
@@ -58,6 +59,7 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
             else{
                 line = new QGraphicsLineItem(QLineF(point1, point2));
                 line->setPen(QPen(Qt::black, 3));
+                line->setAcceptDrops(true);
                 addItem(line);
                 addHArrow(point2);
             }
@@ -74,6 +76,7 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
             if (dragObjectType == "Up Line"){
                 line = new QGraphicsLineItem(QLineF(point1, point2));
                 line->setPen(QPen(Qt::black, 3));
+                line->setAcceptDrops(true);
                 addItem(line);
                 addVArrow(point2);
             }
@@ -81,17 +84,39 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
             else{
                 line = new QGraphicsLineItem(QLineF(point2, point1));
                 line->setPen(QPen(Qt::black, 3));
+                line->setAcceptDrops(true);
                 addItem(line);
                 addVArrow(point1);
             }
         }
 
         else if (dragObjectType == "Circle Robot") {
-            Robot* newRobot = new Robot(x, y);
-            newRobot->setSpeed(10);
-            addItem(newRobot);
-        }
+            QGraphicsItem *curItem;
+            QGraphicsLineItem *line;
 
+            bool lineFound = false;
+
+            for (int i = -30; i <= 30; i++) {
+                for (int j = -30; j <= 30; j++) {
+                    curItem = itemAt(x + i, y + j, QTransform());
+
+                    if ((line = dynamic_cast<QGraphicsLineItem*>(curItem))) {
+                        Robot* newRobot = new Robot(x + i, y + j, line);
+                        newRobot->setSpeed(10);
+                        addItem(newRobot);
+                        lineFound = true;
+                        break;
+                    }
+               }
+                if (lineFound) {
+                    break;
+                }
+            }
+
+            if (!lineFound) {
+               event->ignore();
+            }
+        }
         event->acceptProposedAction();
     } else {
         event->ignore();

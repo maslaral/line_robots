@@ -1,7 +1,7 @@
 #include "robot.h"
 #include <QProgressBar>
 
-Robot::Robot(int x, int y)
+Robot::Robot(int x, int y, QGraphicsLineItem *line)
 {
     // start rotation
     angle = 90;
@@ -10,6 +10,7 @@ Robot::Robot(int x, int y)
     // start position
     this->x = x;
     this->y = y;
+    this->line = line;
     setPos(x, y);
 }
 
