@@ -6,9 +6,27 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>793</width>
-    <height>728</height>
+    <width>800</width>
+    <height>675</height>
    </rect>
+  </property>
+  <property name="sizePolicy">
+   <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+    <horstretch>0</horstretch>
+    <verstretch>0</verstretch>
+   </sizepolicy>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>800</width>
+    <height>675</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>800</width>
+    <height>675</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>Line Robots</string>
@@ -18,10 +36,56 @@
     <item row="0" column="0">
      <layout class="QGridLayout" name="gridLayout_2">
       <item row="0" column="1">
-       <widget class="QGraphicsView" name="canvas"/>
+       <widget class="QGraphicsView" name="canvas">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>600</width>
+          <height>500</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>600</width>
+          <height>500</height>
+         </size>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="frameShadow">
+         <enum>QFrame::Plain</enum>
+        </property>
+        <property name="lineWidth">
+         <number>0</number>
+        </property>
+       </widget>
       </item>
       <item row="0" column="0">
        <widget class="QGroupBox" name="toolBox">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="minimumSize">
+         <size>
+          <width>150</width>
+          <height>575</height>
+         </size>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>150</width>
+          <height>575</height>
+         </size>
+        </property>
         <property name="title">
          <string>Tools</string>
         </property>
@@ -33,12 +97,21 @@
            </property>
            <layout class="QGridLayout" name="gridLayout_5">
             <item row="0" column="0">
-             <widget class="LineMenu" name="frame">
+             <widget class="LineMenu" name="lineMenu">
+              <property name="autoFillBackground">
+               <bool>false</bool>
+              </property>
               <property name="frameShape">
-               <enum>QFrame::StyledPanel</enum>
+               <enum>QFrame::NoFrame</enum>
               </property>
               <property name="frameShadow">
-               <enum>QFrame::Raised</enum>
+               <enum>QFrame::Plain</enum>
+              </property>
+              <property name="lineWidth">
+               <number>0</number>
+              </property>
+              <property name="midLineWidth">
+               <number>0</number>
               </property>
              </widget>
             </item>
@@ -52,34 +125,15 @@
            </property>
            <layout class="QGridLayout" name="gridLayout_7">
             <item row="0" column="0">
-             <widget class="robotBox1" name="robot1">
-              <property name="enabled">
-               <bool>true</bool>
-              </property>
-              <property name="mouseTracking">
-               <bool>true</bool>
-              </property>
+             <widget class="RobotMenu" name="robotMenu">
               <property name="frameShape">
-               <enum>QFrame::Box</enum>
+               <enum>QFrame::NoFrame</enum>
               </property>
-              <property name="text">
-               <string>Green Robot</string>
+              <property name="frameShadow">
+               <enum>QFrame::Plain</enum>
               </property>
-              <property name="alignment">
-               <set>Qt::AlignCenter</set>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="0">
-             <widget class="QLabel" name="robot2">
-              <property name="mouseTracking">
-               <bool>false</bool>
-              </property>
-              <property name="frameShape">
-               <enum>QFrame::Box</enum>
-              </property>
-              <property name="text">
-               <string/>
+              <property name="lineWidth">
+               <number>0</number>
               </property>
              </widget>
             </item>
@@ -122,12 +176,21 @@
              <rect>
               <x>13</x>
               <y>29</y>
-              <width>36</width>
+              <width>51</width>
               <height>16</height>
              </rect>
             </property>
+            <property name="sizePolicy">
+             <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+              <horstretch>0</horstretch>
+              <verstretch>0</verstretch>
+             </sizepolicy>
+            </property>
             <property name="text">
              <string>Speed</string>
+            </property>
+            <property name="margin">
+             <number>0</number>
             </property>
            </widget>
            <widget class="QWidget" name="layoutWidget">
@@ -135,13 +198,19 @@
              <rect>
               <x>13</x>
               <y>52</y>
-              <width>114</width>
+              <width>101</width>
               <height>55</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout">
              <item>
               <widget class="QProgressBar" name="progressBar">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
                <property name="minimum">
                 <number>1</number>
                </property>
@@ -159,7 +228,7 @@
              <item>
               <widget class="QSlider" name="speed">
                <property name="sizePolicy">
-                <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
                  <horstretch>0</horstretch>
                  <verstretch>0</verstretch>
                 </sizepolicy>
@@ -184,10 +253,16 @@
       </item>
       <item row="1" column="1">
        <widget class="QWidget" name="statusBar" native="true">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="minimumSize">
          <size>
           <width>0</width>
-          <height>24</height>
+          <height>10</height>
          </size>
         </property>
        </widget>
@@ -219,8 +294,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>793</width>
-     <height>26</height>
+     <width>800</width>
+     <height>22</height>
     </rect>
    </property>
   </widget>
@@ -234,9 +309,10 @@
    <container>1</container>
   </customwidget>
   <customwidget>
-   <class>robotBox1</class>
-   <extends>QLabel</extends>
-   <header location="global">robotbox1.h</header>
+   <class>RobotMenu</class>
+   <extends>QFrame</extends>
+   <header location="global">robotmenu.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <resources/>

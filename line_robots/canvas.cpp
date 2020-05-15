@@ -5,7 +5,7 @@
 #include <QGraphicsItem>
 #include <QMimeData>
 
-// canvas height = 466, length 554
+// canvas height = 466, width = 554
 Canvas::Canvas(QMenu *itemMenu, QObject *parent)
     : QGraphicsScene(parent)
 {
@@ -41,9 +41,6 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
         x = event->scenePos().x();
         y = event->scenePos().y();
 
-        // TODO: figure out how to utilize direction
-        // gets the tooltip text that was passed via mimedata
-        // horizontal line
         if (dragObjectType == "Left Line" || dragObjectType == "Right Line") {
             point1.setX(0);
             point1.setY(y);
@@ -54,6 +51,7 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
             if (dragObjectType == "Left Line"){
                 line = new QGraphicsLineItem(QLineF(point2, point1));
                 line->setPen(QPen(Qt::black, 3));
+                line->setAcceptDrops(true);
                 addItem(line);
                 addHArrow(point1);
             }
@@ -61,6 +59,7 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
             else{
                 line = new QGraphicsLineItem(QLineF(point1, point2));
                 line->setPen(QPen(Qt::black, 3));
+                line->setAcceptDrops(true);
                 addItem(line);
                 addHArrow(point2);
             }
@@ -77,6 +76,7 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
             if (dragObjectType == "Up Line"){
                 line = new QGraphicsLineItem(QLineF(point1, point2));
                 line->setPen(QPen(Qt::black, 3));
+                line->setAcceptDrops(true);
                 addItem(line);
                 addVArrow(point2);
             }
@@ -84,17 +84,54 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
             else{
                 line = new QGraphicsLineItem(QLineF(point2, point1));
                 line->setPen(QPen(Qt::black, 3));
+                line->setAcceptDrops(true);
                 addItem(line);
                 addVArrow(point1);
             }
         }
 
+        // dragging a robot object onto the canvas
+        else if (dragObjectType.contains("Robot")) {
+            QGraphicsItem *curItem;
+            QGraphicsLineItem *line;
+
+            bool lineFound = false;
+
+            // TODO: Add some type of error statement if the user tries to place
+            // the line it doesn't let them
+            // if statement ensure not placing too close to boundary to start
+            if ((x > 30 && x < 524) && (y > 30 && y < 436)) {
+
+                // nested for loop to search surrounding cells for line
+                for (int i = -30; i <= 30; i++) {
+                    for (int j = -30; j <= 30; j++) {
+                        curItem = itemAt(x + i, y + j, QTransform());
+
+                        if ((line = dynamic_cast<QGraphicsLineItem*>(curItem))) {
+                            Robot* newRobot = new Robot(x + i + 10, y + j - 10, line, dragObjectType);
+                            newRobot->setSpeed(10);
+                            addItem(newRobot);
+                            lineFound = true;
+                            break;
+                        }
+                   }
+                    if (lineFound) {
+                        break;
+                    }
+                }
+
+                if (!lineFound) {
+                   event->ignore();
+                }
+            }
+        }
         event->acceptProposedAction();
     } else {
         event->ignore();
     }
 
-    // for checking end points of lines
+    // TODO: this is only for debugging, so remove before final release
+    // useful for checking end points of lines
     j=0;
         for (i=5; i<items().count(); i++){
             if (items().at(i)->type() == 6){
@@ -125,11 +162,11 @@ void Canvas::addVArrow(QPoint p2)
 
     // pointing down
     if (p2.y() == height){
-        triangle << QPointF(tmp, height) << QPointF(tmp-10, height-10) << QPointF(tmp+10, height-10)/* << QPointF(tmp, 466)*/;
+        triangle << QPointF(tmp, height + 5) << QPointF(tmp-10, height-10) << QPointF(tmp+10, height-10)/* << QPointF(tmp, 466)*/;
     }
     // pointing up
     else if (p2.y() == 0){
-        triangle << QPointF(tmp - 10, 10) << QPointF(tmp + 10, 10) << QPointF(tmp, 0);
+        triangle << QPointF(tmp - 10, 10) << QPointF(tmp + 10, 10) << QPointF(tmp, -5);
     }
     addPolygon(triangle, QPen(Qt::black), QBrush(Qt::SolidPattern));
 }
@@ -141,11 +178,11 @@ void Canvas::addHArrow(QPoint p2)
 
     // pointing right
     if (p2.x() == width){
-        triangle << QPointF(width, tmp) << QPointF(width-10, y-10) << QPointF(width-10, y+10)/* << QPointF(tmp, 466)*/;
+        triangle << QPointF(width + 10, tmp) << QPointF(width-5, y-10) << QPointF(width-5, y+10)/* << QPointF(tmp, 466)*/;
     }
     //pointing left
     else if (p2.x() == 0){
-        triangle << QPointF(0,tmp) << QPointF(10, tmp+10) << QPointF(10, tmp-10);
+        triangle << QPointF(-5,tmp) << QPointF(10, tmp+10) << QPointF(10, tmp-10);
     }
     addPolygon(triangle, QPen(Qt::black), QBrush(Qt::SolidPattern));
 }

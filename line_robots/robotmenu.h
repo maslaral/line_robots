@@ -1,20 +1,20 @@
 #ifndef ROBOTMENU_H
 #define ROBOTMENU_H
 
-#include <QLabel>
-#include <QMouseEvent>
-#include <QEvent>
+#include <QFrame>
 
-class RobotMenu : public QLabel
+QT_BEGIN_NAMESPACE
+class QDragEnterEvent;
+class QDropEvent;
+QT_END_NAMESPACE
+
+class RobotMenu : public QFrame
 {
-    Q_OBJECT
 public:
-    explicit RobotMenu(QWidget *parent = 0);
+    explicit RobotMenu(QWidget *parent = nullptr);
 
-    void mousePressEvent(QMouseEvent *ev) override;
-
-signals:
-    void Mouse_Pressed();
+protected:
+    void mousePressEvent(QMouseEvent *event) override;
 };
 
 #endif // ROBOTMENU_H

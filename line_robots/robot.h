@@ -8,7 +8,7 @@
 class Robot : public QGraphicsItem
 {
 public:
-    Robot();
+    explicit Robot(int, int, QGraphicsLineItem*, QString);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setSpeed(double);
@@ -18,6 +18,10 @@ protected:
 private:
     qreal angle;
     qreal speed;
+    int x;
+    int y;
+    QString type;
+    QGraphicsLineItem* line;
     void DoCollision();
 };
 

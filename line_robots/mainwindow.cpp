@@ -22,19 +22,19 @@ MainWindow::MainWindow(QWidget *parent)
     ui->canvas->setRenderHint(QPainter::Antialiasing);
 
     //Draw out the boundry of the scene
-    QPen mypen = QPen(Qt::blue);
+    // QPen mypen = QPen(Qt::black, 2);
 
-    QLineF TopLine(scene->sceneRect().topLeft(), scene->sceneRect().topRight());
-    QLineF LeftLine(scene->sceneRect().topLeft(), scene->sceneRect().bottomLeft());
-    QLineF RightLine(scene->sceneRect().topRight(), scene->sceneRect().bottomRight());
-    QLineF ButtomLine(scene->sceneRect().bottomLeft(), scene->sceneRect().bottomRight());
+    // QLineF TopLine(scene->sceneRect().topLeft(), scene->sceneRect().topRight());
+    // QLineF LeftLine(scene->sceneRect().topLeft(), scene->sceneRect().bottomLeft());
+    // QLineF RightLine(scene->sceneRect().topRight(), scene->sceneRect().bottomRight());
+    // QLineF ButtomLine(scene->sceneRect().bottomLeft(), scene->sceneRect().bottomRight());
 
-    scene->addLine(TopLine,mypen);
-    scene->addLine(LeftLine,mypen);
-    scene->addLine(RightLine,mypen);
-    scene->addLine(ButtomLine,mypen);
+    // scene->addLine(TopLine,mypen);
+    // scene->addLine(LeftLine,mypen);
+    // scene->addLine(RightLine,mypen);
+    // scene->addLine(ButtomLine,mypen);
 
-    connect(ui->robotmenu, SIGNAL(Mouse_Pressed()), this, SLOT(Mouse_Pressed()));
+    // connect(ui->robotMenu, SIGNAL(Mouse_Pressed()), this, SLOT(Mouse_Pressed()));
     //Add robot
    // int RobotCount = 1;
 
@@ -45,7 +45,7 @@ MainWindow::MainWindow(QWidget *parent)
    // }
 
 
-   //Movement timer, advance is used for the progresion of the robot.
+   // movement timer, advance is used for the progresion of the robot.
    timer = new QTimer(this);
    connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
    timer->start(100);
@@ -67,28 +67,27 @@ void MainWindow::on_butClear_clicked()
 {
     clearData();
 	
-	QPen mypen = QPen(Qt::blue);
+    // QPen mypen = QPen(Qt::blue);
 
-     QLineF TopLine(scene->sceneRect().topLeft(), scene->sceneRect().topRight());
-     QLineF LeftLine(scene->sceneRect().topLeft(), scene->sceneRect().bottomLeft());
-     QLineF RightLine(scene->sceneRect().topRight(), scene->sceneRect().bottomRight());
-     QLineF ButtomLine(scene->sceneRect().bottomLeft(), scene->sceneRect().bottomRight());
+    // QLineF TopLine(scene->sceneRect().topLeft(), scene->sceneRect().topRight());
+    // QLineF LeftLine(scene->sceneRect().topLeft(), scene->sceneRect().bottomLeft());
+    // QLineF RightLine(scene->sceneRect().topRight(), scene->sceneRect().bottomRight());
+    // QLineF ButtomLine(scene->sceneRect().bottomLeft(), scene->sceneRect().bottomRight());
 
-     scene->addLine(TopLine,mypen);
-     scene->addLine(LeftLine,mypen);
-     scene->addLine(RightLine,mypen);
-     scene->addLine(ButtomLine,mypen);
+    // scene->addLine(TopLine,mypen);
+    // scene->addLine(LeftLine,mypen);
+    // scene->addLine(RightLine,mypen);
+    // scene->addLine(ButtomLine,mypen);
 }
 
+/*
 void MainWindow::Mouse_Pressed()
 {
     int barSpeed1;
     double barSpeed2;
     barSpeed1 = ui->progressBar->value();
     barSpeed2 = static_cast<double>(barSpeed1);
-    Robot *robot = new Robot();
-    robot->setSpeed(barSpeed2);
-    scene->addItem(robot);
 }
+*/
 
 

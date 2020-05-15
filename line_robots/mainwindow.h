@@ -25,7 +25,7 @@ public:
 
 private slots:
     void on_butClear_clicked();
-    void Mouse_Pressed();
+    // void Mouse_Pressed();
 
 private:
     Ui::MainWindow *ui;

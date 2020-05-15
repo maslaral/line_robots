@@ -10,10 +10,11 @@ LineMenu::LineMenu(QWidget *parent)
     // setting up the left arrow icon
     QLabel *leftIcon = new QLabel(this);
     QPixmap left(":/images/left.png");
-    const int w = 30;
-    const int h = 30;
+    const int w = 32;
+    const int h = 32;
 
-    leftIcon->setPixmap(left.scaled(w, h, Qt::IgnoreAspectRatio));
+    // leftIcon->setPixmap(left);
+    leftIcon->setPixmap(left.scaled(w, h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     leftIcon->setToolTip("Left Line");		// DON'T CHANGE - used to create line object
     leftIcon->move(8, 8);
     leftIcon->show();
@@ -23,7 +24,7 @@ LineMenu::LineMenu(QWidget *parent)
     QLabel *rightIcon = new QLabel(this);
     QPixmap right(":/images/right.png");
 
-    rightIcon->setPixmap(right.scaled(w, h, Qt::IgnoreAspectRatio));
+    rightIcon->setPixmap(right.scaled(w, h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     rightIcon->setToolTip("Right Line");	// DON'T CHANGE - used to create line object
     rightIcon->move(8, 43);
     rightIcon->show();
@@ -33,7 +34,7 @@ LineMenu::LineMenu(QWidget *parent)
     QLabel *upIcon = new QLabel(this);
     QPixmap up(":/images/up.png");
 
-    upIcon->setPixmap(up.scaled(w, h, Qt::IgnoreAspectRatio));
+    upIcon->setPixmap(up.scaled(w, h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     upIcon->setToolTip("Up Line");			// DON'T CHANGE - used to create line object
     upIcon->move(43, 8);
     upIcon->show();
@@ -43,7 +44,7 @@ LineMenu::LineMenu(QWidget *parent)
     QLabel *downIcon = new QLabel(this);
     QPixmap down(":/images/down.png");
 
-    downIcon->setPixmap(down.scaled(w, h, Qt::IgnoreAspectRatio));
+    downIcon->setPixmap(down.scaled(w, h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     downIcon->setToolTip("Down Line");		// DON'T CHANGE - used to create line object
     downIcon->move(43, 43);
     downIcon->show();
