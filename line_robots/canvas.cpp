@@ -162,11 +162,11 @@ void Canvas::addVArrow(QPoint p2)
 
     // pointing down
     if (p2.y() == height){
-        triangle << QPointF(tmp, height) << QPointF(tmp-10, height-10) << QPointF(tmp+10, height-10)/* << QPointF(tmp, 466)*/;
+        triangle << QPointF(tmp, height + 5) << QPointF(tmp-10, height-10) << QPointF(tmp+10, height-10)/* << QPointF(tmp, 466)*/;
     }
     // pointing up
     else if (p2.y() == 0){
-        triangle << QPointF(tmp - 10, 10) << QPointF(tmp + 10, 10) << QPointF(tmp, 0);
+        triangle << QPointF(tmp - 10, 10) << QPointF(tmp + 10, 10) << QPointF(tmp, -5);
     }
     addPolygon(triangle, QPen(Qt::black), QBrush(Qt::SolidPattern));
 }
@@ -178,11 +178,11 @@ void Canvas::addHArrow(QPoint p2)
 
     // pointing right
     if (p2.x() == width){
-        triangle << QPointF(width, tmp) << QPointF(width-10, y-10) << QPointF(width-10, y+10)/* << QPointF(tmp, 466)*/;
+        triangle << QPointF(width + 10, tmp) << QPointF(width-5, y-10) << QPointF(width-5, y+10)/* << QPointF(tmp, 466)*/;
     }
     //pointing left
     else if (p2.x() == 0){
-        triangle << QPointF(0,tmp) << QPointF(10, tmp+10) << QPointF(10, tmp-10);
+        triangle << QPointF(-5,tmp) << QPointF(10, tmp+10) << QPointF(10, tmp-10);
     }
     addPolygon(triangle, QPen(Qt::black), QBrush(Qt::SolidPattern));
 }

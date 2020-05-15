@@ -26,8 +26,7 @@ QRectF Robot::boundingRect() const
 void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QRectF rec = boundingRect();
-    painter->setBrush(Qt::blue);
-    painter->setPen(Qt::blue);
+    painter->setPen(Qt::black);
 
     // TODO: reimplement collision detection code, current
     // state doesn't work as robots would be in a state of
@@ -43,9 +42,11 @@ void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     // }
 
     if (this->type == "Circle Robot") {
+        painter->setBrush(Qt::green);
         painter->drawEllipse(rec);
     }
     else if (this->type == "Square Robot") {
+        painter->setBrush(Qt::blue);
         painter->drawRect(rec);
     }
 }
