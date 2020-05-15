@@ -13,11 +13,21 @@ RobotMenu::RobotMenu(QWidget *parent)
     const int w = 30;
     const int h = 30;
 
-    robotCircle->setPixmap(circle.scaled(w, h, Qt::IgnoreAspectRatio));
+    robotCircle->setPixmap(circle.scaled(w, h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
     robotCircle->setToolTip("Circle Robot");		// DON'T CHANGE - used to create robot object
     robotCircle->move(8, 8);
     robotCircle->show();
     robotCircle->setAttribute(Qt::WA_DeleteOnClose);
+
+    // setting up the left arrow icon
+    QLabel *robotSquare = new QLabel(this);
+    QPixmap square(":/images/square.png");
+
+    robotSquare->setPixmap(square.scaled(w, h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
+    robotSquare->setToolTip("Square Robot");		// DON'T CHANGE - used to create robot object
+    robotSquare->move(43, 8);
+    robotSquare->show();
+    robotSquare->setAttribute(Qt::WA_DeleteOnClose);
 }
 
 

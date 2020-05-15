@@ -6,5 +6,6 @@
         <file>images/right.png</file>
         <file>images/up.png</file>
         <file>images/circle.png</file>
+        <file>images/square.png</file>
     </qresource>
 </RCC>

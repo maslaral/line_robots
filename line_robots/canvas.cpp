@@ -90,31 +90,39 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
             }
         }
 
-        else if (dragObjectType == "Circle Robot") {
+        // dragging a robot object onto the canvas
+        else if (dragObjectType.contains("Robot")) {
             QGraphicsItem *curItem;
             QGraphicsLineItem *line;
 
             bool lineFound = false;
 
-            for (int i = -30; i <= 30; i++) {
-                for (int j = -30; j <= 30; j++) {
-                    curItem = itemAt(x + i, y + j, QTransform());
+            // TODO: Add some type of error statement if the user tries to place
+            // the line it doesn't let them
+            // if statement ensure not placing too close to boundary to start
+            if ((x > 30 && x < 524) && (y > 30 && y < 436)) {
 
-                    if ((line = dynamic_cast<QGraphicsLineItem*>(curItem))) {
-                        Robot* newRobot = new Robot(x + i, y + j, line);
-                        newRobot->setSpeed(10);
-                        addItem(newRobot);
-                        lineFound = true;
+                // nested for loop to search surrounding cells for line
+                for (int i = -30; i <= 30; i++) {
+                    for (int j = -30; j <= 30; j++) {
+                        curItem = itemAt(x + i, y + j, QTransform());
+
+                        if ((line = dynamic_cast<QGraphicsLineItem*>(curItem))) {
+                            Robot* newRobot = new Robot(x + i + 10, y + j - 10, line, dragObjectType);
+                            newRobot->setSpeed(10);
+                            addItem(newRobot);
+                            lineFound = true;
+                            break;
+                        }
+                   }
+                    if (lineFound) {
                         break;
                     }
-               }
-                if (lineFound) {
-                    break;
                 }
-            }
 
-            if (!lineFound) {
-               event->ignore();
+                if (!lineFound) {
+                   event->ignore();
+                }
             }
         }
         event->acceptProposedAction();
@@ -122,7 +130,8 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
         event->ignore();
     }
 
-    // for checking end points of lines
+    // TODO: this is only for debugging, so remove before final release
+    // useful for checking end points of lines
     j=0;
         for (i=5; i<items().count(); i++){
             if (items().at(i)->type() == 6){

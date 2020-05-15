@@ -1,17 +1,21 @@
 #include "robot.h"
 #include <QProgressBar>
 
-Robot::Robot(int x, int y, QGraphicsLineItem *line)
+Robot::Robot(int x, int y, QGraphicsLineItem *line, QString type)
 {
     // start rotation
-    angle = 90;
-    setRotation(angle);
+    setRotation(90);
 
     // start position
     this->x = x;
     this->y = y;
-    this->line = line;
     setPos(x, y);
+
+    // line placed on
+    this->line = line;
+
+    // robot shape
+    this->type = type;
 }
 
 QRectF Robot::boundingRect() const
@@ -22,25 +26,28 @@ QRectF Robot::boundingRect() const
 void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QRectF rec = boundingRect();
-    QBrush Brush(Qt::gray);
+    painter->setBrush(Qt::blue);
+    painter->setPen(Qt::blue);
 
-    //basic colision detection
-    if(scene()->collidingItems(this).isEmpty())
-    {
-        // no collision
-        Brush.setColor(Qt::green);
+    // TODO: reimplement collision detection code, current
+    // state doesn't work as robots would be in a state of
+    // constant collision since they are on a line.
+    // if(scene()->collidingItems(this).isEmpty())
+    // {
+    //     painter->setBrush(Qt::green);
+    // }
+    // else
+    // {
+    //     painter->setBrush(Qt::red);
+    //     DoCollision();
+    // }
+
+    if (this->type == "Circle Robot") {
+        painter->drawEllipse(rec);
     }
-    else
-    {
-        // else collision
-        // Brush.setColor(Qt::red);
-
-        // set the position
-        // DoCollision();
+    else if (this->type == "Square Robot") {
+        painter->drawRect(rec);
     }
-
-    painter->fillRect(rec, Brush);
-    painter->drawRect(rec);
 }
 
 void Robot::setSpeed(double barspeed)
@@ -52,19 +59,19 @@ void Robot::advance(int phase)
 {
     if (!phase) return;
 
-    // if a right line
+    // if a line pointing east
     if (line->line().p2().x() - line->line().p1().x() > 0) {
         setPos(mapToParent(0, (-speed)));
     }
-    // if a left line
+    // if a line pointing west
     else if (line->line().p2().x() - line->line().p1().x() < 0) {
         setPos(mapToParent(0, speed));
     }
-    // if a up line
+    // if a line pointing north
     else if (line->line().p2().y() - line->line().p1().y() < 0) {
         setPos(mapToParent((-speed), 0));
     }
-    // if a down line
+    // if a line pointing south
     else {
         setPos(mapToParent((speed), 0));
     }
@@ -87,24 +94,29 @@ void Robot::advance(int phase)
     }
 }
 
+
+// TODO: reimplement the collision detection code,
+// current state doesn't work as robots would be in
+// a state of constant collision since they are on
+// a line.
 void Robot::DoCollision()
 {
     // get new position
-    if(((qrand()%1)))
+    if(((qrand() % 1)))
     {
-        setRotation((rotation()+(180+qrand()%1)));
+        setRotation((rotation() + (180 + qrand() % 1)));
     }
     else{
-         setRotation((rotation()+(-180+qrand()%-1)));
+         setRotation((rotation()+(-180 + qrand() % -1)));
     }
 
-    // see if the new position is in bounds +2 pushes away from the obeject it colides with
-    QPointF newpoint = mapToParent(-(boundingRect().width()), -(boundingRect().width()+2));
+    // see if the new position is in bounds + 2 pushes away from the obeject it colides with
+    QPointF newpoint = mapToParent(-(boundingRect().width()), -(boundingRect().width() + 2));
 
     if(!scene()->sceneRect().contains((newpoint)))
     {
         // move back inbounds
-        newpoint = mapToParent(100,-100);
+        newpoint = mapToParent(100, -100);
 
     }
     else
