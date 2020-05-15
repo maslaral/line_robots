@@ -32,10 +32,10 @@ void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     else
     {
         // else collision
-        Brush.setColor(Qt::red);
+        // Brush.setColor(Qt::red);
 
         // set the position
-        DoCollision();
+        // DoCollision();
     }
 
     painter->fillRect(rec, Brush);
@@ -53,6 +53,10 @@ void Robot::advance(int phase)
 
     // set speed on the canvas
     setPos(mapToParent(0, (-speed)));
+
+    if (this->pos().x() >= 554) {
+        setPos(30, y);
+    }
 }
 
 void Robot::DoCollision()
@@ -80,5 +84,4 @@ void Robot::DoCollision()
         // set new position
         setPos(newpoint);
     }
-
 }

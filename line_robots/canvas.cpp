@@ -5,7 +5,7 @@
 #include <QGraphicsItem>
 #include <QMimeData>
 
-// canvas height = 466, length 554
+// canvas height = 466, width = 554
 Canvas::Canvas(QMenu *itemMenu, QObject *parent)
     : QGraphicsScene(parent)
 {
