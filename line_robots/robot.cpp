@@ -52,11 +52,38 @@ void Robot::advance(int phase)
 {
     if (!phase) return;
 
-    // set speed on the canvas
-    setPos(mapToParent(0, (-speed)));
+    // if a right line
+    if (line->line().p2().x() - line->line().p1().x() > 0) {
+        setPos(mapToParent(0, (-speed)));
+    }
+    // if a left line
+    else if (line->line().p2().x() - line->line().p1().x() < 0) {
+        setPos(mapToParent(0, speed));
+    }
+    // if a up line
+    else if (line->line().p2().y() - line->line().p1().y() < 0) {
+        setPos(mapToParent((-speed), 0));
+    }
+    // if a down line
+    else {
+        setPos(mapToParent((speed), 0));
+    }
 
+    // boundary for moving right
     if (this->pos().x() >= 554) {
         setPos(30, y);
+    }
+    // boundary for moving left
+    else if (this->pos().x() <= 30) {
+        setPos(524, y);
+    }
+    // boundary for moving up
+    else if (this->pos().y() <= 0) {
+        setPos(x, 436);
+    }
+    // boundary for moving down
+    else if (this->pos().y() >= 436) {
+        setPos(x, 30);
     }
 }
 
