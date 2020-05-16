@@ -2,8 +2,10 @@
 #include "ui_mainwindow.h"
 #include "canvas.h"
 #include "robotmenu.h"
+#include "pauseabletimer.h"
 
 #include <QtWidgets>
+#include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -46,9 +48,11 @@ MainWindow::MainWindow(QWidget *parent)
 
 
    // movement timer, advance is used for the progresion of the robot.
-   timer = new QTimer(this);
+   timer = new pauseableTimer(this);
    connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
-   timer->start(100);
+   connect(timer, SIGNAL(isRunning(bool)), this, SLOT(setPause(bool)));
+   connect(ui->pauseButton, SIGNAL(clicked()), timer, SLOT(toggleActive()));
+
 }
 
 void MainWindow::clearData()
@@ -62,6 +66,20 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::setPause(bool timerActive){
+    qDebug()<<"signalled";
+    qDebug()<<"old: "<<ui->pauseButton->text();
+    if(timerActive){
+        ui->pauseButton->setText("Pause");
+        qDebug()<<"timer was stopped, now running";
+    } else {
+        ui->pauseButton->setText("Run");
+        qDebug()<<"timer was running, no stopped";
+    }
+    qDebug()<<"new: "<<ui->pauseButton->text();
+    ui->pauseButton->repaint();
+
+}
 
 void MainWindow::on_butClear_clicked()
 {
