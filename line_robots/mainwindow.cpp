@@ -49,10 +49,13 @@ MainWindow::MainWindow(QWidget *parent)
 
    // movement timer, advance is used for the progresion of the robot.
    timer = new pauseableTimer(this);
+
+   //connect timer object to ui widgets
+   timer->setInterval(1000/ui->speed->value());
    connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
    connect(timer, SIGNAL(isRunning(bool)), this, SLOT(setPause(bool)));
    connect(ui->pauseButton, SIGNAL(clicked()), timer, SLOT(toggleActive()));
-
+   connect(ui->speed,SIGNAL(valueChanged(int)),timer,SLOT(setFrameRate(int)));
 }
 
 void MainWindow::clearData()
@@ -66,18 +69,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+//update the pause button control based on the state of the timer.
 void MainWindow::setPause(bool timerActive){
-    qDebug()<<"signalled";
-    qDebug()<<"old: "<<ui->pauseButton->text();
     if(timerActive){
         ui->pauseButton->setText("Pause");
-        qDebug()<<"timer was stopped, now running";
     } else {
         ui->pauseButton->setText("Run");
-        qDebug()<<"timer was running, no stopped";
     }
-    qDebug()<<"new: "<<ui->pauseButton->text();
-    ui->pauseButton->repaint();
+    ui->pauseButton->repaint(); //required so text visibly updates
 
 }
 
