@@ -20,6 +20,7 @@ SOURCES += \
     linemenu.cpp \
     main.cpp \
     mainwindow.cpp \
+    pathline.cpp \
     pauseabletimer.cpp \
     robot.cpp \
     robotmenu.cpp
@@ -28,6 +29,7 @@ HEADERS += \
     canvas.h \
     linemenu.h \
     mainwindow.h \
+    pathline.h \
     pauseabletimer.h \
     robot.h \
     robotmenu.h

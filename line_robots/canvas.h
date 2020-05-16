@@ -6,6 +6,7 @@
 #include <QMenu>
 #include <QPoint>
 #include <robot.h>
+#include "pathline.h"
 
 
 class Canvas : public QGraphicsScene
@@ -19,8 +20,9 @@ public:
     void addHArrow(QPoint p2);
 
 private:
+    QGraphicsLineItem* detectLine(int *x, int *y);
     QMenu *myItemMenu;
-    QGraphicsLineItem *line;        // place holder for custom line object
+    pathLine *line;        // place holder for custom line object
     QPolygonF triangle;
     QGraphicsPolygonItem arrow;
 
