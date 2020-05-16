@@ -16,15 +16,13 @@ public:
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
     void dropEvent(QGraphicsSceneDragDropEvent *event) override;
-    void addVArrow(QPoint p2);
-    void addHArrow(QPoint p2);
 
 private:
     QGraphicsLineItem* detectLine(int *x, int *y);
     QMenu *myItemMenu;
     pathLine *line;        // place holder for custom line object
-    QPolygonF triangle;
-    QGraphicsPolygonItem arrow;
+    //QPolygonF triangle;
+    //QGraphicsPolygonItem arrow;
 
     QPoint point1;
     QPoint point2;

@@ -62,30 +62,6 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
     } else {
         event->ignore();
     }
-
-    // TODO: this is only for debugging, so remove before final release
-    // useful for checking end points of lines
-    j=0;
-    for (i=5; i<items().count(); i++){
-        if (items().at(i)->type() == 6){
-            j++;
-            QGraphicsLineItem *listLine = dynamic_cast<QGraphicsLineItem *>(items().at(i));
-            qDebug() << "Line " << j << "p1: " << listLine->line().p1() << "\tp2: " << listLine->line().p2();
-            if (listLine->line().p2().x()-listLine->line().p1().x() < 0){
-                qDebug() << "West";
-            }
-            else if (listLine->line().p2().x()-listLine->line().p1().x() > 0){
-                qDebug() << "East";
-            }
-            else if (listLine->line().p2().y()-listLine->line().p1().y() < 0){
-                qDebug() << "North";
-            }
-            else{
-                qDebug() << "South";
-            }
-        }
-    }
-    qDebug() << "****************";
 }
 
 QGraphicsLineItem* Canvas::detectLine(int *x, int *y){
@@ -111,34 +87,3 @@ QGraphicsLineItem* Canvas::detectLine(int *x, int *y){
     return nullptr; //so we can detect found state in caller
 }
 
-void Canvas::addVArrow(QPoint p2)
-{
-    tmp = p2.x();
-    triangle.clear();
-
-    // pointing down
-    if (p2.y() == height){
-        triangle << QPointF(tmp, height + 5) << QPointF(tmp-10, height-10) << QPointF(tmp+10, height-10)/* << QPointF(tmp, 466)*/;
-    }
-    // pointing up
-    else if (p2.y() == 0){
-        triangle << QPointF(tmp - 10, 10) << QPointF(tmp + 10, 10) << QPointF(tmp, -5);
-    }
-    addPolygon(triangle, QPen(Qt::black), QBrush(Qt::SolidPattern));
-}
-
-void Canvas::addHArrow(QPoint p2)
-{
-    tmp = p2.y();
-    triangle.clear();
-
-    // pointing right
-    if (p2.x() == width){
-        triangle << QPointF(width + 10, tmp) << QPointF(width-5, y-10) << QPointF(width-5, y+10)/* << QPointF(tmp, 466)*/;
-    }
-    //pointing left
-    else if (p2.x() == 0){
-        triangle << QPointF(-5,tmp) << QPointF(10, tmp+10) << QPointF(10, tmp-10);
-    }
-    addPolygon(triangle, QPen(Qt::black), QBrush(Qt::SolidPattern));
-}
