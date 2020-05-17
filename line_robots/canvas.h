@@ -21,18 +21,6 @@ private:
     QGraphicsLineItem* detectLine(int *x, int *y);
     QMenu *myItemMenu;
     pathLine *line;        // place holder for custom line object
-    //QPolygonF triangle;
-    //QGraphicsPolygonItem arrow;
-
-    QPoint point1;
-    QPoint point2;
-    int x, y;
-    int i, j;
-    int tmp;
-
-    int height = 466;
-    int width = 554;
-    QLineF test;
 };
 
 #endif // CANVAS_H

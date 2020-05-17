@@ -40,8 +40,8 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
         QDataStream dataStream(&itemData, QIODevice::ReadOnly);
         QString dragObjectType = event->mimeData()->text();
 
-        x = event->scenePos().x();
-        y = event->scenePos().y();
+        int x = event->scenePos().x();
+        int y = event->scenePos().y();
 
         if (dragObjectType.contains("Line")) {
              line = pathLine::makeLine(dragObjectType,QPoint(x,y),this->sceneRect());
