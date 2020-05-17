@@ -20,7 +20,6 @@ public:
 private:
     QGraphicsLineItem* detectLine(int *x, int *y);
     QMenu *myItemMenu;
-    pathLine *line;        // place holder for custom line object
 };
 
 #endif // CANVAS_H
