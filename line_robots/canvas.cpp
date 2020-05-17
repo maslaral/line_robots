@@ -71,10 +71,12 @@ QGraphicsLineItem* Canvas::detectLine(int *x, int *y){
     // TODO: Add some type of error statement if the user tries to place
     // the line it doesn't let them
     // if statement ensure not placing too close to boundary to start
-    if ((*x > 30 && *x < 524) && (*y > 30 && *y < 436)) {
+    int maxX = this->sceneRect().width()-SEARCH_RADIUS;
+    int maxY = this->sceneRect().height()-SEARCH_RADIUS;
+    if ((*x > SEARCH_RADIUS && *x < maxX) && (*y > SEARCH_RADIUS && *y < maxY)) {
     // detect line in 60px radius of drop location
-        for (int i = -30; i <= 30; i++) {
-            for (int j = -30; j <= 30; j++) {
+        for (int i = -SEARCH_RADIUS; i <= SEARCH_RADIUS; i++) {
+            for (int j = -SEARCH_RADIUS; j <= SEARCH_RADIUS; j++) {
                 curItem = itemAt(*x + i, *y + j, QTransform());
                 if ((line = dynamic_cast<QGraphicsLineItem*>(curItem))) {
                     *x+=i; //adjust coordinates

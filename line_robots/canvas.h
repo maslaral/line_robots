@@ -18,6 +18,7 @@ public:
     void dropEvent(QGraphicsSceneDragDropEvent *event) override;
 
 private:
+    const int SEARCH_RADIUS = 30;
     QGraphicsLineItem* detectLine(int *x, int *y);
     QMenu *myItemMenu;
 };
