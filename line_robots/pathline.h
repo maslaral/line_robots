@@ -5,13 +5,14 @@
 #include <QPoint>
 #include <QGraphicsScene>
 #include <QRectF>
-
+#include <QGraphicsPolygonItem>
 #include <QWidget>
 
 class pathLine : public QGraphicsLineItem
 {
 
 protected:
+    QGraphicsPolygonItem *makeArrow(QPoint Location, int bearing);
 
 public:
     static pathLine *makeLine(QString lineType, QPoint location, QRectF bounds);

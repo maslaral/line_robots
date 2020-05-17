@@ -19,63 +19,78 @@ pathLine* pathLine::makeLine(QString lineType, QPoint location, QRectF bounds){
     return nullptr;
 }
 
+QGraphicsPolygonItem* pathLine::makeArrow(QPoint location, int bearing){
+    QGraphicsPolygonItem *newArrowHead;
+    QPolygonF arrow;
+    arrow << QPointF(0, 0) << QPointF(10, 10) << QPointF(-10, 10);
+    newArrowHead = new QGraphicsPolygonItem(arrow);
+    newArrowHead->setRotation(bearing);
+    newArrowHead->setBrush(Qt::SolidPattern);
+    newArrowHead->setPos(location);
+    return newArrowHead;
+}
+
+
 north::north(QPoint location, QRectF bounds){
     QPoint top;
     QPoint bottom;
+    QGraphicsPolygonItem* myArrowHead;
 
     top.setX(location.x());
     top.setY(bounds.top());
     bottom.setX(location.x());
     bottom.setY(bounds.bottom());
     this->setLine(QLineF(bottom,top));
-    QPolygonF arrow;
-    arrow << QPointF(0, 0) << QPointF(10, 10) << QPointF(-10, 10);
-    QGraphicsPolygonItem *arrowObject = new QGraphicsPolygonItem(arrow,this);
-    arrowObject->setBrush(Qt::SolidPattern);
-    arrowObject->setPos(location.x(),bounds.top()-5);
+
+    top.setY(top.y()-5);
+    myArrowHead = makeArrow(top, 0);
+    myArrowHead->setParentItem(this);
 }
 
 south::south(QPoint location, QRectF bounds){
     QPoint top;
     QPoint bottom;
+    QGraphicsPolygonItem* myArrowHead;
+
     top.setX(location.x());
     top.setY(bounds.top());
     bottom.setX(location.x());
     bottom.setY(bounds.bottom());
     this->setLine(QLineF(top,bottom));
-    QPolygonF arrow;
-    arrow << QPointF(0, 0) << QPointF(10, -10) << QPointF(-10, -10);
-    QGraphicsPolygonItem *arrowObject = new QGraphicsPolygonItem(arrow,this);
-    arrowObject->setBrush(Qt::SolidPattern);
-    arrowObject->setPos(location.x(),bounds.bottom()+5);
+
+    bottom.setY(bottom.y()+5);
+    myArrowHead = makeArrow(bottom, 180);
+    myArrowHead->setParentItem(this);
 }
 
 west::west(QPoint location, QRectF bounds){
     QPoint left;
     QPoint right;
+    QGraphicsPolygonItem* myArrowHead;
+
     left.setX(bounds.left());
     left.setY(location.y());
     right.setX(bounds.right());
     right.setY(location.y());
     this->setLine(QLineF(right,left));
-    QPolygonF arrow;
-    arrow << QPointF(0, 0) << QPointF(10, -10) << QPointF(10, 10);
-    QGraphicsPolygonItem *arrowObject = new QGraphicsPolygonItem(arrow,this);
-    arrowObject->setBrush(Qt::SolidPattern);
-    arrowObject->setPos(bounds.left()-5,location.y());
+
+    left.setX(left.x()-5);
+    myArrowHead = makeArrow(left, 270);
+    myArrowHead->setParentItem(this);
 }
 
 east::east(QPoint location, QRectF bounds){
     QPoint left;
     QPoint right;
+    QGraphicsPolygonItem* myArrowHead;
+
     left.setX(bounds.left());
     left.setY(location.y());
     right.setX(bounds.right());
     right.setY(location.y());
     this->setLine(QLineF(left,right));
-    QPolygonF arrow;
-    arrow << QPointF(0, 0) << QPointF(-10, -10) << QPointF(-10, 10);
-    QGraphicsPolygonItem *arrowObject = new QGraphicsPolygonItem(arrow,this);
-    arrowObject->setBrush(Qt::SolidPattern);
-    arrowObject->setPos(bounds.right()+5,location.y());
+
+    right.setX(right.x()+5);
+    myArrowHead = makeArrow(right, 90);
+    myArrowHead->setParentItem(this);
 }
