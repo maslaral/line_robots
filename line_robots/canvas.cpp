@@ -120,8 +120,15 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
                     }
                 }
 
-                if (!lineFound) {
+                // attempting to add robot with no lines on canvas
+                if (!lineFound && items().count()==0) {
                    event->ignore();
+                   errorMsg(0);
+                }
+                // attempting to add robot while not hovering a line
+                else if (!lineFound) {
+                    event->ignore();
+                    errorMsg(1);
                 }
             }
         }
@@ -133,7 +140,7 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
     // TODO: this is only for debugging, so remove before final release
     // useful for checking end points of lines
     j=0;
-        for (i=5; i<items().count(); i++){
+        for (i=0; i<items().count(); i++){
             if (items().at(i)->type() == 6){
                 j++;
                 QGraphicsLineItem *listLine = dynamic_cast<QGraphicsLineItem *>(items().at(i));
@@ -185,4 +192,28 @@ void Canvas::addHArrow(QPoint p2)
         triangle << QPointF(-5,tmp) << QPointF(10, tmp+10) << QPointF(10, tmp-10);
     }
     addPolygon(triangle, QPen(Qt::black), QBrush(Qt::SolidPattern));
+}
+
+// Shows a pop up error message, press 'ok' to close
+void Canvas::errorMsg(int error)
+{
+    QMessageBox msgBox;
+    switch(error){
+    case 0:
+        msgBox.setText("Error: Please add a line before adding a robot.");
+        break;
+    case 1:
+        msgBox.setText("Error: Please place the robot on top of a line.");
+        break;
+    case 2:
+        msgBox.setText("Error: Out of bounds placement.");
+        break;
+    case 3:
+        msgBox.setText("Error: Line is too close to another line.");
+        break;
+    case 4:
+        msgBox.setText("Error: Robot is too close to another robot.");
+        break;
+    }
+    msgBox.exec();
 }

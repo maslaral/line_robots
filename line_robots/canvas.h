@@ -5,6 +5,7 @@
 #include <QGraphicsLineItem>
 #include <QMenu>
 #include <QPoint>
+#include <QMessageBox>
 #include <robot.h>
 
 
@@ -17,6 +18,7 @@ public:
     void dropEvent(QGraphicsSceneDragDropEvent *event) override;
     void addVArrow(QPoint p2);
     void addHArrow(QPoint p2);
+    void errorMsg(int error);
 
 private:
     QMenu *myItemMenu;
