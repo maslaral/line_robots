@@ -47,12 +47,14 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
              pathLine *newLine = pathLine::makeLine(dragObjectType,QPoint(x,y),this->sceneRect());
              newLine->setPen(QPen(Qt::black, 3));
              newLine->setAcceptDrops(true);
+             newLine->setZValue(-1);
              addItem(newLine);
         } else if (dragObjectType.contains("Robot")) { // dragging a robot object onto the canvas
            QGraphicsLineItem *lineDroppedOn = detectLine(&x,&y);
            if (lineDroppedOn){
                Robot* newRobot = new Robot(x + 10, y - 10, lineDroppedOn, dragObjectType);
                newRobot->setSpeed(10);
+               newRobot->setZValue(1);
                addItem(newRobot);
            }
            else if (lineDroppedOn == nullptr && items().count() == 0){ // attempting to add robot with no lines in the canvas
