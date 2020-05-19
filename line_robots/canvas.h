@@ -20,8 +20,10 @@ public:
     void errorMsg(int error);
 
 private:
-    const int SEARCH_RADIUS = 30;
+    const int LINE_SEARCH_RADIUS = 30;
+    const int ROBOT_SEARCH_RADIUS = 15;
     QGraphicsLineItem* detectLine(int *x, int *y);
+    bool detectRobot(int *x, int *y);
     QMenu *myItemMenu;
 };
 

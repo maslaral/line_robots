@@ -28,19 +28,6 @@ void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     QRectF rec = boundingRect();
     painter->setPen(Qt::black);
 
-    // TODO: reimplement collision detection code, current
-    // state doesn't work as robots would be in a state of
-    // constant collision since they are on a line.
-    // if(scene()->collidingItems(this).isEmpty())
-    // {
-    //     painter->setBrush(Qt::green);
-    // }
-    // else
-    // {
-    //     painter->setBrush(Qt::red);
-    //     DoCollision();
-    // }
-
     if (this->type == "Circle Robot") {
         painter->setBrush(Qt::green);
         painter->drawEllipse(rec);
