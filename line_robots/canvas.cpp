@@ -86,15 +86,25 @@ QGraphicsLineItem* Canvas::detectLine(int *x, int *y){
     int maxY = this->sceneRect().height()-LINE_SEARCH_RADIUS;
     if ((*x > LINE_SEARCH_RADIUS && *x < maxX) && (*y > LINE_SEARCH_RADIUS && *y < maxY)) {
         // detect line in 60px radius of drop location
-        for (int i = -LINE_SEARCH_RADIUS; i <= LINE_SEARCH_RADIUS; i++) {
-            for (int j = -LINE_SEARCH_RADIUS; j <= LINE_SEARCH_RADIUS; j++) {
+        for (int i = 0; i <= LINE_SEARCH_RADIUS; i++) {
+            for (int j = 0; j <= LINE_SEARCH_RADIUS; j++) {
                 curItem = itemAt(*x + i, *y + j, QTransform());
                 if ((line = dynamic_cast<QGraphicsLineItem*>(curItem))) {
                     *x+=i; //adjust coordinates
                     *y+=j;
                     return line;
                 }
-           }
+            }
+        }
+        for (int i = 0; i >= -LINE_SEARCH_RADIUS; i--) {
+            for (int j = 0; j >= -LINE_SEARCH_RADIUS; j--){
+                curItem = itemAt(*x + i, *y + j, QTransform());
+                if ((line = dynamic_cast<QGraphicsLineItem*>(curItem))) {
+                    *x+=i; //adjust coordinates
+                    *y+=j;
+                    return line;
+                }
+            }
         }
     }
     return nullptr; // so we can detect found state in caller
