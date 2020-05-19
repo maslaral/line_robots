@@ -94,14 +94,10 @@ QGraphicsLineItem* Canvas::detectLine(int *x, int *y){
                     *y+=j;
                     return line;
                 }
-            }
-        }
-        for (int i = 0; i >= -LINE_SEARCH_RADIUS; i--) {
-            for (int j = 0; j >= -LINE_SEARCH_RADIUS; j--){
-                curItem = itemAt(*x + i, *y + j, QTransform());
+                curItem = itemAt(*x - i, *y - j, QTransform());
                 if ((line = dynamic_cast<QGraphicsLineItem*>(curItem))) {
-                    *x+=i; //adjust coordinates
-                    *y+=j;
+                    *x-=i; //adjust coordinates
+                    *y-=j;
                     return line;
                 }
             }
