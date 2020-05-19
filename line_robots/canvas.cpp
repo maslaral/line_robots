@@ -54,8 +54,13 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
                Robot* newRobot = new Robot(x + 10, y - 10, lineDroppedOn, dragObjectType);
                newRobot->setSpeed(10);
                addItem(newRobot);
-           } else {
+           }
+           else if (lineDroppedOn == nullptr && items().count() == 0){ // attempting to add robot with no lines in the canvas
                event->ignore();
+               errorMsg(0);
+           } else { // attempting to add robot add without hovering over a line
+               event->ignore();
+               errorMsg(1);
            }
         }
         event->acceptProposedAction();
@@ -89,3 +94,26 @@ QGraphicsLineItem* Canvas::detectLine(int *x, int *y){
     return nullptr; //so we can detect found state in caller
 }
 
+// Shows a pop up error message, press 'ok' to close
+void Canvas::errorMsg(int error)
+{
+    QMessageBox msgBox;
+    switch(error){
+    case 0:
+        msgBox.setText("Error: Please add a line before adding a robot.");
+        break;
+    case 1:
+        msgBox.setText("Error: Please place the robot on top of a line.");
+        break;
+    case 2:
+        msgBox.setText("Error: Out of bounds placement.");
+        break;
+    case 3:
+        msgBox.setText("Error: Line is too close to another line.");
+        break;
+    case 4:
+        msgBox.setText("Error: Robot is too close to another robot.");
+        break;
+    }
+    msgBox.exec();
+}

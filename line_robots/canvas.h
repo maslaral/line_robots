@@ -6,6 +6,7 @@
 #include <QMenu>
 #include <QPoint>
 #include <robot.h>
+#include <QMessageBox>
 #include "pathline.h"
 
 
@@ -16,6 +17,7 @@ public:
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
     void dropEvent(QGraphicsSceneDragDropEvent *event) override;
+    void errorMsg(int error);
 
 private:
     const int SEARCH_RADIUS = 30;
