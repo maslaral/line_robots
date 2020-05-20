@@ -25,6 +25,7 @@ private:
     QGraphicsLineItem* detectLine(int *x, int *y);
     bool detectRobot(int *x, int *y);
     QMenu *myItemMenu;
+    bool inBounds(QPoint checkPixel, int buffer);
 };
 
 #endif // CANVAS_H
