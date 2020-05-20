@@ -1,4 +1,4 @@
-#include "robot.h"
+﻿#include "robot.h"
 #include <QProgressBar>
 
 Robot::Robot(int x, int y, QGraphicsLineItem *line, QString type)
@@ -106,8 +106,13 @@ void Robot::collisionDetectionEast()
     Robot *robot;
     QPointF radar = this->pos();
 
-    for (int i = 0; i < 60; i++) {
+    for (int i = 0; i < 30; i++) {
         for (int j = -5; j <= 5; j++) {
+            if (radar.x() > 524) {
+                radar.setX(30 + i);
+            } else {
+                radar.setX(radar.x() + i);
+            }
             radar.setX(radar.x() + i);
             radar.setY(radar.y() + j);
             curItem = this->scene()->itemAt(radar, QTransform());
@@ -129,9 +134,14 @@ void Robot::collisionDetectionWest()
     Robot *robot;
     QPointF radar = this->pos();
 
-    for (int i = 0; i < 60; i++) {
+    for (int i = 0; i < 30; i++) {
         for (int j = -5; j <= 5; j++) {
-            radar.setX(radar.x() - i);
+            if (radar.x() < 30) {
+                radar.setX(524 - i);
+            } else {
+                radar.setX(radar.x() - i);
+            }
+
             radar.setY(radar.y() + j);
             curItem = this->scene()->itemAt(radar, QTransform());
             if ((robot = dynamic_cast<Robot*>(curItem))) {
@@ -155,8 +165,13 @@ void Robot::collisionDetectionNorth()
 
     for (int i = 0; i < 60; i++) {
         for (int j = -5; j <= 5; j++) {
+            if (radar.y() < 30) {
+                radar.setY(436 - i);
+            } else {
+                radar.setY(radar.y() - i);
+            }
+
             radar.setX(radar.x() + j);
-            radar.setY(radar.y() - i);
             curItem = this->scene()->itemAt(radar, QTransform());
             if ((robot = dynamic_cast<Robot*>(curItem))) {
                 if (this->speed > robot->getSpeed()) {
@@ -178,8 +193,13 @@ void Robot::collisionDetectionSouth()
 
     for (int i = 0; i < 60; i++) {
         for (int j = -5; j <= 5; j++) {
+            if (radar.y() > 436) {
+                radar.setY(30 + i);
+            } else {
+                radar.setY(radar.y() + i);
+            }
+
             radar.setX(radar.x() + j);
-            radar.setY(radar.y() + i);
             curItem = this->scene()->itemAt(radar, QTransform());
             if ((robot = dynamic_cast<Robot*>(curItem))) {
                 if (this->speed > robot->getSpeed()) {
