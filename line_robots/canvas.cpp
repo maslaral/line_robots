@@ -51,11 +51,18 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
              addItem(newLine);
         } else if (dragObjectType.contains("Robot")) { // dragging a robot object onto the canvas
            QGraphicsLineItem *lineDroppedOn = detectLine(&x,&y);
+
            if (lineDroppedOn){
-               Robot* newRobot = new Robot(x + 10, y - 10, lineDroppedOn, dragObjectType);
-               newRobot->setSpeed(10);
-               newRobot->setZValue(1);
-               addItem(newRobot);
+               if (detectRobot(&x, &y)) {
+                   event->ignore();
+                   errorMsg(4);
+               }
+               else {
+                   Robot* newRobot = new Robot(x + 10, y - 10, lineDroppedOn, dragObjectType);
+                   newRobot->setSpeed(10);
+                   newRobot->setZValue(1);
+                   addItem(newRobot);
+               }
            }
            else if (lineDroppedOn == nullptr && items().count() == 0){ // attempting to add robot with no lines in the canvas
                event->ignore();
@@ -75,25 +82,49 @@ QGraphicsLineItem* Canvas::detectLine(int *x, int *y){
     QGraphicsItem *curItem;
     QGraphicsLineItem *line;
 
-    // TODO: Add some type of error statement if the user tries to place
-    // the line it doesn't let them
-    // if statement ensure not placing too close to boundary to start
-    int maxX = this->sceneRect().width()-SEARCH_RADIUS;
-    int maxY = this->sceneRect().height()-SEARCH_RADIUS;
-    if ((*x > SEARCH_RADIUS && *x < maxX) && (*y > SEARCH_RADIUS && *y < maxY)) {
-    // detect line in 60px radius of drop location
-        for (int i = -SEARCH_RADIUS; i <= SEARCH_RADIUS; i++) {
-            for (int j = -SEARCH_RADIUS; j <= SEARCH_RADIUS; j++) {
+    int maxX = this->sceneRect().width()-LINE_SEARCH_RADIUS;
+    int maxY = this->sceneRect().height()-LINE_SEARCH_RADIUS;
+    if ((*x > LINE_SEARCH_RADIUS && *x < maxX) && (*y > LINE_SEARCH_RADIUS && *y < maxY)) {
+        // detect line in 60px radius of drop location
+        for (int i = 0; i <= LINE_SEARCH_RADIUS; i++) {
+            for (int j = 0; j <= LINE_SEARCH_RADIUS; j++) {
                 curItem = itemAt(*x + i, *y + j, QTransform());
                 if ((line = dynamic_cast<QGraphicsLineItem*>(curItem))) {
                     *x+=i; //adjust coordinates
                     *y+=j;
                     return line;
                 }
+                curItem = itemAt(*x - i, *y - j, QTransform());
+                if ((line = dynamic_cast<QGraphicsLineItem*>(curItem))) {
+                    *x-=i; //adjust coordinates
+                    *y-=j;
+                    return line;
+                }
+            }
+        }
+    }
+    return nullptr; // so we can detect found state in caller
+}
+
+bool Canvas::detectRobot(int *x, int *y){
+    QGraphicsItem *curItem;
+    Robot *robot;
+
+    int maxX = this->sceneRect().width()-ROBOT_SEARCH_RADIUS;
+    int maxY = this->sceneRect().height()-ROBOT_SEARCH_RADIUS;
+
+    if ((*x > ROBOT_SEARCH_RADIUS && *x < maxX) && (*y > ROBOT_SEARCH_RADIUS && *y < maxY)) {
+        // detect robot in 30px radius of drop location
+        for (int i = -ROBOT_SEARCH_RADIUS; i <= ROBOT_SEARCH_RADIUS; i++) {
+            for (int j = -ROBOT_SEARCH_RADIUS; j <= ROBOT_SEARCH_RADIUS; j++) {
+                curItem = itemAt(*x + i, *y + j, QTransform());
+                if ((robot = dynamic_cast<Robot*>(curItem))) {
+                    return true;
+                }
            }
         }
     }
-    return nullptr; //so we can detect found state in caller
+    return false;
 }
 
 // Shows a pop up error message, press 'ok' to close
