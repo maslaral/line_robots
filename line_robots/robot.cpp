@@ -16,6 +16,10 @@ Robot::Robot(int x, int y, QGraphicsLineItem *line, QString type)
 
     // robot shape
     this->type = type;
+
+    this->speed = rand() % 20 + 1;
+
+
 }
 
 QRectF Robot::boundingRect() const
@@ -43,27 +47,41 @@ void Robot::setSpeed(double barspeed)
     speed = barspeed;
 }
 
+double Robot::getSpeed()
+{
+    return speed;
+}
+
 void Robot::advance(int phase)
 {
     if (!phase) return;
 
+    this->boundary();
+
     // if a line pointing east
     if (line->line().p2().x() - line->line().p1().x() > 0) {
+        collisionDetectionEast();
         setPos(mapToParent(0, (-speed)));
     }
     // if a line pointing west
     else if (line->line().p2().x() - line->line().p1().x() < 0) {
+        collisionDetectionWest();
         setPos(mapToParent(0, speed));
     }
     // if a line pointing north
     else if (line->line().p2().y() - line->line().p1().y() < 0) {
+        collisionDetectionNorth();
         setPos(mapToParent((-speed), 0));
     }
     // if a line pointing south
     else {
+        collisionDetectionSouth();
         setPos(mapToParent((speed), 0));
     }
+}
 
+void Robot::boundary()
+{
     // boundary for moving right
     if (this->pos().x() >= 554) {
         setPos(30, y);
@@ -82,34 +100,95 @@ void Robot::advance(int phase)
     }
 }
 
-
-// TODO: reimplement the collision detection code,
-// current state doesn't work as robots would be in
-// a state of constant collision since they are on
-// a line.
-void Robot::DoCollision()
+void Robot::collisionDetectionEast()
 {
-    // get new position
-    if(((qrand() % 1)))
-    {
-        setRotation((rotation() + (180 + qrand() % 1)));
-    }
-    else{
-         setRotation((rotation()+(-180 + qrand() % -1)));
-    }
+    QGraphicsItem *curItem;
+    Robot *robot;
+    QPointF radar = this->pos();
 
-    // see if the new position is in bounds + 2 pushes away from the obeject it colides with
-    QPointF newpoint = mapToParent(-(boundingRect().width()), -(boundingRect().width() + 2));
-
-    if(!scene()->sceneRect().contains((newpoint)))
-    {
-        // move back inbounds
-        newpoint = mapToParent(100, -100);
-
+    for (int i = 0; i < 60; i++) {
+        for (int j = -5; j <= 5; j++) {
+            radar.setX(radar.x() + i);
+            radar.setY(radar.y() + j);
+            curItem = this->scene()->itemAt(radar, QTransform());
+            if ((robot = dynamic_cast<Robot*>(curItem))) {
+                if (this->speed > robot->getSpeed()) {
+                    this->speed = robot->getSpeed();
+                    return;
+                }
+            }
+            radar.setX(this->pos().x());
+            radar.setY(this->pos().y());
+        }
     }
-    else
-    {
-        // set new position
-        setPos(newpoint);
+}
+
+void Robot::collisionDetectionWest()
+{
+    QGraphicsItem *curItem;
+    Robot *robot;
+    QPointF radar = this->pos();
+
+    for (int i = 0; i < 60; i++) {
+        for (int j = -5; j <= 5; j++) {
+            radar.setX(radar.x() - i);
+            radar.setY(radar.y() + j);
+            curItem = this->scene()->itemAt(radar, QTransform());
+            if ((robot = dynamic_cast<Robot*>(curItem))) {
+                if (this->speed > robot->getSpeed()) {
+                    this->speed = robot->getSpeed();
+                    return;
+                }
+            }
+            radar.setX(this->pos().x());
+            radar.setY(this->pos().y());
+        }
+    }
+}
+
+
+void Robot::collisionDetectionNorth()
+{
+    QGraphicsItem *curItem;
+    Robot *robot;
+    QPointF radar = this->pos();
+
+    for (int i = 0; i < 60; i++) {
+        for (int j = -5; j <= 5; j++) {
+            radar.setX(radar.x() + j);
+            radar.setY(radar.y() - i);
+            curItem = this->scene()->itemAt(radar, QTransform());
+            if ((robot = dynamic_cast<Robot*>(curItem))) {
+                if (this->speed > robot->getSpeed()) {
+                    this->speed = robot->getSpeed();
+                    return;
+                }
+            }
+            radar.setX(this->pos().x());
+            radar.setY(this->pos().y());
+        }
+    }
+}
+
+void Robot::collisionDetectionSouth()
+{
+    QGraphicsItem *curItem;
+    Robot *robot;
+    QPointF radar = this->pos();
+
+    for (int i = 0; i < 60; i++) {
+        for (int j = -5; j <= 5; j++) {
+            radar.setX(radar.x() + j);
+            radar.setY(radar.y() + i);
+            curItem = this->scene()->itemAt(radar, QTransform());
+            if ((robot = dynamic_cast<Robot*>(curItem))) {
+                if (this->speed > robot->getSpeed()) {
+                    this->speed = robot->getSpeed();
+                    return;
+                }
+            }
+            radar.setX(this->pos().x());
+            radar.setY(this->pos().y());
+        }
     }
 }

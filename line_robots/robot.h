@@ -4,6 +4,7 @@
 #include <QPainter>
 #include <QGraphicsItem>
 #include <QGraphicsScene>
+#include "pathline.h"
 
 class Robot : public QGraphicsItem
 {
@@ -12,8 +13,14 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setSpeed(double);
+    double getSpeed();
 protected:
    void advance(int phase);
+   void boundary();
+   void collisionDetectionNorth();
+   void collisionDetectionSouth();
+   void collisionDetectionEast();
+   void collisionDetectionWest();
 
 private:
     qreal angle;

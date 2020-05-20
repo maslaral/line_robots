@@ -60,7 +60,6 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
                }
                else {
                    Robot* newRobot = new Robot(x + 10, y - 10, lineDroppedOn, dragObjectType);
-                   newRobot->setSpeed(10);
                    newRobot->setZValue(1);
                    addItem(newRobot);
                }

@@ -37,7 +37,7 @@ public:
 };
 
 class west : public pathLine {
-    \
+
 public:
     west(QPoint location, QRectF bounds);
 };
