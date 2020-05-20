@@ -22,6 +22,7 @@ SOURCES += \
     mainwindow.cpp \
     pathline.cpp \
     pauseabletimer.cpp \
+    pixelspiral.cpp \
     robot.cpp \
     robotmenu.cpp
 
@@ -31,6 +32,7 @@ HEADERS += \
     mainwindow.h \
     pathline.h \
     pauseabletimer.h \
+    pixelspiral.h \
     robot.h \
     robotmenu.h
 
