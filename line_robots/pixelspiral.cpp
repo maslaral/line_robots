@@ -62,7 +62,7 @@ QPoint PixelSpiral::nextPixel(){
         ++direction;
         direction %=4;
         curStep = 0;
-        if (d % 2 == 0) {
+        if (direction % 2 == 0) {
             ++maxStep;
         }
     }

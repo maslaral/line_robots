@@ -6,6 +6,7 @@
 #include <QMimeData>
 #include <QPoint>
 #include "pathline.h"
+#include "pixelspiral.h"
 
 // canvas height = 466, width = 554
 Canvas::Canvas(QMenu *itemMenu, QObject *parent)
@@ -81,47 +82,38 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
 QGraphicsLineItem* Canvas::detectLine(int *x, int *y){
     QGraphicsItem *curItem;
     QGraphicsLineItem *line;
-
-    int maxX = this->sceneRect().width()-LINE_SEARCH_RADIUS;
-    int maxY = this->sceneRect().height()-LINE_SEARCH_RADIUS;
-    if ((*x > LINE_SEARCH_RADIUS && *x < maxX) && (*y > LINE_SEARCH_RADIUS && *y < maxY)) {
-        // detect line in 60px radius of drop location
-        for (int i = 0; i <= LINE_SEARCH_RADIUS; i++) {
-            for (int j = 0; j <= LINE_SEARCH_RADIUS; j++) {
-                curItem = itemAt(*x + i, *y + j, QTransform());
-                if ((line = dynamic_cast<QGraphicsLineItem*>(curItem))) {
-                    *x+=i; //adjust coordinates
-                    *y+=j;
-                    return line;
-                }
-                curItem = itemAt(*x - i, *y - j, QTransform());
-                if ((line = dynamic_cast<QGraphicsLineItem*>(curItem))) {
-                    *x-=i; //adjust coordinates
-                    *y-=j;
-                    return line;
-                }
+    PixelSpiral search(this);
+    QPoint temp(*x,*y);
+    search.setStart(temp);
+    search.setRadius(LINE_SEARCH_RADIUS);
+    while(search.hasNext()) {
+        temp = search.nextPixel();
+        if (this->inBounds(temp, LINE_SEARCH_RADIUS)){
+            curItem = itemAt(temp, QTransform());
+            if ((line = dynamic_cast<QGraphicsLineItem*>(curItem))) {
+                *x=temp.x();
+                *y=temp.y();
+                return line;
             }
         }
     }
-    return nullptr; // so we can detect found state in caller
+    return nullptr;
 }
 
 bool Canvas::detectRobot(int *x, int *y){
     QGraphicsItem *curItem;
     Robot *robot;
-
-    int maxX = this->sceneRect().width()-ROBOT_SEARCH_RADIUS;
-    int maxY = this->sceneRect().height()-ROBOT_SEARCH_RADIUS;
-
-    if ((*x > ROBOT_SEARCH_RADIUS && *x < maxX) && (*y > ROBOT_SEARCH_RADIUS && *y < maxY)) {
-        // detect robot in 30px radius of drop location
-        for (int i = -ROBOT_SEARCH_RADIUS; i <= ROBOT_SEARCH_RADIUS; i++) {
-            for (int j = -ROBOT_SEARCH_RADIUS; j <= ROBOT_SEARCH_RADIUS; j++) {
-                curItem = itemAt(*x + i, *y + j, QTransform());
-                if ((robot = dynamic_cast<Robot*>(curItem))) {
-                    return true;
-                }
-           }
+    PixelSpiral search(this);
+    QPoint temp(*x,*y);
+    search.setStart(temp);
+    search.setRadius(ROBOT_SEARCH_RADIUS);
+    while(search.hasNext()) {
+        temp = search.nextPixel();
+        if (this->inBounds(temp, ROBOT_SEARCH_RADIUS)){
+            curItem = itemAt(temp, QTransform());
+            if ((robot = dynamic_cast<Robot*>(curItem))) {
+                return true;
+            }
         }
     }
     return false;
@@ -149,4 +141,13 @@ void Canvas::errorMsg(int error)
         break;
     }
     msgBox.exec();
+}
+
+bool Canvas::inBounds(QPoint checkPixel, int buffer){
+    if (checkPixel.x() >= 0 + buffer && checkPixel.x() <= this->sceneRect().width()-buffer &&
+            checkPixel.y() >= 0 + buffer && checkPixel.y() <= this->sceneRect().height()-buffer) {
+        return true;
+    } else {
+        return false;
+    }
 }
