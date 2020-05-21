@@ -16,8 +16,6 @@ Robot::Robot(int x, int y, QGraphicsLineItem *line, QString type)
 
     // robot shape
     this->type = type;
-
-    this->speed = rand() % 10 + 1;
 }
 
 QRectF Robot::boundingRect() const
