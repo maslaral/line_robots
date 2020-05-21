@@ -97,22 +97,22 @@ void Robot::collisionDetectionEast()
                 overflow += 1;                      // "around the corner" to the other side of
                 radar.setX(WEST_BORDER + overflow); // of the canvas
             } else {
-                radar.setX(radar.x() + i);
+                radar.setX(radar.x() + i); // otherwise, just look ahead
             }
 
             radar.setY(radar.y() + j);
             curItem = scene()->itemAt(radar, QTransform());
 
-            if (avoidCollision(curItem)) {
-                return;
+            if (avoidCollision(curItem)) { // if avoid collision is true, then
+                return;                    // return to exit the loop and stop searching further
             }
 
-            radar = pos();
+            radar = pos(); // reset the radar to current position
         }
-        overflow = 0;
+        overflow = 0; // reset the overflow value
     }
-    if (speed == 0) {
-        restoreSpeed();
+    if (speed == 0) {   // if speed was set to 0
+        restoreSpeed(); // restore it to the value stored in tempSpeed
     }
 }
 
