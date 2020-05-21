@@ -21,12 +21,14 @@ protected:
     void collisionDetectionSouth();
     void collisionDetectionEast();
     void collisionDetectionWest();
-    bool avoidCollision(QGraphicsItem *curItem);
+    bool avoidIntersectionCollision(QGraphicsItem *curItem);
+    bool avoidLineCollision(QGraphicsItem *curItem);
     void saveSpeed();
     void restoreSpeed();
 
 private:
-    int const RADAR_SEARCH_AREA = 60;
+    int const RADAR_SEARCH_AHEAD = 60;
+    int const RADAR_SEARCH_INTER = 15;
     int const EAST_BORDER = 524;
     int const WEST_BORDER = 30;
     int const NORTH_BORDER = 30;
