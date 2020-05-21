@@ -106,6 +106,8 @@ void Robot::collisionDetectionEast()
             bool lineCollision = avoidLineCollision(curItem);
             bool interCollision = avoidIntersectionCollision(curItem);
 
+            // checks if there is a line or intersection collision and adjusts
+            // if it does adjust, then we can exit the function with a return
             if (lineCollision || interCollision) {
                 return;
             }
