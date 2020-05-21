@@ -59,8 +59,9 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
                    errorMsg(4);
                }
                else {
+                   setSpeedBox();
                    Robot* newRobot = new Robot(x + 10, y - 10, lineDroppedOn, dragObjectType);
-                   newRobot->setSpeed(10);
+                   newRobot->setSpeed(roboticSpeed);
                    newRobot->setZValue(1);
                    addItem(newRobot);
                }
@@ -141,6 +142,18 @@ void Canvas::errorMsg(int error)
         break;
     }
     msgBox.exec();
+}
+
+double Canvas::setSpeedBox()
+{
+    QInputDialog speedBox;
+    speedBox.setLabelText("Select the speed of the robot you are dropping.");
+    speedBox.setInputMode(QInputDialog::IntInput);
+    speedBox.setIntRange(1, 15);
+    speedBox.exec();
+    tempSpeed = speedBox.intValue();
+    roboticSpeed = static_cast<double>(tempSpeed);
+    return roboticSpeed;
 }
 
 bool Canvas::inBounds(QPoint checkPixel, int buffer){
