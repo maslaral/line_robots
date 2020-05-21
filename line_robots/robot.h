@@ -1,35 +1,39 @@
 #ifndef ROBOT_H
 #define ROBOT_H
 
-#include <QPainter>
+#include "pathline.h"
 #include <QGraphicsItem>
 #include <QGraphicsScene>
-#include "pathline.h"
+#include <QPainter>
 
 class Robot : public QGraphicsItem
 {
 public:
-    explicit Robot(int, int, QGraphicsLineItem*, QString);
+    explicit Robot(int, int, QGraphicsLineItem *, QString);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setSpeed(double);
-    double getSpeed();
+
 protected:
-   void advance(int phase);
-   void boundary();
-   void collisionDetectionNorth();
-   void collisionDetectionSouth();
-   void collisionDetectionEast();
-   void collisionDetectionWest();
+    void advance(int phase);
+    void boundaryDetection();
+    void collisionDetectionNorth();
+    void collisionDetectionSouth();
+    void collisionDetectionEast();
+    void collisionDetectionWest();
 
 private:
-    qreal angle;
-    qreal speed;
+    int const RADAR_SEARCH_AREA = 60;
+    int const EAST_BORDER = 524;
+    int const WEST_BORDER = 30;
+    int const NORTH_BORDER = 30;
+    int const SOUTH_BORDER = 436;
+
+    int speed;
     int x;
     int y;
     QString type;
-    QGraphicsLineItem* line;
-    void DoCollision();
+    QGraphicsLineItem *line;
 };
 
 #endif // MYITEM_H
