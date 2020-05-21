@@ -1,7 +1,8 @@
+#include "pathline.h"
 #include "robot.h"
 #include <QProgressBar>
 
-Robot::Robot(int x, int y, QGraphicsLineItem *line, QString type)
+Robot::Robot(int x, int y, pathLine *line, QString type)
 {
     // start rotation
     setRotation(90);
@@ -13,6 +14,9 @@ Robot::Robot(int x, int y, QGraphicsLineItem *line, QString type)
 
     // line placed on
     this->line = line;
+
+    //snap location to line
+    this->setPos(this->line->getSnapPoint(this->pos()));
 
     // robot shape
     this->type = type;
@@ -61,6 +65,7 @@ void Robot::advance(int phase)
         setPos(mapToParent((-speed), 0));
     } else {
         collisionDetectionSouth();
+
         setPos(mapToParent((speed), 0));
     }
 }
@@ -119,6 +124,7 @@ void Robot::collisionDetectionEast()
     if (speed == 0) {   // if speed was set to 0
         restoreSpeed(); // restore it to the value stored in tempSpeed
     }
+    overflow = 0;
 }
 
 void Robot::collisionDetectionWest()
@@ -147,8 +153,9 @@ void Robot::collisionDetectionWest()
             }
 
             radar = pos();
+
         }
-        overflow = 0;
+        radar = pos();
     }
     if (speed == 0) {
         restoreSpeed();
@@ -182,7 +189,7 @@ void Robot::collisionDetectionNorth()
 
             radar = pos();
         }
-        overflow = 0;
+        radar = pos();
     }
     if (speed == 0) {
         restoreSpeed();
@@ -216,7 +223,7 @@ void Robot::collisionDetectionSouth()
 
             radar = pos();
         }
-        overflow = 0;
+        radar = pos();
     }
     if (speed == 0) {
         restoreSpeed();

@@ -23,7 +23,7 @@ public:
 private:
     const int LINE_SEARCH_RADIUS = 30;
     const int ROBOT_SEARCH_RADIUS = 30;
-    QGraphicsLineItem *detectLine(int *x, int *y);
+    pathLine *detectLine(int *x, int *y);
     bool detectRobot(int *x, int *y);
     QMenu *myItemMenu;
     bool inBounds(QPoint checkPixel, int buffer);
