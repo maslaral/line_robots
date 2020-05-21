@@ -21,6 +21,9 @@ protected:
     void collisionDetectionSouth();
     void collisionDetectionEast();
     void collisionDetectionWest();
+    bool avoidCollision(QGraphicsItem *curItem);
+    void saveSpeed();
+    void restoreSpeed();
 
 private:
     int const RADAR_SEARCH_AREA = 60;
@@ -30,6 +33,7 @@ private:
     int const SOUTH_BORDER = 436;
 
     int speed;
+    int tempSpeed;
     int x;
     int y;
     QString type;
