@@ -65,7 +65,6 @@ void Robot::advance(int phase)
         setPos(mapToParent((-speed), 0));
     } else {
         collisionDetectionSouth();
-
         setPos(mapToParent((speed), 0));
     }
 }
