@@ -48,8 +48,9 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
             newLine->setAcceptDrops(true);
             newLine->setZValue(-1);
             addItem(newLine);
+
         } else if (dragObjectType.contains("Robot")) { // dragging a robot object onto the canvas
-            QGraphicsLineItem *lineDroppedOn = detectLine(&x, &y);
+            pathLine *lineDroppedOn = detectLine(&x, &y);
 
             if (lineDroppedOn) {
                 if (detectRobot(&x, &y)) {
@@ -61,6 +62,8 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
                     newRobot->setSpeed(roboticSpeed);
                     newRobot->setZValue(1);
                     addItem(newRobot);
+                    qDebug()<<lineDroppedOn->line();
+                    qDebug()<<newRobot->pos();
                 }
             } else if (lineDroppedOn == nullptr
                        && items().count()
@@ -90,10 +93,10 @@ double Canvas::setSpeedBox()
     return roboticSpeed;
 }
 
-QGraphicsLineItem *Canvas::detectLine(int *x, int *y)
+pathLine *Canvas::detectLine(int *x, int *y)
 {
     QGraphicsItem *curItem;
-    QGraphicsLineItem *line;
+    pathLine *line;
     PixelSpiral search(this);
     QPoint temp(*x, *y);
     search.setStart(temp);
@@ -102,7 +105,7 @@ QGraphicsLineItem *Canvas::detectLine(int *x, int *y)
         temp = search.nextPixel();
         if (this->inBounds(temp, LINE_SEARCH_RADIUS)) {
             curItem = itemAt(temp, QTransform());
-            if ((line = dynamic_cast<QGraphicsLineItem *>(curItem))) {
+            if ((line = dynamic_cast<pathLine *>(curItem))) {
                 *x = temp.x();
                 *y = temp.y();
                 return line;
