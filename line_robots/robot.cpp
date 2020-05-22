@@ -153,13 +153,13 @@ void Robot::collisionDetectionWest()
             }
 
             radar = pos();
-
         }
-        radar = pos();
+        overflow = 0;
     }
     if (speed == 0) {
         restoreSpeed();
     }
+    overflow = 0;
 }
 
 void Robot::collisionDetectionNorth()
@@ -189,11 +189,12 @@ void Robot::collisionDetectionNorth()
 
             radar = pos();
         }
-        radar = pos();
+        overflow = 0;
     }
     if (speed == 0) {
         restoreSpeed();
     }
+    overflow = 0;
 }
 
 void Robot::collisionDetectionSouth()
@@ -223,11 +224,12 @@ void Robot::collisionDetectionSouth()
 
             radar = pos();
         }
-        radar = pos();
+        overflow = 0;
     }
     if (speed == 0) {
         restoreSpeed();
     }
+    overflow = 0;
 }
 
 bool Robot::avoidIntersectionCollision(QGraphicsItem *curItem)
@@ -235,7 +237,7 @@ bool Robot::avoidIntersectionCollision(QGraphicsItem *curItem)
     Robot *robot;
 
     if ((robot = dynamic_cast<Robot *>(curItem)) && (line != robot->line)) {
-        if (speed > 0 && robot->speed >= speed) {
+        if (robot->speed >= speed) {
             saveSpeed();
             speed = 0;
         }
@@ -253,10 +255,11 @@ bool Robot::avoidLineCollision(QGraphicsItem *curItem)
         if (speed > robot->speed) {
             speed = robot->speed;
             saveSpeed();
+            return true;
         } else if (speed == 0 && robot->speed == 0) {
             restoreSpeed();
+            return true;
         }
-        return true;
     }
 
     return false;
