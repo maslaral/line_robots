@@ -85,3 +85,7 @@ void LineMenu::mousePressEvent(QMouseEvent *event)
         child->setPixmap(pixmap);
     }
 }
+
+void LineMenu::changeEvent(QEvent *event) {
+    this->repaint();
+}

@@ -66,3 +66,7 @@ void RobotMenu::mousePressEvent(QMouseEvent *event)
         child->setPixmap(pixmap);
     }
 }
+
+void RobotMenu::changeEvent(QEvent *event) {
+    this->repaint();
+}

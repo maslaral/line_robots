@@ -15,6 +15,7 @@ public:
 
 protected:
     void mousePressEvent(QMouseEvent *event) override;
+    void changeEvent(QEvent *event) override;
 };
 
 #endif // LINEMENU_H
