@@ -235,7 +235,7 @@ bool Robot::avoidIntersectionCollision(QGraphicsItem *curItem)
     Robot *robot;
 
     if ((robot = dynamic_cast<Robot *>(curItem)) && (line != robot->line)) {
-        if (speed > 0 && robot->speed > speed) {
+        if (speed > 0 && robot->speed >= speed) {
             saveSpeed();
             speed = 0;
         }
