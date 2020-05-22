@@ -123,7 +123,6 @@ void Robot::collisionDetectionEast()
     if (speed == 0) {   // if speed was set to 0
         restoreSpeed(); // restore it to the value stored in tempSpeed
     }
-    overflow = 0;
 }
 
 void Robot::collisionDetectionWest()
@@ -158,7 +157,6 @@ void Robot::collisionDetectionWest()
     if (speed == 0) {
         restoreSpeed();
     }
-    overflow = 0;
 }
 
 void Robot::collisionDetectionNorth()
@@ -193,7 +191,6 @@ void Robot::collisionDetectionNorth()
     if (speed == 0) {
         restoreSpeed();
     }
-    overflow = 0;
 }
 
 void Robot::collisionDetectionSouth()
@@ -228,7 +225,6 @@ void Robot::collisionDetectionSouth()
     if (speed == 0) {
         restoreSpeed();
     }
-    overflow = 0;
 }
 
 bool Robot::avoidIntersectionCollision(QGraphicsItem *curItem)
