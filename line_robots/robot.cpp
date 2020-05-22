@@ -1,5 +1,5 @@
-#include "pathline.h"
 #include "robot.h"
+#include "pathline.h"
 #include <QProgressBar>
 
 Robot::Robot(int x, int y, pathLine *line, QString type)
@@ -15,7 +15,7 @@ Robot::Robot(int x, int y, pathLine *line, QString type)
     // line placed on
     this->line = line;
 
-    //snap location to line
+    // snap location to line
     this->setPos(this->line->getSnapPoint(this->pos()));
 
     // robot shape
@@ -107,12 +107,10 @@ void Robot::collisionDetectionEast()
             radar.setY(radar.y() + j);
             curItem = scene()->itemAt(radar, QTransform());
 
-            bool lineCollision = avoidLineCollision(curItem);
-            bool interCollision = avoidIntersectionCollision(curItem);
+            // bool lineCollision = avoidLineCollision(curItem);
+            // bool interCollision = avoidIntersectionCollision(curItem);
 
-            // checks if there is a line or intersection collision and adjusts
-            // if it does adjust, then we can exit the function with a return
-            if (lineCollision || interCollision) {
+            if (avoidLineCollision(curItem)) {
                 return;
             }
 
@@ -144,10 +142,10 @@ void Robot::collisionDetectionWest()
             radar.setY(radar.y() + j);
             curItem = scene()->itemAt(radar, QTransform());
 
-            bool lineCollision = avoidLineCollision(curItem);
-            bool interCollision = avoidIntersectionCollision(curItem);
+            // bool lineCollision = avoidLineCollision(curItem);
+            // bool interCollision = avoidIntersectionCollision(curItem);
 
-            if (lineCollision || interCollision) {
+            if (avoidLineCollision(curItem)) {
                 return;
             }
 
@@ -179,10 +177,10 @@ void Robot::collisionDetectionNorth()
             radar.setX(radar.x() + j);
             curItem = scene()->itemAt(radar, QTransform());
 
-            bool lineCollision = avoidLineCollision(curItem);
-            bool interCollision = avoidIntersectionCollision(curItem);
+            // bool lineCollision = avoidLineCollision(curItem);
+            // bool interCollision = avoidIntersectionCollision(curItem);
 
-            if (lineCollision || interCollision) {
+            if (avoidLineCollision(curItem)) {
                 return;
             }
 
@@ -214,10 +212,10 @@ void Robot::collisionDetectionSouth()
             radar.setX(radar.x() + j);
             curItem = scene()->itemAt(radar, QTransform());
 
-            bool lineCollision = avoidLineCollision(curItem);
-            bool interCollision = avoidIntersectionCollision(curItem);
+            // bool lineCollision = avoidLineCollision(curItem);
+            // bool interCollision = avoidIntersectionCollision(curItem);
 
-            if (lineCollision || interCollision) {
+            if (avoidLineCollision(curItem)) {
                 return;
             }
 
