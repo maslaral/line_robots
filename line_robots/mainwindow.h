@@ -1,15 +1,17 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <QGraphicsView>
-#include <QComboBox>
 #include <QButtonGroup>
+#include <QComboBox>
+#include <QGraphicsView>
+#include <QMainWindow>
 
 class Canvas;
 
 QT_BEGIN_NAMESPACE
-namespace Ui { class MainWindow; }
+namespace Ui {
+class MainWindow;
+}
 QT_END_NAMESPACE
 
 class MainWindow : public QMainWindow
@@ -37,7 +39,7 @@ private:
     QGraphicsView *view;
     QMenu *itemMenu;
 
-    //movement
+    // movement
     QTimer *timer;
 };
 

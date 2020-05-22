@@ -2,8 +2,8 @@
 #define PAUSEABLETIMER_H
 
 #include <QObject>
-#include <QWidget>
 #include <QTimer>
+#include <QWidget>
 
 class pauseableTimer : public QTimer
 {

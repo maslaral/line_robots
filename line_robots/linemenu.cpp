@@ -1,8 +1,7 @@
+﻿#include "linemenu.h"
 #include <QtWidgets>
-#include "linemenu.h"
 
-LineMenu::LineMenu(QWidget *parent)
-    : QFrame(parent)
+LineMenu::LineMenu(QWidget *parent) : QFrame(parent)
 {
     // setting up the panel, this does not accept drops
     setAcceptDrops(false);
@@ -15,7 +14,7 @@ LineMenu::LineMenu(QWidget *parent)
 
     // leftIcon->setPixmap(left);
     leftIcon->setPixmap(left.scaled(w, h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    leftIcon->setToolTip("Left Line");		// DON'T CHANGE - used to create line object
+    leftIcon->setToolTip("Left Line"); // DON'T CHANGE - used to create line object
     leftIcon->move(8, 8);
     leftIcon->show();
     leftIcon->setAttribute(Qt::WA_DeleteOnClose);
@@ -25,7 +24,7 @@ LineMenu::LineMenu(QWidget *parent)
     QPixmap right(":/images/right.png");
 
     rightIcon->setPixmap(right.scaled(w, h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    rightIcon->setToolTip("Right Line");	// DON'T CHANGE - used to create line object
+    rightIcon->setToolTip("Right Line"); // DON'T CHANGE - used to create line object
     rightIcon->move(8, 43);
     rightIcon->show();
     rightIcon->setAttribute(Qt::WA_DeleteOnClose);
@@ -35,7 +34,7 @@ LineMenu::LineMenu(QWidget *parent)
     QPixmap up(":/images/up.png");
 
     upIcon->setPixmap(up.scaled(w, h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    upIcon->setToolTip("Up Line");			// DON'T CHANGE - used to create line object
+    upIcon->setToolTip("Up Line"); // DON'T CHANGE - used to create line object
     upIcon->move(43, 8);
     upIcon->show();
     upIcon->setAttribute(Qt::WA_DeleteOnClose);
@@ -45,7 +44,7 @@ LineMenu::LineMenu(QWidget *parent)
     QPixmap down(":/images/down.png");
 
     downIcon->setPixmap(down.scaled(w, h, Qt::IgnoreAspectRatio, Qt::SmoothTransformation));
-    downIcon->setToolTip("Down Line");		// DON'T CHANGE - used to create line object
+    downIcon->setToolTip("Down Line"); // DON'T CHANGE - used to create line object
     downIcon->move(43, 43);
     downIcon->show();
     downIcon->setAttribute(Qt::WA_DeleteOnClose);

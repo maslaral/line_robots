@@ -1,16 +1,15 @@
 #include "canvas.h"
-#include "ui_mainwindow.h"
-#include <QGraphicsSceneMouseEvent>
-#include <QDebug>
-#include <QGraphicsItem>
-#include <QMimeData>
-#include <QPoint>
 #include "pathline.h"
 #include "pixelspiral.h"
+#include "ui_mainwindow.h"
+#include <QDebug>
+#include <QGraphicsItem>
+#include <QGraphicsSceneMouseEvent>
+#include <QMimeData>
+#include <QPoint>
 
 // canvas height = 466, width = 554
-Canvas::Canvas(QMenu *itemMenu, QObject *parent)
-    : QGraphicsScene(parent)
+Canvas::Canvas(QMenu *itemMenu, QObject *parent) : QGraphicsScene(parent)
 {
     myItemMenu = itemMenu;
 }
@@ -18,9 +17,9 @@ Canvas::Canvas(QMenu *itemMenu, QObject *parent)
 void Canvas::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
 {
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-            event->acceptProposedAction();
+        event->acceptProposedAction();
     } else {
-            event->ignore();
+        event->ignore();
     }
 }
 
@@ -36,7 +35,6 @@ void Canvas::dragMoveEvent(QGraphicsSceneDragDropEvent *event)
 void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
 {
     if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-
         QByteArray itemData = event->mimeData()->data("application/x-dnditemdata");
         QDataStream dataStream(&itemData, QIODevice::ReadOnly);
         QString dragObjectType = event->mimeData()->text();
@@ -45,33 +43,34 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
         int y = event->scenePos().y();
 
         if (dragObjectType.contains("Line")) {
-             pathLine *newLine = pathLine::makeLine(dragObjectType,QPoint(x,y),this->sceneRect());
-             newLine->setPen(QPen(Qt::black, 3));
-             newLine->setAcceptDrops(true);
-             newLine->setZValue(-1);
-             addItem(newLine);
+            pathLine *newLine = pathLine::makeLine(dragObjectType, QPoint(x, y), this->sceneRect());
+            newLine->setPen(QPen(Qt::black, 3));
+            newLine->setAcceptDrops(true);
+            newLine->setZValue(-1);
+            addItem(newLine);
         } else if (dragObjectType.contains("Robot")) { // dragging a robot object onto the canvas
-           QGraphicsLineItem *lineDroppedOn = detectLine(&x,&y);
+            QGraphicsLineItem *lineDroppedOn = detectLine(&x, &y);
 
-           if (lineDroppedOn){
-               if (detectRobot(&x, &y)) {
-                   event->ignore();
-                   errorMsg(4);
-               }
-               else {
-                   Robot* newRobot = new Robot(x + 10, y - 10, lineDroppedOn, dragObjectType);
-                   newRobot->setSpeed(10);
-                   newRobot->setZValue(1);
-                   addItem(newRobot);
-               }
-           }
-           else if (lineDroppedOn == nullptr && items().count() == 0){ // attempting to add robot with no lines in the canvas
-               event->ignore();
-               errorMsg(0);
-           } else { // attempting to add robot add without hovering over a line
-               event->ignore();
-               errorMsg(1);
-           }
+            if (lineDroppedOn) {
+                if (detectRobot(&x, &y)) {
+                    event->ignore();
+                    errorMsg(4);
+                } else {
+                    setSpeedBox();
+                    Robot *newRobot = new Robot(x, y, lineDroppedOn, dragObjectType);
+                    newRobot->setSpeed(roboticSpeed);
+                    newRobot->setZValue(1);
+                    addItem(newRobot);
+                }
+            } else if (lineDroppedOn == nullptr
+                       && items().count()
+                              == 0) { // attempting to add robot with no lines in the canvas
+                event->ignore();
+                errorMsg(0);
+            } else { // attempting to add robot add without hovering over a line
+                event->ignore();
+                errorMsg(1);
+            }
         }
         event->acceptProposedAction();
     } else {
@@ -79,20 +78,33 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
     }
 }
 
-QGraphicsLineItem* Canvas::detectLine(int *x, int *y){
+double Canvas::setSpeedBox()
+{
+    QInputDialog speedBox;
+    speedBox.setLabelText("Select the speed of the robot you are dropping.");
+    speedBox.setInputMode(QInputDialog::IntInput);
+    speedBox.setIntRange(1, 15);
+    speedBox.exec();
+    tempSpeed = speedBox.intValue();
+    roboticSpeed = static_cast<double>(tempSpeed);
+    return roboticSpeed;
+}
+
+QGraphicsLineItem *Canvas::detectLine(int *x, int *y)
+{
     QGraphicsItem *curItem;
     QGraphicsLineItem *line;
     PixelSpiral search(this);
-    QPoint temp(*x,*y);
+    QPoint temp(*x, *y);
     search.setStart(temp);
     search.setRadius(LINE_SEARCH_RADIUS);
-    while(search.hasNext()) {
+    while (search.hasNext()) {
         temp = search.nextPixel();
-        if (this->inBounds(temp, LINE_SEARCH_RADIUS)){
+        if (this->inBounds(temp, LINE_SEARCH_RADIUS)) {
             curItem = itemAt(temp, QTransform());
-            if ((line = dynamic_cast<QGraphicsLineItem*>(curItem))) {
-                *x=temp.x();
-                *y=temp.y();
+            if ((line = dynamic_cast<QGraphicsLineItem *>(curItem))) {
+                *x = temp.x();
+                *y = temp.y();
                 return line;
             }
         }
@@ -100,18 +112,19 @@ QGraphicsLineItem* Canvas::detectLine(int *x, int *y){
     return nullptr;
 }
 
-bool Canvas::detectRobot(int *x, int *y){
+bool Canvas::detectRobot(int *x, int *y)
+{
     QGraphicsItem *curItem;
     Robot *robot;
     PixelSpiral search(this);
-    QPoint temp(*x,*y);
+    QPoint temp(*x, *y);
     search.setStart(temp);
     search.setRadius(ROBOT_SEARCH_RADIUS);
-    while(search.hasNext()) {
+    while (search.hasNext()) {
         temp = search.nextPixel();
-        if (this->inBounds(temp, ROBOT_SEARCH_RADIUS)){
+        if (this->inBounds(temp, ROBOT_SEARCH_RADIUS)) {
             curItem = itemAt(temp, QTransform());
-            if ((robot = dynamic_cast<Robot*>(curItem))) {
+            if ((robot = dynamic_cast<Robot *>(curItem))) {
                 return true;
             }
         }
@@ -123,7 +136,7 @@ bool Canvas::detectRobot(int *x, int *y){
 void Canvas::errorMsg(int error)
 {
     QMessageBox msgBox;
-    switch(error){
+    switch (error) {
     case 0:
         msgBox.setText("Error: Please add a line before adding a robot.");
         break;
@@ -143,9 +156,10 @@ void Canvas::errorMsg(int error)
     msgBox.exec();
 }
 
-bool Canvas::inBounds(QPoint checkPixel, int buffer){
-    if (checkPixel.x() >= 0 + buffer && checkPixel.x() <= this->sceneRect().width()-buffer &&
-            checkPixel.y() >= 0 + buffer && checkPixel.y() <= this->sceneRect().height()-buffer) {
+bool Canvas::inBounds(QPoint checkPixel, int buffer)
+{
+    if (checkPixel.x() >= 0 + buffer && checkPixel.x() <= this->sceneRect().width() - buffer
+        && checkPixel.y() >= 0 + buffer && checkPixel.y() <= this->sceneRect().height() - buffer) {
         return true;
     } else {
         return false;

@@ -2,15 +2,14 @@
 #define PATHLINE_H
 
 #include <QGraphicsLineItem>
-#include <QPoint>
-#include <QGraphicsScene>
-#include <QRectF>
 #include <QGraphicsPolygonItem>
+#include <QGraphicsScene>
+#include <QPoint>
+#include <QRectF>
 #include <QWidget>
 
 class pathLine : public QGraphicsLineItem
 {
-
 protected:
     QGraphicsPolygonItem *makeArrow(QPoint Location, int bearing);
 
@@ -37,7 +36,7 @@ public:
 };
 
 class west : public pathLine {
-    \
+
 public:
     west(QPoint location, QRectF bounds);
 };
