@@ -163,7 +163,7 @@ void Robot::collisionDetectionNorth()
     QPointF radar = pos();
     int overflow = 0;
 
-    for (int j = -RADAR_SEARCH_AHEAD; j <= RADAR_SEARCH_INTER; j++) {
+    for (int j = -RADAR_SEARCH_INTER; j <= RADAR_SEARCH_INTER; j++) {
         for (int i = 0; i < RADAR_SEARCH_AHEAD; i++) {
             if (radar.y() - i < NORTH_BORDER) {
                 overflow++;
