@@ -9,7 +9,7 @@
 class Robot : public QGraphicsItem
 {
 public:
-    explicit Robot(int, int, QGraphicsLineItem *, QString);
+    explicit Robot(int, int, pathLine *, QString);
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setSpeed(double);
@@ -39,7 +39,7 @@ private:
     int x;
     int y;
     QString type;
-    QGraphicsLineItem *line;
+    pathLine *line;
 };
 
 #endif // MYITEM_H

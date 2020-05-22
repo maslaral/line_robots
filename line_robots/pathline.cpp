@@ -49,6 +49,10 @@ north::north(QPoint location, QRectF bounds)
     myArrowHead->setParentItem(this);
 }
 
+QPointF north::getSnapPoint(QPointF nearPoint){
+    return QPointF(this->line().x1(), nearPoint.y());
+}
+
 south::south(QPoint location, QRectF bounds)
 {
     QPoint top;
@@ -64,6 +68,10 @@ south::south(QPoint location, QRectF bounds)
     bottom.setY(bottom.y() + 5);
     myArrowHead = makeArrow(bottom, 180);
     myArrowHead->setParentItem(this);
+}
+
+QPointF south::getSnapPoint(QPointF nearPoint){
+    return QPointF(this->line().x1(), nearPoint.y());
 }
 
 west::west(QPoint location, QRectF bounds)
@@ -83,6 +91,10 @@ west::west(QPoint location, QRectF bounds)
     myArrowHead->setParentItem(this);
 }
 
+QPointF west::getSnapPoint(QPointF nearPoint){
+    return QPointF(nearPoint.x(), this->line().y1());
+}
+
 east::east(QPoint location, QRectF bounds)
 {
     QPoint left;
@@ -98,4 +110,8 @@ east::east(QPoint location, QRectF bounds)
     right.setX(right.x() + 5);
     myArrowHead = makeArrow(right, 90);
     myArrowHead->setParentItem(this);
+}
+
+QPointF east::getSnapPoint(QPointF nearPoint){
+    return QPointF(nearPoint.x(), this->line().y1());
 }
