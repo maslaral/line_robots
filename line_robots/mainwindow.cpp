@@ -56,4 +56,6 @@ void MainWindow::setPause(bool timerActive)
 void MainWindow::on_butClear_clicked()
 {
     clearData();
+    this->timer->stop();
+    this->setPause(false);
 }
