@@ -161,8 +161,8 @@ void Canvas::errorMsg(int error)
 
 bool Canvas::inBounds(QPoint checkPixel, int buffer)
 {
-    if (checkPixel.x() >= 0 + buffer && checkPixel.x() <= this->sceneRect().width() - buffer
-        && checkPixel.y() >= 0 + buffer && checkPixel.y() <= this->sceneRect().height() - buffer) {
+    if (checkPixel.x() >= 30 + buffer && checkPixel.x() <= this->sceneRect().width() - buffer
+        && checkPixel.y() >= 30 + buffer && checkPixel.y() <= this->sceneRect().height() - buffer) {
         return true;
     } else {
         return false;
