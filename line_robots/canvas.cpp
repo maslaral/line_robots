@@ -2,7 +2,11 @@
 #include "pathline.h"
 #include "pixelspiral.h"
 #include "ui_mainwindow.h"
+#include <QColorDialog>
+#include <QComboBox>
 #include <QDebug>
+#include <QDialogButtonBox>
+#include <QFormLayout>
 #include <QGraphicsItem>
 #include <QGraphicsSceneMouseEvent>
 #include <QMimeData>
@@ -57,13 +61,13 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
                     event->ignore();
                     errorMsg(4);
                 } else {
-                    setSpeedBox();
-                    Robot *newRobot = new Robot(x, y, lineDroppedOn, dragObjectType);
-                    newRobot->setSpeed(roboticSpeed);
-                    newRobot->setZValue(1);
-                    addItem(newRobot);
-                    qDebug()<<lineDroppedOn->line();
-                    qDebug()<<newRobot->pos();
+                    if (setRobotProperties()) {
+                        Robot *newRobot = new Robot(x, y, lineDroppedOn, dragObjectType);
+                        newRobot->setSpeed(roboticSpeed);
+                        newRobot->setColor(roboticColor);
+                        newRobot->setZValue(1);
+                        addItem(newRobot);
+                    }
                 }
             } else if (lineDroppedOn == nullptr
                        && items().count()
@@ -81,16 +85,41 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
     }
 }
 
-double Canvas::setSpeedBox()
+bool Canvas::setRobotProperties()
 {
-    QInputDialog speedBox;
-    speedBox.setLabelText("Select the speed of the robot you are dropping.");
-    speedBox.setInputMode(QInputDialog::IntInput);
-    speedBox.setIntRange(1, 15);
-    speedBox.exec();
-    tempSpeed = speedBox.intValue();
-    roboticSpeed = static_cast<double>(tempSpeed);
-    return roboticSpeed;
+    QDialog robotCustomization;
+    QVBoxLayout vbox(&robotCustomization);
+    QInputDialog speedEdit;
+    QColorDialog colorEdit;
+
+    colorEdit.setOptions(QColorDialog::DontUseNativeDialog | QColorDialog::NoButtons);
+    colorEdit.setCurrentColor(Qt::black);
+    speedEdit.setOptions(QInputDialog::NoButtons);
+
+    speedEdit.setLabelText("Robot Speed: ");
+    speedEdit.setInputMode(QInputDialog::IntInput);
+    speedEdit.setIntRange(1, 15);
+
+    QDialogButtonBox buttonBox(QDialogButtonBox::Ok | QDialogButtonBox::Cancel,
+                               Qt::Horizontal,
+                               &robotCustomization);
+
+    QObject::connect(&buttonBox, SIGNAL(accepted()), &robotCustomization, SLOT(accept()));
+    QObject::connect(&buttonBox, SIGNAL(rejected()), &robotCustomization, SLOT(reject()));
+
+    vbox.addWidget(&speedEdit);
+    vbox.addWidget(&colorEdit);
+    vbox.addWidget(&buttonBox);
+
+    robotCustomization.setLayout(&vbox);
+
+    if (robotCustomization.exec() == QDialog::Accepted) {
+        roboticSpeed = speedEdit.intValue();
+        roboticColor = colorEdit.currentColor();
+        return true;
+    } else {
+        return false;
+    }
 }
 
 pathLine *Canvas::detectLine(int *x, int *y)

@@ -13,6 +13,7 @@ public:
     QRectF boundingRect() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setSpeed(double);
+    void setColor(QColor);
 
 protected:
     void advance(int phase);
@@ -40,6 +41,7 @@ private:
     int y;
     QString type;
     pathLine *line;
+    QColor color;
 };
 
 #endif // MYITEM_H
