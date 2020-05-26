@@ -32,6 +32,8 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->speed, SIGNAL(valueChanged(int)), timer, SLOT(setFrameRate(int)));
     connect(timer, SIGNAL(isRunning(bool)), ui->lineMenu, SLOT(setDisabled(bool)));
     connect(timer, SIGNAL(isRunning(bool)), ui->robotMenu, SLOT(setDisabled(bool)));
+    connect(timer, SIGNAL(isRunning(bool)), ui->butUndo, SLOT(setDisabled(bool)));
+    connect(timer, SIGNAL(isRunning(bool)), ui->butRedo, SLOT(setDisabled(bool)));
 }
 
 void MainWindow::clearData()
