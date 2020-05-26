@@ -62,6 +62,8 @@ void MainWindow::on_butClear_clicked()
     clearData();
     this->timer->stop();
     this->setPause(false);
+    ui->lineMenu->setEnabled(true);
+    ui->robotMenu->setEnabled(true);
 }
 
 void MainWindow::on_butUndo_clicked()

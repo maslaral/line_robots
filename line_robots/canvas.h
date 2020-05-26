@@ -22,6 +22,7 @@ public:
     void errorMsg(int error);
     double setSpeedBox();
     QUndoStack *undoStack = nullptr;
+    bool setRobotProperties();
 
 private:
     const int LINE_SEARCH_RADIUS = 30;
@@ -30,8 +31,8 @@ private:
     bool detectRobot(int *x, int *y);
     QMenu *myItemMenu;
     bool inBounds(QPoint checkPixel, int buffer);
-    double roboticSpeed;
-    int tempSpeed;
+    int roboticSpeed;
+    QColor roboticColor;
 };
 
 #endif // CANVAS_H
