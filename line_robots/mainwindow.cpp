@@ -61,3 +61,13 @@ void MainWindow::on_butClear_clicked()
     this->timer->stop();
     this->setPause(false);
 }
+
+void MainWindow::on_butUndo_clicked()
+{
+    scene->undoStack->undo();
+}
+
+void MainWindow::on_butRedo_clicked()
+{
+    scene->undoStack->redo();
+}
