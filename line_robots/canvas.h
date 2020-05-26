@@ -2,6 +2,7 @@
 #define CANVAS_H
 
 #include "pathline.h"
+#include "commandadd.h"
 #include <robot.h>
 #include <QGraphicsLineItem>
 #include <QGraphicsScene>
@@ -9,6 +10,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QPoint>
+#include <QUndoStack>
 
 class Canvas : public QGraphicsScene
 {
@@ -18,6 +20,8 @@ public:
     void dragMoveEvent(QGraphicsSceneDragDropEvent *event) override;
     void dropEvent(QGraphicsSceneDragDropEvent *event) override;
     void errorMsg(int error);
+    double setSpeedBox();
+    QUndoStack *undoStack = nullptr;
     bool setRobotProperties();
 
 private:

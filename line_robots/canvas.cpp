@@ -15,6 +15,7 @@
 Canvas::Canvas(QMenu *itemMenu, QObject *parent) : QGraphicsScene(parent)
 {
     myItemMenu = itemMenu;
+    undoStack = new QUndoStack(this);
 }
 
 void Canvas::dragEnterEvent(QGraphicsSceneDragDropEvent *event)
@@ -50,7 +51,7 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
             newLine->setPen(QPen(Qt::black, 3));
             newLine->setAcceptDrops(true);
             newLine->setZValue(-1);
-            addItem(newLine);
+            undoStack->push(new CommandAdd(this, newLine, undoStack));
 
         } else if (dragObjectType.contains("Robot")) { // dragging a robot object onto the canvas
             pathLine *lineDroppedOn = detectLine(&x, &y);
@@ -65,7 +66,8 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
                         newRobot->setSpeed(roboticSpeed);
                         newRobot->setColor(roboticColor);
                         newRobot->setZValue(1);
-                        addItem(newRobot);
+                        undoStack->push(new CommandAdd(this, newRobot, undoStack));
+                      
                     }
                 }
             } else if (lineDroppedOn == nullptr
