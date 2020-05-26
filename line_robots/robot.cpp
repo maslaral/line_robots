@@ -52,7 +52,7 @@ void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
     QPolygonF diamond = boundingDiamond();
     QPolygonF triangle = boundingTriangle();
 
-    painter->setPen(Qt::black);
+    painter->setPen(Qt::NoPen);
     painter->setBrush(this->color);
 
     if (this->type == "Circle Robot") {
