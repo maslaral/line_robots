@@ -3,7 +3,6 @@
 #include "pixelspiral.h"
 #include "ui_mainwindow.h"
 #include <QColorDialog>
-#include <QComboBox>
 #include <QDebug>
 #include <QDialogButtonBox>
 #include <QFormLayout>
