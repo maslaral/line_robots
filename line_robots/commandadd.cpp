@@ -1,13 +1,18 @@
 #include "commandadd.h"
 
-CommandAdd::CommandAdd(QGraphicsScene *scene, QGraphicsItem *item)
+CommandAdd::CommandAdd(QGraphicsScene *scene, QGraphicsItem *item, QUndoStack *undoStack)
 {
     mScene = scene;
     mItem = item;
+    mUndoStack = undoStack;
 }
 void CommandAdd::undo()
 {
-    mScene->removeItem(mItem);
+    if (mUndoStack->count() == 0){
+        return;
+    } else {
+        mScene->removeItem(mItem);
+    }
 }
 
 void CommandAdd::redo()

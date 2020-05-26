@@ -39,6 +39,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 void MainWindow::clearData()
 {
     scene->clear();
+    scene->undoStack->clear();
 }
 
 MainWindow::~MainWindow()
