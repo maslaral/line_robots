@@ -31,12 +31,11 @@ void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 {
     QRectF rec = boundingRect();
     painter->setPen(Qt::black);
+    painter->setBrush(this->color);
 
     if (this->type == "Circle Robot") {
-        painter->setBrush(Qt::green);
         painter->drawEllipse(rec);
     } else if (this->type == "Square Robot") {
-        painter->setBrush(Qt::blue);
         painter->drawRect(rec);
     }
 }
@@ -44,6 +43,11 @@ void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 void Robot::setSpeed(double barspeed)
 {
     speed = barspeed;
+}
+
+void Robot::setColor(QColor color)
+{
+    this->color = color;
 }
 
 void Robot::advance(int phase)
