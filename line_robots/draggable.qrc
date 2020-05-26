@@ -7,5 +7,7 @@
         <file>images/up.png</file>
         <file>images/circle.png</file>
         <file>images/square.png</file>
+        <file>images/diamond.png</file>
+        <file>images/triangle.png</file>
     </qresource>
 </RCC>

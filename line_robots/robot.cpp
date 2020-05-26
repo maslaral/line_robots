@@ -27,9 +27,31 @@ QRectF Robot::boundingRect() const
     return QRect(-10, -10, 20, 20);
 }
 
+QPolygonF Robot::boundingDiamond() const
+{
+    QPolygonF diamond;
+    diamond.append(QPointF(0, 12));
+    diamond.append(QPointF(-12, 0));
+    diamond.append(QPointF(0, -12));
+    diamond.append(QPointF(12, 0));
+    return diamond;
+}
+
+QPolygonF Robot::boundingTriangle() const
+{
+    QPolygonF triangle;
+    triangle.append(QPointF(12, 12));
+    triangle.append(QPointF(12, -12));
+    triangle.append(QPointF(-12, 0));
+    return triangle;
+}
+
 void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QRectF rec = boundingRect();
+    QPolygonF diamond = boundingDiamond();
+    QPolygonF triangle = boundingTriangle();
+
     painter->setPen(Qt::black);
     painter->setBrush(this->color);
 
@@ -37,6 +59,10 @@ void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
         painter->drawEllipse(rec);
     } else if (this->type == "Square Robot") {
         painter->drawRect(rec);
+    } else if (this->type == "Diamond Robot") {
+        painter->drawPolygon(diamond);
+    } else if (this->type == "Triangle Robot") {
+        painter->drawPolygon(triangle);
     }
 }
 
