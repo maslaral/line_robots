@@ -130,7 +130,7 @@ void Robot::collisionDetectionEast()
                 if (!(radar.x() + i > EAST_BORDER)) {
                     radar.setX(radar.x() + i); // otherwise, just look ahead
                 } else {      // if greater than border, radar should look
-                    overflow += 1;                      // "around the corner" to the other side of
+                    overflow += 2;                      // "around the corner" to the other side of
                     radar.setX(WEST_BORDER + overflow); // of the canvas
                 }
 
@@ -170,7 +170,7 @@ void Robot::collisionDetectionWest()
                 if (!(radar.x() - i < WEST_BORDER)) {
                     radar.setX(radar.x() - i);
                 } else {
-                    overflow += 1;
+                    overflow += 2;
                     radar.setX(EAST_BORDER - overflow);
                 }
 
@@ -211,7 +211,7 @@ void Robot::collisionDetectionNorth()
                 if (!(radar.y() - i < NORTH_BORDER)) {
                     radar.setY(radar.y() - i);
                 } else {
-                    overflow++;
+                    overflow += 2;
                     radar.setY(SOUTH_BORDER - overflow);
                 }
 
@@ -251,7 +251,7 @@ void Robot::collisionDetectionSouth()
                 if (!(radar.y() + i > SOUTH_BORDER)) {
                     radar.setY(radar.y() + i);
                 } else {
-                    overflow++;
+                    overflow += 2;
                     radar.setY(NORTH_BORDER + overflow);
                 }
 
