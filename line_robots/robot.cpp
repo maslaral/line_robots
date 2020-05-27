@@ -284,14 +284,14 @@ bool Robot::avoidIntersectionCollision(QGraphicsItem *curItem)
 {
     Robot *robot;
 
-    if ((robot = dynamic_cast<Robot *>(curItem)) && (line != robot->line)) {
-        if (robot->speed >= speed) {
+    if (!(!(robot = dynamic_cast<Robot *>(curItem)) || !(line != robot->line))) {
+            if (!(robot->speed >= speed))
+                return true;
             saveSpeed();
             speed = 0;
+            return true;
         }
-        return true;
-    }
-    return false;
+  return false;
 }
 
 bool Robot::avoidLineCollision(QGraphicsItem *curItem)
@@ -316,7 +316,8 @@ bool Robot::avoidLineCollision(QGraphicsItem *curItem)
                 else
                 {
                 }
-            } else {
+            }
+            else {
                 speed = robot->speed;
                 saveSpeed();
                 return true;
