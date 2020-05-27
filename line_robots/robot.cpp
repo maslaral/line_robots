@@ -300,15 +300,21 @@ bool Robot::avoidLineCollision(QGraphicsItem *curItem)
 
     if ((robot = dynamic_cast<Robot *>(curItem)) && (line == robot->line))
         {
-            if (!(speed > robot->speed)) {
+            if (!(speed > robot->speed))
+            {
                 if (speed == 0) {
-                    if (!(robot->speed == 0)) {}
+                    if (!(robot->speed == 0))
+                    {
+                        return false;
+                    }
                     else
                     {
                         restoreSpeed();
                         return true;
                     }
-                } else {
+                }
+                else
+                {
                 }
             } else {
                 speed = robot->speed;
