@@ -135,17 +135,22 @@ void Robot::collisionDetectionEast()
 
         curItem = scene()->itemAt(radar, QTransform());
 
-        if (avoidLineCollision(curItem)) {
+        bool lineCollision = avoidLineCollision(curItem);
+        bool interCollision = avoidIntersectionCollision(curItem);
+
+        if (lineCollision || interCollision) {
+        //if (avoidLineCollision(curItem)) {
             return;
         }
 
-        radar = pos(); // reset the radar to current position
-        overflow = 0;  // reset the overflow value
+        radar = pos();
+        overflow = 0;
     }
 
-    if (speed == 0) {   // if speed was set to 0
-        restoreSpeed(); // restore it to the value stored in tempSpeed
+    if (speed == 0) {
+        restoreSpeed();
     }
+    overflow = 0;
 }
 
 void Robot::collisionDetectionWest()
@@ -164,7 +169,11 @@ void Robot::collisionDetectionWest()
 
         curItem = scene()->itemAt(radar, QTransform());
 
-        if (avoidLineCollision(curItem)) {
+        bool lineCollision = avoidLineCollision(curItem);
+        bool interCollision = avoidIntersectionCollision(curItem);
+
+        if (lineCollision || interCollision) {
+        //if (avoidLineCollision(curItem)) {
             return;
         }
 
@@ -175,6 +184,7 @@ void Robot::collisionDetectionWest()
     if (speed == 0) {
         restoreSpeed();
     }
+    overflow = 0;
 }
 
 void Robot::collisionDetectionNorth()
@@ -193,7 +203,11 @@ void Robot::collisionDetectionNorth()
 
         curItem = scene()->itemAt(radar, QTransform());
 
-        if (avoidLineCollision(curItem)) {
+        bool lineCollision = avoidLineCollision(curItem);
+        bool interCollision = avoidIntersectionCollision(curItem);
+
+        if (lineCollision || interCollision) {
+        //if (avoidLineCollision(curItem)) {
             return;
         }
 
@@ -204,6 +218,7 @@ void Robot::collisionDetectionNorth()
     if (speed == 0) {
         restoreSpeed();
     }
+    overflow = 0;
 }
 
 void Robot::collisionDetectionSouth()
@@ -222,7 +237,11 @@ void Robot::collisionDetectionSouth()
 
         curItem = scene()->itemAt(radar, QTransform());
 
-        if (avoidLineCollision(curItem)) {
+        bool lineCollision = avoidLineCollision(curItem);
+        bool interCollision = avoidIntersectionCollision(curItem);
+
+        if (lineCollision || interCollision) {
+        //if (avoidLineCollision(curItem)) {
             return;
         }
 
@@ -233,6 +252,7 @@ void Robot::collisionDetectionSouth()
     if (speed == 0) {
         restoreSpeed();
     }
+    overflow = 0;
 }
 
 bool Robot::avoidIntersectionCollision(QGraphicsItem *curItem)
