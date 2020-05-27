@@ -142,9 +142,10 @@ void Robot::collisionDetectionEast()
 
             // checks if there is a line or intersection collision and adjusts
             // if it does adjust, then we can exit the function with a return
-            if (lineCollision || interCollision) {
-                return;
-            }
+            if (!lineCollision && !interCollision) {}
+                else {
+                    return;
+                }
 
             radar = pos(); // reset the radar to current position
         }
@@ -177,9 +178,10 @@ void Robot::collisionDetectionWest()
             bool lineCollision = avoidLineCollision(curItem);
             bool interCollision = avoidIntersectionCollision(curItem);
 
-            if (lineCollision || interCollision) {
-                return;
-            }
+            if (!lineCollision && !interCollision) {}
+                else {
+                    return;
+                }
 
             radar = pos();
 
@@ -212,9 +214,10 @@ void Robot::collisionDetectionNorth()
             bool lineCollision = avoidLineCollision(curItem);
             bool interCollision = avoidIntersectionCollision(curItem);
 
-            if (lineCollision || interCollision) {
-                return;
-            }
+            if (!lineCollision && !interCollision) {}
+                else {
+                    return;
+                }
 
             radar = pos();
         }
@@ -246,9 +249,10 @@ void Robot::collisionDetectionSouth()
             bool lineCollision = avoidLineCollision(curItem);
             bool interCollision = avoidIntersectionCollision(curItem);
 
-            if (lineCollision || interCollision) {
-                return;
-            }
+            if (!lineCollision && !interCollision) {}
+                else {
+                    return;
+                }
 
             radar = pos();
         }
