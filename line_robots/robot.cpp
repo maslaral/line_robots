@@ -130,7 +130,7 @@ void Robot::collisionDetectionEast()
                 if (!(radar.x() + i > EAST_BORDER)) {
                     radar.setX(radar.x() + i); // otherwise, just look ahead
                 } else {      // if greater than border, radar should look
-                    overflow += 2;                      // "around the corner" to the other side of
+                    overflow += 5;                      // "around the corner" to the other side of
                     radar.setX(WEST_BORDER + overflow); // of the canvas
                 }
 
@@ -170,7 +170,7 @@ void Robot::collisionDetectionWest()
                 if (!(radar.x() - i < WEST_BORDER)) {
                     radar.setX(radar.x() - i);
                 } else {
-                    overflow += 2;
+                    overflow += 5;
                     radar.setX(EAST_BORDER - overflow);
                 }
 
@@ -211,7 +211,7 @@ void Robot::collisionDetectionNorth()
                 if (!(radar.y() - i < NORTH_BORDER)) {
                     radar.setY(radar.y() - i);
                 } else {
-                    overflow += 2;
+                    overflow += 5;
                     radar.setY(SOUTH_BORDER - overflow);
                 }
 
@@ -251,7 +251,7 @@ void Robot::collisionDetectionSouth()
                 if (!(radar.y() + i > SOUTH_BORDER)) {
                     radar.setY(radar.y() + i);
                 } else {
-                    overflow += 2;
+                    overflow += 5;
                     radar.setY(NORTH_BORDER + overflow);
                 }
 
@@ -298,16 +298,24 @@ bool Robot::avoidLineCollision(QGraphicsItem *curItem)
 {
     Robot *robot;
 
-    if ((robot = dynamic_cast<Robot *>(curItem)) && (line == robot->line)) {
-        if (speed > robot->speed) {
-            speed = robot->speed;
-            saveSpeed();
-            return true;
-        } else if (speed == 0 && robot->speed == 0) {
-            restoreSpeed();
-            return true;
+    if ((robot = dynamic_cast<Robot *>(curItem)) && (line == robot->line))
+        {
+            if (!(speed > robot->speed)) {
+                if (speed == 0) {
+                    if (!(robot->speed == 0)) {}
+                    else
+                    {
+                        restoreSpeed();
+                        return true;
+                    }
+                } else {
+                }
+            } else {
+                speed = robot->speed;
+                saveSpeed();
+                return true;
+            }
         }
-    }
 
     return false;
 }
