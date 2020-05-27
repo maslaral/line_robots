@@ -27,23 +27,53 @@ QRectF Robot::boundingRect() const
     return QRect(-10, -10, 20, 20);
 }
 
+QPolygonF Robot::boundingDiamond() const
+{
+    QPolygonF diamond;
+    diamond.append(QPointF(0, 12));
+    diamond.append(QPointF(-12, 0));
+    diamond.append(QPointF(0, -12));
+    diamond.append(QPointF(12, 0));
+    return diamond;
+}
+
+QPolygonF Robot::boundingTriangle() const
+{
+    QPolygonF triangle;
+    triangle.append(QPointF(12, 12));
+    triangle.append(QPointF(12, -12));
+    triangle.append(QPointF(-12, 0));
+    return triangle;
+}
+
 void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
     QRectF rec = boundingRect();
-    painter->setPen(Qt::black);
+    QPolygonF diamond = boundingDiamond();
+    QPolygonF triangle = boundingTriangle();
+
+    painter->setPen(Qt::NoPen);
+    painter->setBrush(this->color);
 
     if (this->type == "Circle Robot") {
-        painter->setBrush(Qt::green);
         painter->drawEllipse(rec);
     } else if (this->type == "Square Robot") {
-        painter->setBrush(Qt::blue);
         painter->drawRect(rec);
+    } else if (this->type == "Diamond Robot") {
+        painter->drawPolygon(diamond);
+    } else if (this->type == "Triangle Robot") {
+        painter->drawPolygon(triangle);
     }
 }
 
 void Robot::setSpeed(double barspeed)
 {
     speed = barspeed;
+}
+
+void Robot::setColor(QColor color)
+{
+    this->color = color;
 }
 
 void Robot::advance(int phase)
@@ -73,7 +103,7 @@ void Robot::boundaryDetection()
 {
     // boundary for moving east
     if (this->pos().x() >= 554) {
-        setPos(35, y);
+        setPos(30, y);
     }
     // boundary for moving west
     else if (this->pos().x() <= 30) {
@@ -95,33 +125,35 @@ void Robot::collisionDetectionEast()
     QPointF radar = pos();
     int overflow = 0;
 
-    for (int i = 0; i <= RADAR_SEARCH_AHEAD; i++) {
-        if (radar.x() + i > EAST_BORDER) {      // if greater than border, radar should look
-            overflow += 1;                      // "around the corner" to the other side of
-            radar.setX(WEST_BORDER + overflow); // of the canvas
-        } else {
-            radar.setX(radar.x() + i); // otherwise, just look ahead
+    for (int j = -RADAR_SEARCH_INTER; j <= RADAR_SEARCH_INTER; j++) {
+        for (int i = 0; i <= RADAR_SEARCH_AHEAD; i++) {
+            if (radar.x() + i > EAST_BORDER) {      // if greater than border, radar should look
+                overflow += 1;                      // "around the corner" to the other side of
+                radar.setX(WEST_BORDER + overflow); // of the canvas
+            } else {
+                radar.setX(radar.x() + i); // otherwise, just look ahead
+            }
+
+            radar.setY(radar.y() + j);
+            curItem = scene()->itemAt(radar, QTransform());
+
+            bool lineCollision = avoidLineCollision(curItem);
+            bool interCollision = avoidIntersectionCollision(curItem);
+
+            // checks if there is a line or intersection collision and adjusts
+            // if it does adjust, then we can exit the function with a return
+            if (lineCollision || interCollision) {
+                return;
+            }
+
+            radar = pos(); // reset the radar to current position
         }
-
-        curItem = scene()->itemAt(radar, QTransform());
-
-        bool lineCollision = avoidLineCollision(curItem);
-        bool interCollision = avoidIntersectionCollision(curItem);
-
-        if (lineCollision || interCollision) {
-            //if (avoidLineCollision(curItem))
-            //{
-            //      return;
-            //}
-        }
-
-        radar = pos(); // reset the radar to current position
-        overflow = 0;  // reset the overflow value
+        overflow = 0; // reset the overflow value
     }
-
     if (speed == 0) {   // if speed was set to 0
         restoreSpeed(); // restore it to the value stored in tempSpeed
     }
+    overflow = 0;
 }
 
 void Robot::collisionDetectionWest()
@@ -130,31 +162,30 @@ void Robot::collisionDetectionWest()
     QPointF radar = pos();
     int overflow = 0;
 
-    for (int i = 0; i <= RADAR_SEARCH_AHEAD; i++) {
-        if (radar.x() - i < WEST_BORDER) {
-            overflow += 1;
-            radar.setX(EAST_BORDER - overflow);
-        } else {
-            radar.setX(radar.x() - i);
+    for (int j = -RADAR_SEARCH_INTER; j <= RADAR_SEARCH_INTER; j++) {
+        for (int i = 0; i <= RADAR_SEARCH_AHEAD; i++) {
+            if (radar.x() - i < WEST_BORDER) {
+                overflow += 1;
+                radar.setX(EAST_BORDER - overflow);
+            } else {
+                radar.setX(radar.x() - i);
+            }
+
+            radar.setY(radar.y() + j);
+            curItem = scene()->itemAt(radar, QTransform());
+
+            bool lineCollision = avoidLineCollision(curItem);
+            bool interCollision = avoidIntersectionCollision(curItem);
+
+            if (lineCollision || interCollision) {
+                return;
+            }
+
+            radar = pos();
+
         }
-
-        curItem = scene()->itemAt(radar, QTransform());
-
-        bool lineCollision = avoidLineCollision(curItem);
-        bool interCollision = avoidIntersectionCollision(curItem);
-
-        if (lineCollision || interCollision) {
-            //if (avoidLineCollision(curItem))
-            //{
-            //      return;
-            //}
-        }
-
-
         radar = pos();
-        overflow = 0;
     }
-
     if (speed == 0) {
         restoreSpeed();
     }
@@ -166,31 +197,29 @@ void Robot::collisionDetectionNorth()
     QPointF radar = pos();
     int overflow = 0;
 
-    for (int i = 0; i < RADAR_SEARCH_AHEAD; i++) {
-        if (radar.y() - i < NORTH_BORDER) {
-            overflow++;
-            radar.setY(SOUTH_BORDER - overflow);
-        } else {
-            radar.setY(radar.y() - i);
+    for (int j = -RADAR_SEARCH_AHEAD; j <= RADAR_SEARCH_INTER; j++) {
+        for (int i = 0; i < RADAR_SEARCH_AHEAD; i++) {
+            if (radar.y() - i < NORTH_BORDER) {
+                overflow++;
+                radar.setY(SOUTH_BORDER - overflow);
+            } else {
+                radar.setY(radar.y() - i);
+            }
+
+            radar.setX(radar.x() + j);
+            curItem = scene()->itemAt(radar, QTransform());
+
+            bool lineCollision = avoidLineCollision(curItem);
+            bool interCollision = avoidIntersectionCollision(curItem);
+
+            if (lineCollision || interCollision) {
+                return;
+            }
+
+            radar = pos();
         }
-
-        curItem = scene()->itemAt(radar, QTransform());
-
-        bool lineCollision = avoidLineCollision(curItem);
-        bool interCollision = avoidIntersectionCollision(curItem);
-
-        if (lineCollision || interCollision) {
-            //if (avoidLineCollision(curItem))
-            //{
-            //      return;
-            //}
-        }
-
-
         radar = pos();
-        overflow = 0;
     }
-
     if (speed == 0) {
         restoreSpeed();
     }
@@ -202,31 +231,29 @@ void Robot::collisionDetectionSouth()
     QPointF radar = pos();
     int overflow = 0;
 
-    for (int i = 0; i < RADAR_SEARCH_AHEAD; i++) {
-        if (radar.y() + i > SOUTH_BORDER) {
-            overflow++;
-            radar.setY(NORTH_BORDER + overflow);
-        } else {
-            radar.setY(radar.y() + i);
+    for (int j = -RADAR_SEARCH_INTER; j <= RADAR_SEARCH_INTER; j++) {
+        for (int i = 0; i < RADAR_SEARCH_AHEAD; i++) {
+            if (radar.y() + i > SOUTH_BORDER) {
+                overflow++;
+                radar.setY(NORTH_BORDER + overflow);
+            } else {
+                radar.setY(radar.y() + i);
+            }
+
+            radar.setX(radar.x() + j);
+            curItem = scene()->itemAt(radar, QTransform());
+
+            bool lineCollision = avoidLineCollision(curItem);
+            bool interCollision = avoidIntersectionCollision(curItem);
+
+            if (lineCollision || interCollision) {
+                return;
+            }
+
+            radar = pos();
         }
-
-        curItem = scene()->itemAt(radar, QTransform());
-
-        bool lineCollision = avoidLineCollision(curItem);
-        bool interCollision = avoidIntersectionCollision(curItem);
-
-        if (lineCollision || interCollision) {
-        //if (avoidLineCollision(curItem))
-        //{
-        //      return;
-        //}
-        }
-
-
         radar = pos();
-        overflow = 0;
     }
-
     if (speed == 0) {
         restoreSpeed();
     }
@@ -237,7 +264,7 @@ bool Robot::avoidIntersectionCollision(QGraphicsItem *curItem)
     Robot *robot;
 
     if ((robot = dynamic_cast<Robot *>(curItem)) && (line != robot->line)) {
-        if (robot->speed >= speed) {
+        if (speed > 0 && robot->speed >= speed) {
             saveSpeed();
             speed = 0;
         }
@@ -255,11 +282,10 @@ bool Robot::avoidLineCollision(QGraphicsItem *curItem)
         if (speed > robot->speed) {
             speed = robot->speed;
             saveSpeed();
-            return true;
         } else if (speed == 0 && robot->speed == 0) {
             restoreSpeed();
-            return true;
         }
+        return true;
     }
 
     return false;

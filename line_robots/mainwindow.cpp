@@ -32,11 +32,14 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     connect(ui->speed, SIGNAL(valueChanged(int)), timer, SLOT(setFrameRate(int)));
     connect(timer, SIGNAL(isRunning(bool)), ui->lineMenu, SLOT(setDisabled(bool)));
     connect(timer, SIGNAL(isRunning(bool)), ui->robotMenu, SLOT(setDisabled(bool)));
+    connect(timer, SIGNAL(isRunning(bool)), ui->butUndo, SLOT(setDisabled(bool)));
+    connect(timer, SIGNAL(isRunning(bool)), ui->butRedo, SLOT(setDisabled(bool)));
 }
 
 void MainWindow::clearData()
 {
     scene->clear();
+    scene->undoStack->clear();
 }
 
 MainWindow::~MainWindow()
@@ -60,4 +63,16 @@ void MainWindow::on_butClear_clicked()
     clearData();
     this->timer->stop();
     this->setPause(false);
+    ui->lineMenu->setEnabled(true);
+    ui->robotMenu->setEnabled(true);
+}
+
+void MainWindow::on_butUndo_clicked()
+{
+    scene->undoStack->undo();
+}
+
+void MainWindow::on_butRedo_clicked()
+{
+    scene->undoStack->redo();
 }

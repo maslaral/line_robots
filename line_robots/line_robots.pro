@@ -17,6 +17,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     canvas.cpp \
+    commandadd.cpp \
     linemenu.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -28,6 +29,7 @@ SOURCES += \
 
 HEADERS += \
     canvas.h \
+    commandadd.h \
     linemenu.h \
     mainwindow.h \
     pathline.h \

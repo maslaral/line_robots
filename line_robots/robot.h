@@ -11,8 +11,11 @@ class Robot : public QGraphicsItem
 public:
     explicit Robot(int, int, pathLine *, QString);
     QRectF boundingRect() const;
+    QPolygonF boundingDiamond() const;
+    QPolygonF boundingTriangle() const;
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setSpeed(double);
+    void setColor(QColor);
 
 protected:
     void advance(int phase);
@@ -40,6 +43,7 @@ private:
     int y;
     QString type;
     pathLine *line;
+    QColor color;
 };
 
 #endif // MYITEM_H

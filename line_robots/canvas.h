@@ -2,6 +2,7 @@
 #define CANVAS_H
 
 #include "pathline.h"
+#include "commandadd.h"
 #include <robot.h>
 #include <QGraphicsLineItem>
 #include <QGraphicsScene>
@@ -9,6 +10,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QPoint>
+#include <QUndoStack>
 
 class Canvas : public QGraphicsScene
 {
@@ -19,6 +21,8 @@ public:
     void dropEvent(QGraphicsSceneDragDropEvent *event) override;
     void errorMsg(int error);
     double setSpeedBox();
+    QUndoStack *undoStack = nullptr;
+    bool setRobotProperties();
 
 private:
     const int LINE_SEARCH_RADIUS = 30;
@@ -27,8 +31,8 @@ private:
     bool detectRobot(int *x, int *y);
     QMenu *myItemMenu;
     bool inBounds(QPoint checkPixel, int buffer);
-    double roboticSpeed;
-    int tempSpeed;
+    int roboticSpeed;
+    QColor roboticColor;
 };
 
 #endif // CANVAS_H

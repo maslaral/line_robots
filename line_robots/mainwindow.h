@@ -30,6 +30,10 @@ private slots:
     // void Mouse_Pressed();
     void setPause(bool isRunning);
 
+    void on_butUndo_clicked();
+
+    void on_butRedo_clicked();
+
 private:
     Ui::MainWindow *ui;
 
