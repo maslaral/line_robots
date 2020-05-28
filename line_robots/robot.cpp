@@ -1,6 +1,8 @@
 #include "robot.h"
 #include "pathline.h"
 #include <QProgressBar>
+#include <chrono>
+#include <thread>
 
 Robot::Robot(int x, int y, pathLine *line, QString type)
 {
@@ -282,9 +284,10 @@ bool Robot::avoidLineCollision(QGraphicsItem *curItem)
         {
             if (!(speed > robot->speed))
             {
-                if (speed == 0) {
-                    if (!(robot->speed == 0))
+                if (speed < 1) {
+                    if (!(robot->speed < 1))
                     {
+
                         return false;
                     }
                     else
