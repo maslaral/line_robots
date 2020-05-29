@@ -104,20 +104,20 @@ void Robot::advance(int phase)
 void Robot::boundaryDetection()
 {
     // boundary for moving east
-    if (this->pos().x() >= 554) {
-        setPos(30, y);
+    if (this->pos().x() >= this->scene()->sceneRect().right()) {
+        setPos(this->scene()->sceneRect().left()+30, y);
     }
     // boundary for moving west
-    else if (this->pos().x() <= 30) {
-        setPos(524, y);
+    else if (this->pos().x() <= this->scene()->sceneRect().left()+30) {
+        setPos(this->scene()->sceneRect().right()-30, y);
     }
     // boundary for moving north
-    else if (this->pos().y() <= 0) {
-        setPos(x, 436);
+    else if (this->pos().y() <= this->scene()->sceneRect().top()) {
+        setPos(x, this->scene()->sceneRect().bottom()-30);
     }
     // boundary for moving south
-    else if (this->pos().y() >= 436) {
-        setPos(x, 30);
+    else if (this->pos().y() >= this->scene()->sceneRect().bottom()-30) {
+        setPos(x, this->scene()->sceneRect().top()+30);
     }
 }
 
