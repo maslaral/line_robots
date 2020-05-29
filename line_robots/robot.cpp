@@ -82,7 +82,7 @@ void Robot::setColor(QColor color)
 
 void Robot::advance(int phase)
 {
-    if (phase)
+    if (phase) // robots move on the action phase, not the prep phase
     {
         // check if at the boundary of board
         this->boundaryDetection();
