@@ -125,7 +125,7 @@ void Robot::boundaryDetection()
 
 void Robot::collisionDetectionEast()
 {
-    //get the robots on the parent line and sort them in the direction of travel
+   /* //get the robots on the parent line and sort them in the direction of travel
     QList<QGraphicsItem *> siblings = this->parentItem()->childItems();
     auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().x() < j->pos().x();};
     std::sort(siblings.begin(),siblings.end(),compare);
@@ -156,7 +156,7 @@ void Robot::collisionDetectionEast()
                 restoreSpeed(); // restore it to the value stored in tempSpeed
             }
         }
-    }
+    }*/
 
     /*QGraphicsItem *curItem;
     QPointF radar = pos();
@@ -187,7 +187,7 @@ void Robot::collisionDetectionEast()
 
 void Robot::collisionDetectionWest()
 {
-    QGraphicsItem *curItem;
+   /* QGraphicsItem *curItem;
     QPointF radar = pos();
     int overflow = 0;
 
@@ -211,12 +211,12 @@ void Robot::collisionDetectionWest()
 
     if (speed == 0) {
         restoreSpeed();
-    }
+    }*/
 }
 
 void Robot::collisionDetectionNorth()
 {
-    QGraphicsItem *curItem;
+    /*QGraphicsItem *curItem;
     QPointF radar = pos();
     int overflow = 0;
 
@@ -240,12 +240,12 @@ void Robot::collisionDetectionNorth()
 
     if (speed == 0) {
         restoreSpeed();
-    }
+    }*/
 }
 
 void Robot::collisionDetectionSouth()
 {
-    QGraphicsItem *curItem;
+    /*QGraphicsItem *curItem;
     QPointF radar = pos();
     int overflow = 0;
 
@@ -269,7 +269,7 @@ void Robot::collisionDetectionSouth()
 
     if (speed == 0) {
         restoreSpeed();
-    }
+    }*/
 }
 
 bool Robot::avoidIntersectionCollision(QGraphicsItem *curItem)
