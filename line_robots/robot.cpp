@@ -1,6 +1,8 @@
 #include "robot.h"
 #include "pathline.h"
 #include <QProgressBar>
+#include <QList>
+#include <algorithm>
 
 Robot::Robot(int x, int y, pathLine *line, QString type)
 {
@@ -80,24 +82,24 @@ void Robot::setColor(QColor color)
 
 void Robot::advance(int phase)
 {
-    if (!phase)
-        return;
+    if (phase)
+    {
+        // check if at the boundary of board
+        this->boundaryDetection();
 
-    // check if at the boundary of board
-    this->boundaryDetection();
-
-    if (line->line().p2().x() - line->line().p1().x() > 0) {
-        collisionDetectionEast();
-        setPos(mapToParent(0, (-speed)));
-    } else if (line->line().p2().x() - line->line().p1().x() < 0) {
-        collisionDetectionWest();
-        setPos(mapToParent(0, speed));
-    } else if (line->line().p2().y() - line->line().p1().y() < 0) {
-        collisionDetectionNorth();
-        setPos(mapToParent((-speed), 0));
-    } else {
-        collisionDetectionSouth();
-        setPos(mapToParent((speed), 0));
+        if (line->line().p2().x() - line->line().p1().x() > 0) {
+            //collisionDetectionEast();
+            setPos(mapToParent(0, (-speed)));
+        } else if (line->line().p2().x() - line->line().p1().x() < 0) {
+            //collisionDetectionWest();
+            setPos(mapToParent(0, speed));
+        } else if (line->line().p2().y() - line->line().p1().y() < 0) {
+            //collisionDetectionNorth();
+            setPos(mapToParent((-speed), 0));
+        } else {
+            //collisionDetectionSouth();
+            setPos(mapToParent((speed), 0));
+        }
     }
 }
 
@@ -123,7 +125,40 @@ void Robot::boundaryDetection()
 
 void Robot::collisionDetectionEast()
 {
-    QGraphicsItem *curItem;
+    //get the robots on the parent line and sort them in the direction of travel
+    QList<QGraphicsItem *> siblings = this->parentItem()->childItems();
+    auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().x() < j->pos().x();};
+    std::sort(siblings.begin(),siblings.end(),compare);
+
+    //find the robot ahead of this one
+    auto it = siblings.begin();
+    while (it != siblings.end() && (*it)->pos().x() <= this->pos().x())
+    {
+        ++it;
+    }
+    if (it == siblings.end())
+    {
+        it = siblings.begin();
+    }
+    if ((*it)->pos().x() == this->pos().x()) {
+        return;
+    }
+    else
+    {   //check how far away the leading robot is and adjust speed if needed
+        int clearAhead = (*it)->pos().x() - this->pos().x();
+        clearAhead += this->scene()->sceneRect().right();
+        clearAhead %= static_cast<int>(this->scene()->sceneRect().right());
+
+        if (clearAhead <= RADAR_SEARCH_AHEAD)
+        {
+            avoidLineCollision(*it,1);
+            if (speed == 0) {   // if speed was set to 0
+                restoreSpeed(); // restore it to the value stored in tempSpeed
+            }
+        }
+    }
+
+    /*QGraphicsItem *curItem;
     QPointF radar = pos();
     int overflow = 0;
 
@@ -147,7 +182,7 @@ void Robot::collisionDetectionEast()
 
     if (speed == 0) {   // if speed was set to 0
         restoreSpeed(); // restore it to the value stored in tempSpeed
-    }
+    }*/
 }
 
 void Robot::collisionDetectionWest()
@@ -166,7 +201,7 @@ void Robot::collisionDetectionWest()
 
         curItem = scene()->itemAt(radar, QTransform());
 
-        if (avoidLineCollision(curItem)) {
+        if (avoidLineCollision(curItem,1)) {
             return;
         }
 
@@ -195,7 +230,7 @@ void Robot::collisionDetectionNorth()
 
         curItem = scene()->itemAt(radar, QTransform());
 
-        if (avoidLineCollision(curItem)) {
+        if (avoidLineCollision(curItem,1)) {
             return;
         }
 
@@ -224,7 +259,7 @@ void Robot::collisionDetectionSouth()
 
         curItem = scene()->itemAt(radar, QTransform());
 
-        if (avoidLineCollision(curItem)) {
+        if (avoidLineCollision(curItem,1)) {
             return;
         }
 
@@ -252,18 +287,19 @@ bool Robot::avoidIntersectionCollision(QGraphicsItem *curItem)
     return false;
 }
 
-bool Robot::avoidLineCollision(QGraphicsItem *curItem)
+bool Robot::avoidLineCollision(QGraphicsItem *curItem, int clearAhead)
 {
     Robot *robot;
-
-    if ((robot = dynamic_cast<Robot *>(curItem)) && (line == robot->line)) {
-        if (speed > robot->speed) {
-            speed = robot->speed;
-            saveSpeed();
-            return true;
-        } else if (speed == 0 && robot->speed == 0) {
-            restoreSpeed();
-            return true;
+    if (clearAhead <= RADAR_SEARCH_AHEAD){
+        if ((robot = dynamic_cast<Robot *>(curItem)) && (line == robot->line)) {
+            if (speed > robot->speed) {
+                speed = robot->speed;
+                saveSpeed();
+                return true;
+            } else if (speed == 0 && robot->speed == 0) {
+                restoreSpeed();
+                return true;
+            }
         }
     }
 

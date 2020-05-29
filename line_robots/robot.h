@@ -16,6 +16,7 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setSpeed(double);
     void setColor(QColor);
+    bool avoidLineCollision(QGraphicsItem *curItem, int clearAhead);
 
 protected:
     void advance(int phase);
@@ -25,7 +26,7 @@ protected:
     void collisionDetectionEast();
     void collisionDetectionWest();
     bool avoidIntersectionCollision(QGraphicsItem *curItem);
-    bool avoidLineCollision(QGraphicsItem *curItem);
+
     void saveSpeed();
     void restoreSpeed();
 
