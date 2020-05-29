@@ -17,6 +17,8 @@ Robot::Robot(int x, int y, pathLine *line, QString type)
 
     // snap location to line
     this->setPos(this->line->getSnapPoint(this->pos()));
+    this->x = this->pos().x();
+    this->y = this->pos().y();
 
     // robot shape
     this->type = type;
