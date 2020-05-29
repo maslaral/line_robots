@@ -16,8 +16,9 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    addline.cpp \
+    addrobot.cpp \
     canvas.cpp \
-    commandadd.cpp \
     linemenu.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -28,8 +29,9 @@ SOURCES += \
     robotmenu.cpp
 
 HEADERS += \
+    addline.h \
+    addrobot.h \
     canvas.h \
-    commandadd.h \
     linemenu.h \
     mainwindow.h \
     pathline.h \

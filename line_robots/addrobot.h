@@ -1,18 +1,18 @@
-#ifndef COMMANDADD_H
-#define COMMANDADD_H
+#ifndef ADDROBOT_H
+#define ADDROBOT_H
 #include <QUndoCommand>
 #include <QGraphicsItem>
-#include <QGraphicsScene>
+#include "pathline.h"
 
 
-class CommandAdd : public QUndoCommand
+class AddRobot : public QUndoCommand
 {
 public:
-    CommandAdd(QGraphicsScene *scene, QGraphicsItem *item, QUndoStack *undoStack);
+    AddRobot(pathLine *line, QGraphicsItem *item, QUndoStack *undoStack);
     virtual void undo() override;
     virtual void redo() override;
 private:
-    QGraphicsScene *mScene;
+    pathLine *mLine;
     QGraphicsItem *mItem;
     QUndoStack *mUndoStack;
 };

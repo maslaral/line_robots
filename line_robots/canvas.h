@@ -2,7 +2,8 @@
 #define CANVAS_H
 
 #include "pathline.h"
-#include "commandadd.h"
+#include "addline.h"
+#include "addrobot.h"
 #include <robot.h>
 #include <QGraphicsLineItem>
 #include <QGraphicsScene>

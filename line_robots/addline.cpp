@@ -1,12 +1,12 @@
-#include "commandadd.h"
+#include "addline.h"
 
-CommandAdd::CommandAdd(QGraphicsScene *scene, QGraphicsItem *item, QUndoStack *undoStack)
+AddLine::AddLine(QGraphicsScene *scene, QGraphicsItem *item, QUndoStack *undoStack)
 {
     mScene = scene;
     mItem = item;
     mUndoStack = undoStack;
 }
-void CommandAdd::undo()
+void AddLine::undo()
 {
     if (mUndoStack->count() == 0){
         return;
@@ -15,7 +15,7 @@ void CommandAdd::undo()
     }
 }
 
-void CommandAdd::redo()
+void AddLine::redo()
 {
     mScene->addItem(mItem);
 }
