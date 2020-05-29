@@ -104,7 +104,7 @@ void Robot::advance(int phase)
 }
 
 void Robot::boundaryDetection()
-{
+{/*
     // boundary for moving east
     if (this->pos().x() >= this->scene()->sceneRect().right()) {
         setPos(this->scene()->sceneRect().left(), y);
@@ -120,7 +120,7 @@ void Robot::boundaryDetection()
     // boundary for moving south
     else if (this->pos().y() >= this->scene()->sceneRect().bottom()) {
         setPos(x, this->scene()->sceneRect().top());
-    }
+    }*/
 }
 
 void Robot::collisionDetectionEast()

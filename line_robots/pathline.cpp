@@ -51,7 +51,7 @@ void pathLine::adjustInlineSpeeds(QList<QGraphicsItem *> *siblingRobots, std::fu
         {
             clearAhead = distance(ahead->pos().y(), (*it)->pos().y());
         }
-        qDebug() << (*it)->pos() << ahead->pos() << clearAhead;
+        //qDebug() << (*it)->pos() << ahead->pos() << clearAhead;
         dynamic_cast<Robot *>(*it)->avoidLineCollision(dynamic_cast<Robot *>(ahead),clearAhead);
         ahead = *it;
     }
@@ -130,21 +130,24 @@ void north::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
     while (it != siblingRobots->end() && (*it)->pos().y() < this->line().p2().y())
     {
         wrapBuffer.push_back(*it);
-        siblingRobots->erase(it);
+        (*it)->setParentItem(nullptr);
+        (*it)->setActive(false);
+        (*it)->setVisible(false);
+        it = siblingRobots->erase(it);
     }
     if (!wrapBuffer.empty()) {
         int requiredGap = dynamic_cast<Robot *>(wrapBuffer.front())->getBufferSpace();
-        if (siblingRobots->empty())
+        if (siblingRobots->empty() ||
+                (
+                    siblingRobots->last()->pos().y() < this->scene()->sceneRect().bottom() - requiredGap)
+                )
         {
             siblingRobots->append(dynamic_cast<QGraphicsItem *>(wrapBuffer.front()));
             wrapBuffer.pop_front();
             siblingRobots->last()->setPos(this->line().p1());
-        }
-        else if (siblingRobots->last()->pos().y() < this->scene()->sceneRect().bottom() - requiredGap)
-        {
-            siblingRobots->append(dynamic_cast<QGraphicsItem *>(wrapBuffer.front()));
-            wrapBuffer.pop_front();
-            siblingRobots->last()->setPos(this->line().p1());
+            siblingRobots->last()->setParentItem(this);
+            siblingRobots->last()->setActive(true);
+            siblingRobots->last()->setVisible(true);
         }
     }
 }
@@ -204,21 +207,23 @@ void south::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
     while (it != siblingRobots->end() && (*it)->pos().y() > this->line().p2().y())
     {
         wrapBuffer.push_back(*it);
-        siblingRobots->erase(it);
+        (*it)->setParentItem(nullptr);
+        (*it)->setActive(false);
+        (*it)->setVisible(false);
+        it = siblingRobots->erase(it);
     }
     if (!wrapBuffer.empty()) {
         int requiredGap = dynamic_cast<Robot *>(wrapBuffer.front())->getBufferSpace();
-        if (siblingRobots->empty())
+        if (siblingRobots->empty() ||
+                (siblingRobots->last()->pos().y() > this->scene()->sceneRect().top() + requiredGap)
+           )
         {
             siblingRobots->append(dynamic_cast<QGraphicsItem *>(wrapBuffer.front()));
             wrapBuffer.pop_front();
             siblingRobots->last()->setPos(this->line().p1());
-        }
-        else if (siblingRobots->last()->pos().y() > this->scene()->sceneRect().top() + requiredGap)
-        {
-            siblingRobots->append(dynamic_cast<QGraphicsItem *>(wrapBuffer.front()));
-            wrapBuffer.pop_front();
-            siblingRobots->last()->setPos(this->line().p1());
+            siblingRobots->last()->setParentItem(this);
+            siblingRobots->last()->setActive(true);
+            siblingRobots->last()->setVisible(true);
         }
     }
 }
@@ -278,21 +283,23 @@ void west::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
     while (it != siblingRobots->end() && (*it)->pos().x() < this->line().p2().x())
     {
         wrapBuffer.push_back(*it);
-        siblingRobots->erase(it);
+        (*it)->setParentItem(nullptr);
+        (*it)->setActive(false);
+        (*it)->setVisible(false);
+        it = siblingRobots->erase(it);
     }
     if (!wrapBuffer.empty()) {
         int requiredGap = dynamic_cast<Robot *>(wrapBuffer.front())->getBufferSpace();
-        if (siblingRobots->empty())
+        if (siblingRobots->empty()
+            || (siblingRobots->last()->pos().x() < this->scene()->sceneRect().right() - requiredGap)
+            )
         {
             siblingRobots->append(dynamic_cast<QGraphicsItem *>(wrapBuffer.front()));
             wrapBuffer.pop_front();
             siblingRobots->last()->setPos(this->line().p1());
-        }
-        else if (siblingRobots->last()->pos().x() < this->scene()->sceneRect().right() - requiredGap)
-        {
-            siblingRobots->append(dynamic_cast<QGraphicsItem *>(wrapBuffer.front()));
-            wrapBuffer.pop_front();
-            siblingRobots->last()->setPos(this->line().p1());
+            siblingRobots->last()->setParentItem(this);
+            siblingRobots->last()->setActive(true);
+            siblingRobots->last()->setVisible(true);
         }
     }
 }
@@ -355,7 +362,9 @@ void east::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
         if ((*it)->pos().x() > this->line().p2().x())
         {
             wrapBuffer.push_back(*it);
-            qDebug() << (*it)->pos();
+            (*it)->setParentItem(nullptr);
+            (*it)->setActive(false);
+            (*it)->setVisible(false);
             it = siblingRobots->erase(it);
         }
         else
@@ -365,18 +374,16 @@ void east::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
     }
     if (!wrapBuffer.empty()) {
         int requiredGap = dynamic_cast<Robot *>(wrapBuffer.front())->getBufferSpace();
-        if (siblingRobots->empty())
+        if (siblingRobots->empty() ||
+                (siblingRobots->last()->pos().x() > this->scene()->sceneRect().left() + requiredGap)
+            )
         {
             siblingRobots->append(dynamic_cast<QGraphicsItem *>(wrapBuffer.front()));
             wrapBuffer.pop_front();
             siblingRobots->last()->setPos(this->line().p1());
-        }
-        else if (siblingRobots->last()->pos().x() > this->scene()->sceneRect().left() + requiredGap)
-        {
-            qDebug() << "wrap";
-            siblingRobots->append(dynamic_cast<QGraphicsItem *>(wrapBuffer.front()));
-            wrapBuffer.pop_front();
-            siblingRobots->last()->setPos(this->line().p1());
+            siblingRobots->last()->setParentItem(this);
+            siblingRobots->last()->setActive(true);
+            siblingRobots->last()->setVisible(true);
         }
     }
 }
