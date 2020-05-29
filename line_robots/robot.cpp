@@ -85,7 +85,7 @@ void Robot::advance(int phase)
     if (phase) // robots move on the action phase, not the prep phase
     {
         // check if at the boundary of board
-        this->boundaryDetection();
+        //this->boundaryDetection();
 
         if (line->line().p2().x() - line->line().p1().x() > 0) {
             //collisionDetectionEast();
@@ -316,4 +316,9 @@ void Robot::saveSpeed()
 void Robot::restoreSpeed()
 {
     speed = tempSpeed;
+}
+
+int Robot::getBufferSpace()
+{
+    return RADAR_SEARCH_AHEAD;
 }

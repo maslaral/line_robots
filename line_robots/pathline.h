@@ -8,6 +8,7 @@
 #include <QRectF>
 #include <QWidget>
 #include <functional>
+#include <deque>
 
 class pathLine : public QGraphicsLineItem
 {
@@ -15,7 +16,8 @@ protected:
     QGraphicsPolygonItem *makeArrow(QPoint Location, int bearing);
     void adjustInlineSpeeds(QList<QGraphicsItem *> *siblingRobots, std::function<int(int,int)> distance);
     void removeNonRobots(QList<QGraphicsItem *> *siblings);
-
+    std::deque<QGraphicsItem *> wrapBuffer;
+    virtual void wrapRobots(QList<QGraphicsItem *> *siblingRobots) = 0;
 public:
     static pathLine *makeLine(QString lineType, QPoint location, QRectF bounds);
     virtual QPointF getSnapPoint(QPointF nearPoint) = 0;
@@ -28,6 +30,7 @@ public:
     QPointF getSnapPoint(QPointF nearPoint);
 protected:
     void advance(int phase);
+    void wrapRobots(QList<QGraphicsItem *> *siblingRobots);
 };
 
 class south : public pathLine {
@@ -37,6 +40,7 @@ public:
     QPointF getSnapPoint(QPointF nearPoint);
 protected:
     void advance(int phase);
+    void wrapRobots(QList<QGraphicsItem *> *siblingRobots);
 };
 
 class east : public pathLine {
@@ -46,6 +50,7 @@ public:
     QPointF getSnapPoint(QPointF nearPoint);
 protected:
     void advance(int phase);
+    void wrapRobots(QList<QGraphicsItem *> *siblingRobots);
 };
 
 class west : public pathLine {
@@ -55,6 +60,7 @@ public:
     QPointF getSnapPoint(QPointF nearPoint);
 protected:
     void advance(int phase);
+    void wrapRobots(QList<QGraphicsItem *> *siblingRobots);
 };
 
 #endif // PATHLINE_H
