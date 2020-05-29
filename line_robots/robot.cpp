@@ -107,19 +107,19 @@ void Robot::boundaryDetection()
 {
     // boundary for moving east
     if (this->pos().x() >= this->scene()->sceneRect().right()) {
-        setPos(this->scene()->sceneRect().left()+30, y);
+        setPos(this->scene()->sceneRect().left(), y);
     }
     // boundary for moving west
-    else if (this->pos().x() <= this->scene()->sceneRect().left()+30) {
-        setPos(this->scene()->sceneRect().right()-30, y);
+    else if (this->pos().x() <= this->scene()->sceneRect().left()) {
+        setPos(this->scene()->sceneRect().right(), y);
     }
     // boundary for moving north
     else if (this->pos().y() <= this->scene()->sceneRect().top()) {
-        setPos(x, this->scene()->sceneRect().bottom()-30);
+        setPos(x, this->scene()->sceneRect().bottom());
     }
     // boundary for moving south
-    else if (this->pos().y() >= this->scene()->sceneRect().bottom()-30) {
-        setPos(x, this->scene()->sceneRect().top()+30);
+    else if (this->pos().y() >= this->scene()->sceneRect().bottom()) {
+        setPos(x, this->scene()->sceneRect().top());
     }
 }
 
