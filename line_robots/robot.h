@@ -21,11 +21,11 @@ public:
 
 protected:
     void advance(int phase);
-    void boundaryDetection();
-    void collisionDetectionNorth();
-    void collisionDetectionSouth();
-    void collisionDetectionEast();
-    void collisionDetectionWest();
+    //void boundaryDetection();
+    //void collisionDetectionNorth();
+    //void collisionDetectionSouth();
+    //void collisionDetectionEast();
+    //void collisionDetectionWest();
     bool avoidIntersectionCollision(QGraphicsItem *curItem);
 
     void saveSpeed();
@@ -41,7 +41,7 @@ private:
 
     int speed;
     int tempSpeed;
-    int maxSpeed;
+    int maxSpeed; //save the robot's original speed as a ceiling
     int x;
     int y;
     QString type;

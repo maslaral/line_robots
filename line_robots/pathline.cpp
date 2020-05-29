@@ -124,24 +124,28 @@ void north::advance(int phase) {
     }
 }
 
+// put robots in a queue to renter the scen when they drive off the edge.
+// add robots from queue to beginning of line if there is room
 void north::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
 {
     auto it = siblingRobots->begin();
-    while (it != siblingRobots->end() && (*it)->pos().y() < this->line().p2().y())
+    while (it != siblingRobots->end() && (*it)->pos().y() < this->line().p2().y()) // check for passing end of line
     {
+        // move robot from line to holding queue and hide it
         wrapBuffer.push_back(*it);
         (*it)->setParentItem(nullptr);
         (*it)->setActive(false);
         (*it)->setVisible(false);
         it = siblingRobots->erase(it);
     }
-    if (!wrapBuffer.empty()) {
+    if (!wrapBuffer.empty()) { //front() only safe on nonempty queue
         int requiredGap = dynamic_cast<Robot *>(wrapBuffer.front())->getBufferSpace();
         if (siblingRobots->empty() ||
                 (
                     siblingRobots->last()->pos().y() < this->scene()->sceneRect().bottom() - requiredGap)
-                )
+                )//check for sufficient room to rejoin line
         {
+            //move robot from holding queue to line and show it
             siblingRobots->append(dynamic_cast<QGraphicsItem *>(wrapBuffer.front()));
             wrapBuffer.pop_front();
             siblingRobots->last()->setPos(this->line().p1());
@@ -201,23 +205,27 @@ void south::advance(int phase) {
     }
 }
 
+// put robots in a queue to renter the scen when they drive off the edge.
+// add robots from queue to beginning of line if there is room
 void south::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
 {
     auto it = siblingRobots->begin();
-    while (it != siblingRobots->end() && (*it)->pos().y() > this->line().p2().y())
+    while (it != siblingRobots->end() && (*it)->pos().y() > this->line().p2().y()) // check for passing end of line
     {
+        // move robot from line to holding queue and hide it
         wrapBuffer.push_back(*it);
         (*it)->setParentItem(nullptr);
         (*it)->setActive(false);
         (*it)->setVisible(false);
         it = siblingRobots->erase(it);
     }
-    if (!wrapBuffer.empty()) {
+    if (!wrapBuffer.empty()) { //front() only safe on nonempty queue
         int requiredGap = dynamic_cast<Robot *>(wrapBuffer.front())->getBufferSpace();
         if (siblingRobots->empty() ||
                 (siblingRobots->last()->pos().y() > this->scene()->sceneRect().top() + requiredGap)
-           )
+           ) //check for sufficient room to rejoin line
         {
+            //move robot from holding queue to line and show it
             siblingRobots->append(dynamic_cast<QGraphicsItem *>(wrapBuffer.front()));
             wrapBuffer.pop_front();
             siblingRobots->last()->setPos(this->line().p1());
@@ -277,23 +285,27 @@ void west::advance(int phase) {
     }
 }
 
+// put robots in a queue to renter the scen when they drive off the edge.
+// add robots from queue to beginning of line if there is room
 void west::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
 {
     auto it = siblingRobots->begin();
-    while (it != siblingRobots->end() && (*it)->pos().x() < this->line().p2().x())
+    while (it != siblingRobots->end() && (*it)->pos().x() < this->line().p2().x()) // check for passing end of line
     {
+        // move robot from line to holding queue and hide it
         wrapBuffer.push_back(*it);
         (*it)->setParentItem(nullptr);
         (*it)->setActive(false);
         (*it)->setVisible(false);
         it = siblingRobots->erase(it);
     }
-    if (!wrapBuffer.empty()) {
+    if (!wrapBuffer.empty()) { //front() only safe on nonempty queue
         int requiredGap = dynamic_cast<Robot *>(wrapBuffer.front())->getBufferSpace();
         if (siblingRobots->empty()
             || (siblingRobots->last()->pos().x() < this->scene()->sceneRect().right() - requiredGap)
-            )
+            ) //check for sufficient room to rejoin line
         {
+            //move robot from holding queue to line and show it
             siblingRobots->append(dynamic_cast<QGraphicsItem *>(wrapBuffer.front()));
             wrapBuffer.pop_front();
             siblingRobots->last()->setPos(this->line().p1());
@@ -354,13 +366,16 @@ void east::advance(int phase) {
     }
 }
 
+// put robots in a queue to renter the scen when they drive off the edge.
+// add robots from queue to beginning of line if there is room
 void east::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
 {
     auto it = siblingRobots->begin();
     while (it != siblingRobots->end())
     {
-        if ((*it)->pos().x() > this->line().p2().x())
+        if (it != siblingRobots->end() && (*it)->pos().x() > this->line().p2().x()) // check for passing end of line
         {
+            // move robot from line to holding queue and hide it
             wrapBuffer.push_back(*it);
             (*it)->setParentItem(nullptr);
             (*it)->setActive(false);
@@ -372,15 +387,17 @@ void east::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
             ++it;
         }
     }
-    if (!wrapBuffer.empty()) {
+    if (!wrapBuffer.empty()) { //front() only safe on nonempty queue
+        //get the space the robot needs
         int requiredGap = dynamic_cast<Robot *>(wrapBuffer.front())->getBufferSpace();
         if (siblingRobots->empty() ||
                 (siblingRobots->last()->pos().x() > this->scene()->sceneRect().left() + requiredGap)
-            )
+            ) //check for sufficient room to rejoin line
         {
+            //move robot from holding queue to line and show it
             siblingRobots->append(dynamic_cast<QGraphicsItem *>(wrapBuffer.front()));
             wrapBuffer.pop_front();
-            siblingRobots->last()->setPos(this->line().p1());
+            siblingRobots->last()->setPos(this->line().p1()); //rejoin at beginning
             siblingRobots->last()->setParentItem(this);
             siblingRobots->last()->setActive(true);
             siblingRobots->last()->setVisible(true);

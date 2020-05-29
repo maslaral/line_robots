@@ -104,8 +104,8 @@ void Robot::advance(int phase)
     }
 }
 
-void Robot::boundaryDetection()
-{/*
+/*void Robot::boundaryDetection()
+{
     // boundary for moving east
     if (this->pos().x() >= this->scene()->sceneRect().right()) {
         setPos(this->scene()->sceneRect().left(), y);
@@ -121,12 +121,12 @@ void Robot::boundaryDetection()
     // boundary for moving south
     else if (this->pos().y() >= this->scene()->sceneRect().bottom()) {
         setPos(x, this->scene()->sceneRect().top());
-    }*/
+    }
 }
 
 void Robot::collisionDetectionEast()
 {
-   /* //get the robots on the parent line and sort them in the direction of travel
+    //get the robots on the parent line and sort them in the direction of travel
     QList<QGraphicsItem *> siblings = this->parentItem()->childItems();
     auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().x() < j->pos().x();};
     std::sort(siblings.begin(),siblings.end(),compare);
@@ -157,9 +157,9 @@ void Robot::collisionDetectionEast()
                 restoreSpeed(); // restore it to the value stored in tempSpeed
             }
         }
-    }*/
+    }
 
-    /*QGraphicsItem *curItem;
+    QGraphicsItem *curItem;
     QPointF radar = pos();
     int overflow = 0;
 
@@ -183,12 +183,12 @@ void Robot::collisionDetectionEast()
 
     if (speed == 0) {   // if speed was set to 0
         restoreSpeed(); // restore it to the value stored in tempSpeed
-    }*/
+    }
 }
 
 void Robot::collisionDetectionWest()
 {
-   /* QGraphicsItem *curItem;
+    QGraphicsItem *curItem;
     QPointF radar = pos();
     int overflow = 0;
 
@@ -212,12 +212,12 @@ void Robot::collisionDetectionWest()
 
     if (speed == 0) {
         restoreSpeed();
-    }*/
+    }
 }
 
 void Robot::collisionDetectionNorth()
 {
-    /*QGraphicsItem *curItem;
+    QGraphicsItem *curItem;
     QPointF radar = pos();
     int overflow = 0;
 
@@ -241,12 +241,12 @@ void Robot::collisionDetectionNorth()
 
     if (speed == 0) {
         restoreSpeed();
-    }*/
+    }
 }
 
 void Robot::collisionDetectionSouth()
 {
-    /*QGraphicsItem *curItem;
+    QGraphicsItem *curItem;
     QPointF radar = pos();
     int overflow = 0;
 
@@ -270,8 +270,8 @@ void Robot::collisionDetectionSouth()
 
     if (speed == 0) {
         restoreSpeed();
-    }*/
-}
+    }
+}*/
 
 bool Robot::avoidIntersectionCollision(QGraphicsItem *curItem)
 {
@@ -305,7 +305,7 @@ bool Robot::avoidLineCollision(QGraphicsItem *curItem, int clearAhead)
     }
     else
     {
-        speed = std::min(++speed, maxSpeed);
+        speed = std::min(++speed, maxSpeed); //accelerate if path is clear
     }
 
     return false;
