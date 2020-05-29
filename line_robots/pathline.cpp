@@ -40,8 +40,8 @@ QGraphicsPolygonItem *pathLine::makeArrow(QPoint location, int bearing)
 void pathLine::adjustInlineSpeeds(QList<QGraphicsItem *> *siblingRobots, std::function<int(int,int)> distance)
 {
     int clearAhead;
-    QGraphicsItem *ahead = siblingRobots->first();
-    for (auto it = siblingRobots->rbegin(); it != siblingRobots->rend(); ++it)
+    QGraphicsItem *ahead = siblingRobots->last();
+    for (auto it = siblingRobots->begin(); it != siblingRobots->end(); ++it)
     {
         if (ahead->pos().y() == (*it)->pos().y())
         {
@@ -104,7 +104,7 @@ void north::advance(int phase) {
         QList<QGraphicsItem *> siblings = this->childItems();
 
         //define ordering function to sort the robots by travel direction
-        auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().y() > j->pos().y();};
+        auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().y() < j->pos().y();};
 
         removeNonRobots(&siblings);
 
@@ -151,7 +151,7 @@ void south::advance(int phase) {
         QList<QGraphicsItem *> siblings = this->childItems();
 
         //define ordering function to sort the robots by travel direction
-        auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().y() < j->pos().y();};
+        auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().y() > j->pos().y();};
 
         removeNonRobots(&siblings);
 
@@ -198,7 +198,7 @@ void west::advance(int phase) {
         QList<QGraphicsItem *> siblings = this->childItems();
 
         //define ordering function to sort the robots by travel direction
-        auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().x() > j->pos().x();};
+        auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().x() < j->pos().x();};
 
         removeNonRobots(&siblings);
 
@@ -245,7 +245,7 @@ void east::advance(int phase) {
         QList<QGraphicsItem *> siblings = this->childItems();
 
         //define ordering function to sort the robots by travel direction
-        auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().x() < j->pos().x();};
+        auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().x() > j->pos().x();};
 
         removeNonRobots(&siblings);
 
