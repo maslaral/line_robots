@@ -17,6 +17,7 @@ public:
     void setSpeed(double);
     void setColor(QColor);
     bool avoidLineCollision(QGraphicsItem *curItem, int clearAhead);
+    int getBufferSpace();
 
 protected:
     void advance(int phase);
@@ -40,6 +41,7 @@ private:
 
     int speed;
     int tempSpeed;
+    int maxSpeed;
     int x;
     int y;
     QString type;

@@ -51,7 +51,7 @@ void pathLine::adjustInlineSpeeds(QList<QGraphicsItem *> *siblingRobots, std::fu
         {
             clearAhead = distance(ahead->pos().y(), (*it)->pos().y());
         }
-        qDebug() << (*it)->pos() << ahead->pos() << clearAhead;
+        //qDebug() << (*it)->pos() << ahead->pos() << clearAhead;
         dynamic_cast<Robot *>(*it)->avoidLineCollision(dynamic_cast<Robot *>(ahead),clearAhead);
         ahead = *it;
     }
@@ -65,8 +65,7 @@ void pathLine::removeNonRobots(QList<QGraphicsItem *> *mixedSiblings)
     while (place != mixedSiblings->end()) //remove all non-robots from list
     {
         if (!(aRobot = dynamic_cast<Robot *>(*place))) {
-            mixedSiblings->erase(place);
-            ++place;
+            place = mixedSiblings->erase(place);
         }
         else
         {
@@ -74,6 +73,7 @@ void pathLine::removeNonRobots(QList<QGraphicsItem *> *mixedSiblings)
         }
     }
 }
+
 
 north::north(QPoint location, QRectF bounds)
 {
@@ -110,6 +110,8 @@ void north::advance(int phase) {
 
         std::sort(siblings.begin(),siblings.end(),compare); // sort robots in travel direction
 
+        this->wrapRobots(&siblings);
+
         if (siblings.size() > 1) //if there are multiple robots on this line, have the robots radar each other
         {
             auto clearAhead = [this](int i, int j)->int{ //define distance calculation for this direction
@@ -119,6 +121,34 @@ void north::advance(int phase) {
                 return distance;
             };
             adjustInlineSpeeds(&siblings, clearAhead);         }
+    }
+}
+
+void north::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
+{
+    auto it = siblingRobots->begin();
+    while (it != siblingRobots->end() && (*it)->pos().y() < this->line().p2().y())
+    {
+        wrapBuffer.push_back(*it);
+        (*it)->setParentItem(nullptr);
+        (*it)->setActive(false);
+        (*it)->setVisible(false);
+        it = siblingRobots->erase(it);
+    }
+    if (!wrapBuffer.empty()) {
+        int requiredGap = dynamic_cast<Robot *>(wrapBuffer.front())->getBufferSpace();
+        if (siblingRobots->empty() ||
+                (
+                    siblingRobots->last()->pos().y() < this->scene()->sceneRect().bottom() - requiredGap)
+                )
+        {
+            siblingRobots->append(dynamic_cast<QGraphicsItem *>(wrapBuffer.front()));
+            wrapBuffer.pop_front();
+            siblingRobots->last()->setPos(this->line().p1());
+            siblingRobots->last()->setParentItem(this);
+            siblingRobots->last()->setActive(true);
+            siblingRobots->last()->setVisible(true);
+        }
     }
 }
 
@@ -157,6 +187,8 @@ void south::advance(int phase) {
 
         std::sort(siblings.begin(),siblings.end(),compare); // sort robots in travel direction
 
+        this->wrapRobots(&siblings);
+
         if (siblings.size() > 1) //if there are multiple robots on this line, have the robots radar each other
         {
             auto clearAhead = [this](int i, int j)->int{ //define distance calculation for this direction
@@ -166,6 +198,33 @@ void south::advance(int phase) {
                 return distance;
             };
             adjustInlineSpeeds(&siblings, clearAhead);        }
+    }
+}
+
+void south::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
+{
+    auto it = siblingRobots->begin();
+    while (it != siblingRobots->end() && (*it)->pos().y() > this->line().p2().y())
+    {
+        wrapBuffer.push_back(*it);
+        (*it)->setParentItem(nullptr);
+        (*it)->setActive(false);
+        (*it)->setVisible(false);
+        it = siblingRobots->erase(it);
+    }
+    if (!wrapBuffer.empty()) {
+        int requiredGap = dynamic_cast<Robot *>(wrapBuffer.front())->getBufferSpace();
+        if (siblingRobots->empty() ||
+                (siblingRobots->last()->pos().y() > this->scene()->sceneRect().top() + requiredGap)
+           )
+        {
+            siblingRobots->append(dynamic_cast<QGraphicsItem *>(wrapBuffer.front()));
+            wrapBuffer.pop_front();
+            siblingRobots->last()->setPos(this->line().p1());
+            siblingRobots->last()->setParentItem(this);
+            siblingRobots->last()->setActive(true);
+            siblingRobots->last()->setVisible(true);
+        }
     }
 }
 
@@ -204,6 +263,8 @@ void west::advance(int phase) {
 
         std::sort(siblings.begin(),siblings.end(),compare); // sort robots in travel direction
 
+        this->wrapRobots(&siblings);
+
         if (siblings.size() > 1) //if there are multiple robots on this line, have the robots radar each other
         {
             auto clearAhead = [this](int i, int j)->int{ //define distance calculation for this direction
@@ -213,6 +274,33 @@ void west::advance(int phase) {
                 return distance;
             };
             adjustInlineSpeeds(&siblings, clearAhead);        }
+    }
+}
+
+void west::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
+{
+    auto it = siblingRobots->begin();
+    while (it != siblingRobots->end() && (*it)->pos().x() < this->line().p2().x())
+    {
+        wrapBuffer.push_back(*it);
+        (*it)->setParentItem(nullptr);
+        (*it)->setActive(false);
+        (*it)->setVisible(false);
+        it = siblingRobots->erase(it);
+    }
+    if (!wrapBuffer.empty()) {
+        int requiredGap = dynamic_cast<Robot *>(wrapBuffer.front())->getBufferSpace();
+        if (siblingRobots->empty()
+            || (siblingRobots->last()->pos().x() < this->scene()->sceneRect().right() - requiredGap)
+            )
+        {
+            siblingRobots->append(dynamic_cast<QGraphicsItem *>(wrapBuffer.front()));
+            wrapBuffer.pop_front();
+            siblingRobots->last()->setPos(this->line().p1());
+            siblingRobots->last()->setParentItem(this);
+            siblingRobots->last()->setActive(true);
+            siblingRobots->last()->setVisible(true);
+        }
     }
 }
 
@@ -251,6 +339,8 @@ void east::advance(int phase) {
 
         std::sort(siblings.begin(),siblings.end(),compare); // sort robots in travel direction
 
+        this->wrapRobots(&siblings);
+
         if (siblings.size() > 1) //if there are multiple robots on this line, have the robots radar each other
         {
             auto clearAhead = [this](int i, int j)->int{ //define distance calculation for this direction
@@ -260,6 +350,40 @@ void east::advance(int phase) {
                 return distance;
             };
             adjustInlineSpeeds(&siblings, clearAhead);
+        }
+    }
+}
+
+void east::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
+{
+    auto it = siblingRobots->begin();
+    while (it != siblingRobots->end())
+    {
+        if ((*it)->pos().x() > this->line().p2().x())
+        {
+            wrapBuffer.push_back(*it);
+            (*it)->setParentItem(nullptr);
+            (*it)->setActive(false);
+            (*it)->setVisible(false);
+            it = siblingRobots->erase(it);
+        }
+        else
+        {
+            ++it;
+        }
+    }
+    if (!wrapBuffer.empty()) {
+        int requiredGap = dynamic_cast<Robot *>(wrapBuffer.front())->getBufferSpace();
+        if (siblingRobots->empty() ||
+                (siblingRobots->last()->pos().x() > this->scene()->sceneRect().left() + requiredGap)
+            )
+        {
+            siblingRobots->append(dynamic_cast<QGraphicsItem *>(wrapBuffer.front()));
+            wrapBuffer.pop_front();
+            siblingRobots->last()->setPos(this->line().p1());
+            siblingRobots->last()->setParentItem(this);
+            siblingRobots->last()->setActive(true);
+            siblingRobots->last()->setVisible(true);
         }
     }
 }

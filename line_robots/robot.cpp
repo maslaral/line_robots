@@ -73,6 +73,7 @@ void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 void Robot::setSpeed(double barspeed)
 {
     speed = barspeed;
+    maxSpeed = speed;
 }
 
 void Robot::setColor(QColor color)
@@ -85,7 +86,7 @@ void Robot::advance(int phase)
     if (phase) // robots move on the action phase, not the prep phase
     {
         // check if at the boundary of board
-        this->boundaryDetection();
+        //this->boundaryDetection();
 
         if (line->line().p2().x() - line->line().p1().x() > 0) {
             //collisionDetectionEast();
@@ -104,7 +105,7 @@ void Robot::advance(int phase)
 }
 
 void Robot::boundaryDetection()
-{
+{/*
     // boundary for moving east
     if (this->pos().x() >= this->scene()->sceneRect().right()) {
         setPos(this->scene()->sceneRect().left(), y);
@@ -120,7 +121,7 @@ void Robot::boundaryDetection()
     // boundary for moving south
     else if (this->pos().y() >= this->scene()->sceneRect().bottom()) {
         setPos(x, this->scene()->sceneRect().top());
-    }
+    }*/
 }
 
 void Robot::collisionDetectionEast()
@@ -302,6 +303,10 @@ bool Robot::avoidLineCollision(QGraphicsItem *curItem, int clearAhead)
             }
         }
     }
+    else
+    {
+        speed = std::min(++speed, maxSpeed);
+    }
 
     return false;
 }
@@ -316,4 +321,9 @@ void Robot::saveSpeed()
 void Robot::restoreSpeed()
 {
     speed = tempSpeed;
+}
+
+int Robot::getBufferSpace()
+{
+    return RADAR_SEARCH_AHEAD;
 }
