@@ -73,6 +73,7 @@ void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 void Robot::setSpeed(double barspeed)
 {
     speed = barspeed;
+    maxSpeed = speed;
 }
 
 void Robot::setColor(QColor color)
@@ -301,6 +302,10 @@ bool Robot::avoidLineCollision(QGraphicsItem *curItem, int clearAhead)
                 return true;
             }
         }
+    }
+    else
+    {
+        speed = std::min(++speed, maxSpeed);
     }
 
     return false;

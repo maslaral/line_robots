@@ -41,6 +41,7 @@ private:
 
     int speed;
     int tempSpeed;
+    int maxSpeed;
     int x;
     int y;
     QString type;
