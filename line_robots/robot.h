@@ -31,7 +31,7 @@ protected:
 
 private:
     int const RADAR_SEARCH_AHEAD = 60;
-    int const RADAR_SEARCH_INTER = 15;
+    int const RADAR_SEARCH_INTER = 25;
     int const EAST_BORDER = 524;
     int const WEST_BORDER = 30;
     int const NORTH_BORDER = 30;
