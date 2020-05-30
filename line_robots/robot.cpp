@@ -287,7 +287,6 @@ bool Robot::avoidLineCollision(QGraphicsItem *curItem)
                 if (speed < 1) {
                     if (!(robot->speed < 1))
                     {
-
                         return false;
                     }
                     else
