@@ -233,3 +233,30 @@ QList<pathLine *> Canvas::getLines()
     }
     return linesOnly;
 }
+//filter a mixed list of lines and return only the horizontals
+QList<pathLine *> Canvas::extractHorizontalLines(QList<pathLine *> mixedLines)
+{
+    QList<pathLine *> horizontals;
+    for (auto it = mixedLines.begin(); it != mixedLines.end(); ++it)
+    {
+        if ((*it)->line().toLine().x1() != (*it)->line().toLine().x2())
+        {
+            horizontals.append(*it);
+        }
+    }
+    return horizontals;
+}
+
+// filter a mixed list of lines and return only the verticals
+QList<pathLine *> Canvas::extractVerticalLines(QList<pathLine *> mixedLines)
+{
+    QList<pathLine *> verticals;
+    for (auto it = mixedLines.begin(); it != mixedLines.end(); ++it)
+    {
+        if ((*it)->line().toLine().y1() != (*it)->line().toLine().y2())
+        {
+            verticals.append(*it);
+        }
+    }
+    return verticals;
+}

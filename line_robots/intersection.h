@@ -12,6 +12,8 @@ public:
     void checkClear();
     void setCross(pathLine *crossingLine);
     void clean();
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    QRectF boundingRect() const;
 private:
     Robot *blocker;
     pathLine *otherLine;

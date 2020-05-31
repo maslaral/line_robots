@@ -1,6 +1,7 @@
 #include "pathline.h"
 #include "robot.h"
 #include "intersection.h"
+#include "canvas.h"
 #include <QGraphicsPolygonItem>
 #include <QLineF>
 #include <QPoint>
@@ -112,10 +113,6 @@ void pathLine::checkIntersections()
 
 }
 
-void pathLine::addIntersections()
-{
-
-}
 
 void pathLine::cleanIntersections()
 {
@@ -209,6 +206,20 @@ void north::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
     }
 }
 
+void north::addIntersections()
+{
+    QList<pathLine *> crosses = dynamic_cast<Canvas *>(this->scene())->extractHorizontalLines(dynamic_cast<Canvas *>(this->scene())->getLines());
+    intersection *newInt = nullptr;
+    for (auto it = crosses.begin(); it != crosses.end(); ++it)
+    {
+        newInt = new intersection();
+        newInt->setParentItem(this);
+        newInt->setCross(*it);
+        newInt->setPos(this->line().x1(),(*it)->line().y1());
+        newInt = nullptr;
+    }
+}
+
 south::south(QPoint location, QRectF bounds)
 {
     QPoint top;
@@ -284,6 +295,19 @@ void south::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
             siblingRobots->last()->setActive(true);
             siblingRobots->last()->setVisible(true);
         }
+    }
+}
+void south::addIntersections()
+{
+    QList<pathLine *> crosses = dynamic_cast<Canvas *>(this->scene())->extractHorizontalLines(dynamic_cast<Canvas *>(this->scene())->getLines());
+    intersection *newInt = nullptr;
+    for (auto it = crosses.begin(); it != crosses.end(); ++it)
+    {
+        newInt = new intersection();
+        newInt->setParentItem(this);
+        newInt->setCross(*it);
+        newInt->setPos(this->line().x1(),(*it)->line().y1());
+        newInt = nullptr;
     }
 }
 
@@ -365,6 +389,19 @@ void west::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
     }
 }
 
+void west::addIntersections()
+{
+    QList<pathLine *> crosses = dynamic_cast<Canvas *>(this->scene())->extractVerticalLines(dynamic_cast<Canvas *>(this->scene())->getLines());
+    intersection *newInt = nullptr;
+    for (auto it = crosses.begin(); it != crosses.end(); ++it)
+    {
+        newInt = new intersection();
+        newInt->setParentItem(this);
+        newInt->setCross(*it);
+        newInt->setPos((*it)->line().x1(),this->line().y1());
+        newInt = nullptr;
+    }
+}
 east::east(QPoint location, QRectF bounds)
 {
     QPoint left;
@@ -449,5 +486,19 @@ void east::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
             siblingRobots->last()->setActive(true);
             siblingRobots->last()->setVisible(true);
         }
+    }
+}
+
+void east::addIntersections()
+{
+    QList<pathLine *> crosses = dynamic_cast<Canvas *>(this->scene())->extractVerticalLines(dynamic_cast<Canvas *>(this->scene())->getLines());
+    intersection *newInt = nullptr;
+    for (auto it = crosses.begin(); it != crosses.end(); ++it)
+    {
+        newInt = new intersection();
+        newInt->setParentItem(this);
+        newInt->setCross(*it);
+        newInt->setPos((*it)->line().x1(),this->line().y1());
+        newInt = nullptr;
     }
 }

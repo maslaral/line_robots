@@ -32,3 +32,12 @@ void intersection::clean()
     }
 
 }
+
+QRectF intersection::boundingRect() const
+{
+    return QRect(-10, -10, 20, 20);
+}
+
+void intersection::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+{
+}

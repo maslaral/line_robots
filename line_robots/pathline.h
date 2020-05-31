@@ -25,7 +25,7 @@ public:
     static pathLine *makeLine(QString lineType, QPoint location, QRectF bounds);
     virtual QPointF getSnapPoint(QPointF nearPoint) = 0;
     void checkIntersections();
-    void addIntersections();
+    virtual void addIntersections() = 0;
     void cleanIntersections();
 };
 
@@ -34,6 +34,7 @@ class north : public pathLine {
 public:
     north(QPoint location, QRectF bounds);
     QPointF getSnapPoint(QPointF nearPoint);
+    void addIntersections();
 protected:
     void advance(int phase);
     void wrapRobots(QList<QGraphicsItem *> *siblingRobots);
@@ -45,6 +46,7 @@ class south : public pathLine {
 public:
     south(QPoint location, QRectF bounds);
     QPointF getSnapPoint(QPointF nearPoint);
+    void addIntersections();
 protected:
     void advance(int phase);
     void wrapRobots(QList<QGraphicsItem *> *siblingRobots);
@@ -56,6 +58,7 @@ class east : public pathLine {
 public:
     east(QPoint location, QRectF bounds);
     QPointF getSnapPoint(QPointF nearPoint);
+    void addIntersections();
 protected:
     void advance(int phase);
     void wrapRobots(QList<QGraphicsItem *> *siblingRobots);
@@ -67,6 +70,7 @@ class west : public pathLine {
 public:
     west(QPoint location, QRectF bounds);
     QPointF getSnapPoint(QPointF nearPoint);
+    void addIntersections();
 protected:
     void advance(int phase);
     void wrapRobots(QList<QGraphicsItem *> *siblingRobots);

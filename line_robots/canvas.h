@@ -27,7 +27,9 @@ public:
     double setSpeedBox();
     QUndoStack *undoStack = nullptr;
     bool setRobotProperties();
-
+    QList<pathLine *> getLines();
+    QList<pathLine *> extractHorizontalLines(QList<pathLine *> mixedLines);
+    QList<pathLine *> extractVerticalLines(QList<pathLine *> mixedLines);
 private:
     const int LINE_SEARCH_RADIUS = 30;
     const int ROBOT_SEARCH_RADIUS = 30;
@@ -38,7 +40,7 @@ private:
     int roboticSpeed;
     QColor roboticColor;
     void pollIntersections();
-    QList<pathLine *> getLines();
+
 public slots:
     void tick();
 };
