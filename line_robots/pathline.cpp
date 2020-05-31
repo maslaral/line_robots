@@ -115,30 +115,30 @@ void pathLine::checkIntersections()
     bool found = false;
     QList<QGraphicsItem *> children = this->getSortedChildren();
     for (auto it = children.begin(); it != children.end(); ++it)
-    {
-        if ((anIntersection = dynamic_cast<intersection*>(*it)))
         {
-            auto j = it;
-            ++j;
-            found = false;
-            while (!found && j !=children.end())
+            if ((anIntersection = dynamic_cast<intersection*>(*it)))
             {
-                if ((aRobot = dynamic_cast<Robot *>(*j)) && dynamic_cast<QGraphicsItem *>(aRobot)->isVisible() == true)
+                auto j = it;
+                ++j;
+                found = false;
+                while (!found && j !=children.end())
                 {
-                    anIntersection->checkClear(aRobot);
-                    found = true;
+                    if ((aRobot = dynamic_cast<Robot *>(*j)) && dynamic_cast<QGraphicsItem *>(aRobot)->isVisible() == true)
+                    {
+                        anIntersection->checkClear(aRobot);
+                        found = true;
+                    }
+                    else
+                    {
+                        ++j;
+                    }
                 }
-                else
+                if (!found)
                 {
-                    ++j;
+                    anIntersection->checkClear(nullptr);
                 }
-            }
-            if (!found)
-            {
-                anIntersection->checkClear(nullptr);
             }
         }
-    }
 }
 
 //return the closest robot approaching a point
@@ -197,6 +197,58 @@ void pathLine::cleanIntersections()
     for (auto it = intList.begin(); it != intList.end(); ++it)
     {
         dynamic_cast<intersection *>(*it)->clean();
+    }
+}
+
+//return the closest robot approaching a point
+QGraphicsItem * pathLine::getPrevRobot(QPoint intersectionLoc)
+{
+    intersection *tempIntersection = new intersection();
+    Robot *aRobot;
+    tempIntersection->setPos(intersectionLoc);
+    tempIntersection->setParentItem(this);
+    QList<QGraphicsItem *> children = this->getSortedChildren();
+    auto it = children.begin();
+    bool found = false;
+    while (it != children.end() && !found)
+    {
+        if (tempIntersection == *it)
+        {
+            found = true;
+            qDebug()<<"found intersection";
+        }
+        else
+        {
+            ++it;
+        }
+    }
+    if (it != children.end())
+    {
+        ++it;
+    }
+    found = false;
+    while (it != children.end() && !found)
+    {
+        if ((aRobot = dynamic_cast<Robot *>(*it)) && dynamic_cast<QGraphicsItem *>(aRobot)->isVisible() == true)
+        {
+            qDebug() << "found previous robot";
+            found = true;
+        }
+        else
+        {
+            ++it;
+        }
+    }
+    this->scene()->removeItem(dynamic_cast<QGraphicsItem *>(tempIntersection));
+    delete tempIntersection;
+    qDebug() << "deleted temp intersection";
+    if (found)
+    {
+        return (*it);
+    }
+    else
+    {
+        return nullptr;
     }
 }
 
@@ -306,6 +358,16 @@ void north::addIntersections()
     }
 }
 
+//get the distance between two object on a line
+int north::distance(QGraphicsItem *from, QGraphicsItem *to)
+{
+    int distance = to->pos().y() - from->pos().y();
+    distance += this->scene()->sceneRect().bottom();
+    distance %= static_cast<int>(this->scene()->sceneRect().bottom());
+    return distance;
+}
+
+
 south::south(QPoint location, QRectF bounds)
 {
     QPoint top;
@@ -406,6 +468,16 @@ void south::addIntersections()
         newInt = nullptr;
     }
 }
+
+//get the distance between two object on a line
+int south::distance(QGraphicsItem *from, QGraphicsItem *to)
+{
+    int distance = from->pos().y() - to->pos().y();
+    distance += this->scene()->sceneRect().bottom();
+    distance %= static_cast<int>(this->scene()->sceneRect().bottom());
+    return distance;
+}
+
 
 west::west(QPoint location, QRectF bounds)
 {
@@ -508,6 +580,17 @@ void west::addIntersections()
         newInt = nullptr;
     }
 }
+
+//get the distance between two object on a line
+int west::distance(QGraphicsItem *from, QGraphicsItem *to)
+{
+    int distance = to->pos().x() - from->pos().x();
+    distance += this->scene()->sceneRect().right();
+    distance %= static_cast<int>(this->scene()->sceneRect().right());
+    return distance;
+}
+
+
 east::east(QPoint location, QRectF bounds)
 {
     QPoint left;
@@ -617,4 +700,13 @@ void east::addIntersections()
         newInt->setPos((*it)->line().x1(),this->line().y1());
         newInt = nullptr;
     }
+}
+
+//get the distance between two object on a line
+int east::distance(QGraphicsItem *from, QGraphicsItem *to)
+{
+    int distance = from->pos().x() - to->pos().x();
+    distance += this->scene()->sceneRect().right();
+    distance %= static_cast<int>(this->scene()->sceneRect().right());
+    return distance;
 }

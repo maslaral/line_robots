@@ -30,7 +30,7 @@ public:
     virtual void addIntersections() = 0;
     void cleanIntersections();
     virtual int distance(QGraphicsItem *from, QGraphicsItem *to) = 0;
-    Robot * getPrevRobot(QPoint intersectionLoc);
+    QGraphicsItem * getPrevRobot(QPoint intersectionLoc);
 };
 
 class north : public pathLine {
