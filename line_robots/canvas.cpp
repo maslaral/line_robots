@@ -210,6 +210,7 @@ void Canvas::tick()
 {
     pollIntersections();
     this->advance();
+    clearIntersections();
 }
 
 //iterate through a list of lines and have them check their intersections
@@ -219,6 +220,16 @@ void Canvas::pollIntersections()
     for (auto it = lineItems.begin(); it != lineItems.end(); ++it)
     {
         (*it)->checkIntersections();
+    }
+}
+
+//iterate through a list of lines and have them clean their intersections
+void Canvas::clearIntersections()
+{
+    QList<pathLine *> lineItems = this->getLines();
+    for (auto it = lineItems.begin(); it != lineItems.end(); ++it)
+    {
+        (*it)->cleanIntersections();
     }
 }
 
