@@ -9,6 +9,7 @@ class intersection : public QGraphicsItem
 {
 public:
     intersection();
+    ~intersection();
     void checkClear(Robot *thisPrev);
     void setCross(pathLine *crossingLine);
     void clean();
@@ -17,6 +18,8 @@ public:
 private:
     Robot *blocker;
     pathLine *otherLine;
+    Robot *makeBlocker(pathLine *myLine);
+    const int BLOCK_RADIUS = 60;
 };
 
 #endif // INTERSECTION_H
