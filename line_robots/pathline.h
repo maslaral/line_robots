@@ -19,12 +19,14 @@ protected:
     virtual void wrapRobots(QList<QGraphicsItem *> *siblingRobots) = 0;
     QList<QGraphicsItem *> extractRobots(QList<QGraphicsItem *> mixedSiblings);
     QList<QGraphicsItem *> extractIntersections(QList<QGraphicsItem *> mixedSiblings);
-    QList<QGraphicsItem *> removeArrow(QList<QGraphicsItem *> *mixedSiblings);
+    void removeArrow(QList<QGraphicsItem *> *mixedSiblings);
     virtual QList<QGraphicsItem *> getSortedChildren() = 0;
 public:
     static pathLine *makeLine(QString lineType, QPoint location, QRectF bounds);
     virtual QPointF getSnapPoint(QPointF nearPoint) = 0;
     void checkIntersections();
+    void addIntersections();
+    void cleanIntersections();
 };
 
 class north : public pathLine {

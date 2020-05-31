@@ -11,6 +11,7 @@ public:
     intersection();
     void checkClear();
     void setCross(pathLine *crossingLine);
+    void clean();
 private:
     Robot *blocker;
     pathLine *otherLine;

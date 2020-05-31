@@ -22,3 +22,13 @@ void intersection::setCross(pathLine *crossingLine)
 {
     otherLine = crossingLine;
 }
+
+void intersection::clean()
+{
+    if(blocker !=  nullptr)
+    {
+        blocker->setParentItem(nullptr);
+        delete blocker;
+    }
+
+}

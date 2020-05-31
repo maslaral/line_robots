@@ -1,6 +1,6 @@
 #include "addline.h"
 
-AddLine::AddLine(QGraphicsScene *scene, QGraphicsItem *item, QUndoStack *undoStack)
+AddLine::AddLine(QGraphicsScene *scene, pathLine *item, QUndoStack *undoStack)
 {
     mScene = scene;
     mItem = item;
@@ -12,10 +12,12 @@ void AddLine::undo()
         return;
     } else {
         mScene->removeItem(mItem);
+        mItem->cleanIntersections();
     }
 }
 
 void AddLine::redo()
 {
-    mScene->addItem(mItem);
+    mScene->addItem(mItem); //add the line to the scene
+    mItem->addIntersections(); //add intersections
 }
