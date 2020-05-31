@@ -12,9 +12,11 @@
 #include <QMessageBox>
 #include <QPoint>
 #include <QUndoStack>
+#include <QObject>
 
 class Canvas : public QGraphicsScene
 {
+    Q_OBJECT
 public:
     explicit Canvas(QMenu *itemMenu, QObject *parent = nullptr);
     void dragEnterEvent(QGraphicsSceneDragDropEvent *event) override;
@@ -34,6 +36,9 @@ private:
     bool inBounds(QPoint checkPixel, int buffer);
     int roboticSpeed;
     QColor roboticColor;
+    void pollIntersections();
+public slots:
+    void tick();
 };
 
 #endif // CANVAS_H

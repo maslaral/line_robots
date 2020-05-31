@@ -198,3 +198,14 @@ bool Canvas::inBounds(QPoint checkPixel, int buffer)
         return false;
     }
 }
+
+void Canvas::tick()
+{
+    pollIntersections();
+    this->advance();
+}
+
+void Canvas::pollIntersections()
+{
+
+}

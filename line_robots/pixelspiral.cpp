@@ -4,6 +4,7 @@
 
 PixelSpiral::PixelSpiral(Canvas *parent) : QObject(parent)
 {
+    //this->setParent(parent);
     current.setX(0);
     current.setY(0);
     maxPixels = 0;

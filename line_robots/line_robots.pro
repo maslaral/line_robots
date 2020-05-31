@@ -19,6 +19,7 @@ SOURCES += \
     addline.cpp \
     addrobot.cpp \
     canvas.cpp \
+    intersection.cpp \
     linemenu.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -32,6 +33,7 @@ HEADERS += \
     addline.h \
     addrobot.h \
     canvas.h \
+    intersection.h \
     linemenu.h \
     mainwindow.h \
     pathline.h \
