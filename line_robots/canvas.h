@@ -40,7 +40,7 @@ private:
     int roboticSpeed;
     QColor roboticColor;
     void pollIntersections();
-
+    void clearIntersections();
 public slots:
     void tick();
 };

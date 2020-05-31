@@ -1,4 +1,6 @@
 #include "intersection.h"
+#include <QPoint>
+#include "robot.h"
 
 intersection::intersection()
 {
@@ -6,16 +8,11 @@ intersection::intersection()
     otherLine = nullptr;
 }
 
-void intersection::checkClear(Robot *thisPrev, Robot * otherPrev)
+void intersection::checkClear(Robot *thisPrev)
 {
-    if(blocker == nullptr){
-        //check this line
-        //check other line
-    }
-    else
-    {
-        //check blocker's parent
-    }
+    QPoint place = thisPrev->pos().toPoint();
+    Robot *closestCrosser = this->otherLine->getPrevRobot(place);
+    closestCrosser->pos();
 }
 
 void intersection::setCross(pathLine *crossingLine)
