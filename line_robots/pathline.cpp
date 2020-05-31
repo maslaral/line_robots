@@ -58,6 +58,8 @@ void pathLine::adjustInlineSpeeds(QList<QGraphicsItem *> *siblingRobots, std::fu
     }
 }
 
+
+
 QList<QGraphicsItem *> pathLine::extractRobots(QList<QGraphicsItem *> mixedSiblings)
 {
     QList<QGraphicsItem *> robotsOnly;
@@ -84,6 +86,11 @@ QList<QGraphicsItem *> pathLine::extractIntersections(QList<QGraphicsItem *> mix
         }
     }
     return intersectionsOnly;
+}
+
+QList<QGraphicsItem *> removeArrow(QList<QGraphicsItem *> *mixedSiblings)
+{
+
 }
 
 void pathLine::checkIntersections()
@@ -117,6 +124,8 @@ QList<QGraphicsItem *> north::getSortedChildren(){
     QList<QGraphicsItem *> children = this->childItems();
     auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().y() < j->pos().y();};
     std::sort(children.begin(),children.end(),compare); // sort robots in travel direction
+
+
     return children;
 }
 

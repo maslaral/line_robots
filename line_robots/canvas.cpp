@@ -199,12 +199,15 @@ bool Canvas::inBounds(QPoint checkPixel, int buffer)
     }
 }
 
+// slot to implement an intersection check phase prior to triggering advance
+// trigger this slot on each clock tick
 void Canvas::tick()
 {
     pollIntersections();
     this->advance();
 }
 
+//iterate through a list of lines and have them check their intersections
 void Canvas::pollIntersections()
 {
     QList<pathLine *> lineItems = this->getLines();
@@ -214,6 +217,7 @@ void Canvas::pollIntersections()
     }
 }
 
+// return a list of all the lines currently on the canvas
 QList<pathLine *> Canvas::getLines()
 {
     pathLine *aLine;
