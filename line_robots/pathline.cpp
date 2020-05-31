@@ -110,6 +110,7 @@ void pathLine::removeArrow(QList<QGraphicsItem *> *mixedSiblings)
 //
 void pathLine::checkIntersections()
 {
+    QList<QGraphicsItem *> children = this->getSortedChildren();
 
 }
 
@@ -135,7 +136,7 @@ north::north(QPoint location, QRectF bounds)
     bottom.setY(bounds.bottom());
     this->setLine(QLineF(bottom, top));
 
-    top.setY(top.y() - 5);
+    top.setY(top.y() - ARROW_OFFSET);
     myArrowHead = makeArrow(top, 0);
     myArrowHead->setParentItem(this);
 }
@@ -232,7 +233,7 @@ south::south(QPoint location, QRectF bounds)
     bottom.setY(bounds.bottom());
     this->setLine(QLineF(top, bottom));
 
-    bottom.setY(bottom.y() + 5);
+    bottom.setY(bottom.y() + ARROW_OFFSET);
     myArrowHead = makeArrow(bottom, 180);
     myArrowHead->setParentItem(this);
 }
@@ -323,7 +324,7 @@ west::west(QPoint location, QRectF bounds)
     right.setY(location.y());
     this->setLine(QLineF(right, left));
 
-    left.setX(left.x() - 5);
+    left.setX(left.x() - ARROW_OFFSET);
     myArrowHead = makeArrow(left, 270);
     myArrowHead->setParentItem(this);
 }
@@ -414,7 +415,7 @@ east::east(QPoint location, QRectF bounds)
     right.setY(location.y());
     this->setLine(QLineF(left, right));
 
-    right.setX(right.x() + 5);
+    right.setX(right.x() + ARROW_OFFSET);
     myArrowHead = makeArrow(right, 90);
     myArrowHead->setParentItem(this);
 }

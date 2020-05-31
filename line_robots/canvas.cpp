@@ -51,6 +51,7 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
             newLine->setPen(QPen(Qt::black, 3));
             newLine->setAcceptDrops(true);
             newLine->setZValue(-1);
+            qDebug()<<QPoint(x,y);
             undoStack->push(new AddLine(this, newLine, undoStack));
 
         } else if (dragObjectType.contains("Robot")) { // dragging a robot object onto the canvas
@@ -134,6 +135,7 @@ pathLine *Canvas::detectLine(int *x, int *y)
     while (search.hasNext()) {
         temp = search.nextPixel();
         if (this->inBounds(temp, LINE_SEARCH_RADIUS)) {
+            qDebug()<<temp;
             curItem = itemAt(temp, QTransform());
             if ((line = dynamic_cast<pathLine *>(curItem))) {
                 *x = temp.x();
@@ -191,8 +193,11 @@ void Canvas::errorMsg(int error)
 
 bool Canvas::inBounds(QPoint checkPixel, int buffer)
 {
-    if (checkPixel.x() >= 30 + buffer && checkPixel.x() <= this->sceneRect().width() - buffer
-        && checkPixel.y() >= 30 + buffer && checkPixel.y() <= this->sceneRect().height() - buffer) {
+    /*if (checkPixel.x() >= 30 + buffer && checkPixel.x() <= this->sceneRect().width() - buffer
+        && checkPixel.y() >= 30 + buffer && checkPixel.y() <= this->sceneRect().height() - buffer) {*/
+    if (checkPixel.x() >= this->sceneRect().left() && checkPixel.x() <= this->sceneRect().right()
+            && checkPixel.y() >= this->sceneRect().top() && checkPixel.y() <= this->sceneRect().bottom())
+    {
         return true;
     } else {
         return false;

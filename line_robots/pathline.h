@@ -21,6 +21,7 @@ protected:
     QList<QGraphicsItem *> extractIntersections(QList<QGraphicsItem *> mixedSiblings);
     void removeArrow(QList<QGraphicsItem *> *mixedSiblings);
     virtual QList<QGraphicsItem *> getSortedChildren() = 0;
+    const int ARROW_OFFSET = 1;
 public:
     static pathLine *makeLine(QString lineType, QPoint location, QRectF bounds);
     virtual QPointF getSnapPoint(QPointF nearPoint) = 0;

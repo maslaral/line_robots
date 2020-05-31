@@ -16,10 +16,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     createMenus();
 
     // Sets the size of the canvas
-    scene->setSceneRect(0, 0, 554, 466);
+    //scene->setSceneRect(0, 0, 554, 466);
 
     // sets the canvas on the scene
     ui->canvas->setScene(scene);
+    scene->setSceneRect(0,0,ui->canvas->width(),ui->canvas->height());
 
     // Smoth out the movement of the robot
     ui->canvas->setRenderHint(QPainter::Antialiasing);

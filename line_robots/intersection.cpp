@@ -6,7 +6,7 @@ intersection::intersection()
     otherLine = nullptr;
 }
 
-void intersection::checkClear()
+void intersection::checkClear(Robot *thisPrev, Robot * otherPrev)
 {
     if(blocker == nullptr){
         //check this line
