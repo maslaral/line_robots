@@ -23,21 +23,31 @@ public:
     void addRobot(double x, double y);
     void clearData();
     void pauseSimulation();
+    bool confirmAction(int action);
     ~MainWindow();
 
 private slots:
-    void on_butClear_clicked();
+    void exit();
+    void undo();
+    void redo();
+    void clear();
+
     // void Mouse_Pressed();
     void setPause(bool isRunning);
-
-    void on_butUndo_clicked();
-
-    void on_butRedo_clicked();
 
 private:
     Ui::MainWindow *ui;
 
     QVector<double> qv_x, qv_y;
+
+    void createMenus();
+    void createActions();
+    QMenu *fileMenu;
+    QMenu *toolsMenu;
+    QAction *exitAct;
+    QAction *clearAct;
+    QAction *undoAct;
+    QAction *redoAct;
 
     Canvas *scene;
     QGraphicsView *view;
