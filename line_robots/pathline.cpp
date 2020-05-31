@@ -96,20 +96,20 @@ QPointF north::getSnapPoint(QPointF nearPoint){
     return QPointF(this->line().x1(), nearPoint.y());
 }
 
+//return list of children sorted with closest to the end of the line first
+QList<QGraphicsItem *> north::getSortedChildren(){
+    QList<QGraphicsItem *> children = this->childItems();
+    auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().y() < j->pos().y();};
+    std::sort(children.begin(),children.end(),compare); // sort robots in travel direction
+    return children;
+}
+
 // adjust the speed of all child robots of this line on the prep phase of advance
 void north::advance(int phase) {
     if (!phase)
     {
-        //list the children
-        QList<QGraphicsItem *> siblings = this->childItems();
-
-        //define ordering function to sort the robots by travel direction
-        auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().y() < j->pos().y();};
-
+        QList<QGraphicsItem *> siblings = this->getSortedChildren();
         removeNonRobots(&siblings);
-
-        std::sort(siblings.begin(),siblings.end(),compare); // sort robots in travel direction
-
         this->wrapRobots(&siblings);
 
         if (siblings.size() > 1) //if there are multiple robots on this line, have the robots radar each other
@@ -176,23 +176,20 @@ south::south(QPoint location, QRectF bounds)
 QPointF south::getSnapPoint(QPointF nearPoint){
     return QPointF(this->line().x1(), nearPoint.y());
 }
-
+//return list of children sorted with closest to the end of the line first
+QList<QGraphicsItem *> south::getSortedChildren(){
+    QList<QGraphicsItem *> children = this->childItems();
+    auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().y() > j->pos().y();};
+    std::sort(children.begin(),children.end(),compare); // sort robots in travel direction
+    return children;
+}
 // adjust the speed of all child robots of this line on the prep phase of advance
 void south::advance(int phase) {
     if (!phase)
     {
-        //list the children
-        QList<QGraphicsItem *> siblings = this->childItems();
-
-        //define ordering function to sort the robots by travel direction
-        auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().y() > j->pos().y();};
-
+        QList<QGraphicsItem *> siblings = this->getSortedChildren();
         removeNonRobots(&siblings);
-
-        std::sort(siblings.begin(),siblings.end(),compare); // sort robots in travel direction
-
         this->wrapRobots(&siblings);
-
         if (siblings.size() > 1) //if there are multiple robots on this line, have the robots radar each other
         {
             auto clearAhead = [this](int i, int j)->int{ //define distance calculation for this direction
@@ -256,23 +253,20 @@ west::west(QPoint location, QRectF bounds)
 QPointF west::getSnapPoint(QPointF nearPoint){
     return QPointF(nearPoint.x(), this->line().y1());
 }
-
+//return list of children sorted with closest to the end of the line first
+QList<QGraphicsItem *> west::getSortedChildren(){
+    QList<QGraphicsItem *> children = this->childItems();
+    auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().x() < j->pos().x();};
+    std::sort(children.begin(),children.end(),compare); // sort robots in travel direction
+    return children;
+}
 // adjust the speed of all child robots of this line on the prep phase of advance
 void west::advance(int phase) {
     if (!phase)
     {
-        //list the children
-        QList<QGraphicsItem *> siblings = this->childItems();
-
-        //define ordering function to sort the robots by travel direction
-        auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().x() < j->pos().x();};
-
+        QList<QGraphicsItem *> siblings = this->getSortedChildren();
         removeNonRobots(&siblings);
-
-        std::sort(siblings.begin(),siblings.end(),compare); // sort robots in travel direction
-
         this->wrapRobots(&siblings);
-
         if (siblings.size() > 1) //if there are multiple robots on this line, have the robots radar each other
         {
             auto clearAhead = [this](int i, int j)->int{ //define distance calculation for this direction
@@ -336,23 +330,20 @@ east::east(QPoint location, QRectF bounds)
 QPointF east::getSnapPoint(QPointF nearPoint){
     return QPointF(nearPoint.x(), this->line().y1());
 }
-
+//return list of children sorted with closest to the end of the line first
+QList<QGraphicsItem *> east::getSortedChildren(){
+    QList<QGraphicsItem *> children = this->childItems();
+    auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().x() > j->pos().x();};
+    std::sort(children.begin(),children.end(),compare); // sort robots in travel direction
+    return children;
+}
 // adjust the speed of all child robots of this line on the prep phase of advance
 void east::advance(int phase) {
     if (!phase)
     {
-        //list the children
-        QList<QGraphicsItem *> siblings = this->childItems();
-
-        //define ordering function to sort the robots by travel direction
-        auto compare = [](QGraphicsItem *i, QGraphicsItem *j)->bool{return i->pos().x() > j->pos().x();};
-
+        QList<QGraphicsItem *> siblings = this->getSortedChildren();
         removeNonRobots(&siblings);
-
-        std::sort(siblings.begin(),siblings.end(),compare); // sort robots in travel direction
-
         this->wrapRobots(&siblings);
-
         if (siblings.size() > 1) //if there are multiple robots on this line, have the robots radar each other
         {
             auto clearAhead = [this](int i, int j)->int{ //define distance calculation for this direction

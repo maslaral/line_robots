@@ -18,6 +18,7 @@ protected:
     void removeNonRobots(QList<QGraphicsItem *> *siblings);
     std::deque<QGraphicsItem *> wrapBuffer;
     virtual void wrapRobots(QList<QGraphicsItem *> *siblingRobots) = 0;
+    virtual QList<QGraphicsItem *> getSortedChildren() = 0;
 public:
     static pathLine *makeLine(QString lineType, QPoint location, QRectF bounds);
     virtual QPointF getSnapPoint(QPointF nearPoint) = 0;
@@ -31,6 +32,7 @@ public:
 protected:
     void advance(int phase);
     void wrapRobots(QList<QGraphicsItem *> *siblingRobots);
+    QList<QGraphicsItem *> getSortedChildren();
 };
 
 class south : public pathLine {
@@ -41,6 +43,7 @@ public:
 protected:
     void advance(int phase);
     void wrapRobots(QList<QGraphicsItem *> *siblingRobots);
+    QList<QGraphicsItem *> getSortedChildren();
 };
 
 class east : public pathLine {
@@ -51,6 +54,7 @@ public:
 protected:
     void advance(int phase);
     void wrapRobots(QList<QGraphicsItem *> *siblingRobots);
+    QList<QGraphicsItem *> getSortedChildren();
 };
 
 class west : public pathLine {
@@ -61,6 +65,7 @@ public:
 protected:
     void advance(int phase);
     void wrapRobots(QList<QGraphicsItem *> *siblingRobots);
+    QList<QGraphicsItem *> getSortedChildren();
 };
 
 #endif // PATHLINE_H
