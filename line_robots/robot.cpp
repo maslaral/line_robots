@@ -116,10 +116,6 @@ bool Robot::avoidLineCollision(QGraphicsItem *curItem, int clearAhead)
     {
         speed = std::min(++speed, maxSpeed); //accelerate if path is clear
     }
-    else
-    {
-        speed = std::min(++speed, maxSpeed); //accelerate if path is clear
-    }
 
     return false;
 }
