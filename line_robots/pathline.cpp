@@ -98,6 +98,7 @@ void pathLine::removeArrow(QList<QGraphicsItem *> *mixedSiblings)
     while (place != mixedSiblings->end()) //remove all non-robots from list
     {
         if ((anArrow = dynamic_cast<QGraphicsPolygonItem *>(*place))) {
+
             place = mixedSiblings->erase(place);
         }
         else
@@ -202,6 +203,7 @@ QGraphicsItem * pathLine::getPrevRobot(QPoint intersectionLoc)
     }
 }
 
+
 north::north(QPoint location, QRectF bounds)
 {
     QPoint top;
@@ -223,7 +225,6 @@ QPointF north::getSnapPoint(QPointF nearPoint){
     return QPointF(this->line().x1(), nearPoint.y());
 }
 
-
 //return list of children sorted with closest to the end of the line first
 QList<QGraphicsItem *> north::getSortedChildren(){
     QList<QGraphicsItem *> children = this->childItems();
@@ -237,9 +238,11 @@ QList<QGraphicsItem *> north::getSortedChildren(){
 void north::advance(int phase) {
     if (!phase)
     {
+
         //QList<QGraphicsItem *> siblings = this->getSortedChildren();
         QList<QGraphicsItem *>siblings = this->extractRobots(this->getSortedChildren());
         //removeNonRobots(&siblings);
+
         this->wrapRobots(&siblings);
 
         if (siblings.size() > 1) //if there are multiple robots on this line, have the robots radar each other
@@ -285,6 +288,7 @@ void north::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
         }
     }
 }
+
 
 void north::addIntersections()
 {
@@ -332,6 +336,7 @@ QPointF south::getSnapPoint(QPointF nearPoint){
 }
 
 
+
 //return list of children sorted with closest to the end of the line first
 QList<QGraphicsItem *> south::getSortedChildren(){
     QList<QGraphicsItem *> children = this->childItems();
@@ -340,10 +345,12 @@ QList<QGraphicsItem *> south::getSortedChildren(){
     removeArrow(&children);
     return children;
 }
+
 // adjust the speed of all child robots of this line on the prep phase of advance
 void south::advance(int phase) {
     if (!phase)
     {
+
         QList<QGraphicsItem *>siblings = this->extractRobots(this->getSortedChildren());
 
         this->wrapRobots(&siblings);
@@ -389,6 +396,7 @@ void south::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
         }
     }
 }
+
 void south::addIntersections()
 {
     QList<pathLine *> crosses = dynamic_cast<Canvas *>(this->scene())->extractHorizontalLines(dynamic_cast<Canvas *>(this->scene())->getLines());
@@ -434,6 +442,7 @@ QPointF west::getSnapPoint(QPointF nearPoint){
     return QPointF(nearPoint.x(), this->line().y1());
 }
 
+
 //return list of children sorted with closest to the end of the line first
 QList<QGraphicsItem *> west::getSortedChildren(){
     QList<QGraphicsItem *> children = this->childItems();
@@ -442,13 +451,16 @@ QList<QGraphicsItem *> west::getSortedChildren(){
     removeArrow(&children);
     return children;
 }
+
 // adjust the speed of all child robots of this line on the prep phase of advance
 void west::advance(int phase) {
     if (!phase)
     {
+
         QList<QGraphicsItem *>siblings = this->extractRobots(this->getSortedChildren());
 
         this->wrapRobots(&siblings);
+
         if (siblings.size() > 1) //if there are multiple robots on this line, have the robots radar each other
         {
             auto clearAhead = [this](int i, int j)->int{ //define distance calculation for this direction
@@ -491,6 +503,7 @@ void west::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
         }
     }
 }
+
 
 void west::addIntersections()
 {
@@ -537,6 +550,7 @@ QPointF east::getSnapPoint(QPointF nearPoint){
     return QPointF(nearPoint.x(), this->line().y1());
 }
 
+
 //return list of children sorted with closest to the end of the line first
 QList<QGraphicsItem *> east::getSortedChildren(){
     QList<QGraphicsItem *> children = this->childItems();
@@ -545,13 +559,16 @@ QList<QGraphicsItem *> east::getSortedChildren(){
     removeArrow(&children);
     return children;
 }
+
 // adjust the speed of all child robots of this line on the prep phase of advance
 void east::advance(int phase) {
     if (!phase)
     {
+
         QList<QGraphicsItem *>siblings = this->extractRobots(this->getSortedChildren());
 
         this->wrapRobots(&siblings);
+
         if (siblings.size() > 1) //if there are multiple robots on this line, have the robots radar each other
         {
             auto clearAhead = [this](int i, int j)->int{ //define distance calculation for this direction
@@ -604,6 +621,7 @@ void east::wrapRobots(QList<QGraphicsItem *> *siblingRobots)
     }
 }
 
+
 void east::addIntersections()
 {
     QList<pathLine *> crosses = dynamic_cast<Canvas *>(this->scene())->extractVerticalLines(dynamic_cast<Canvas *>(this->scene())->getLines());
@@ -626,3 +644,4 @@ int east::distance(QGraphicsItem *from, QGraphicsItem *to)
     distance %= static_cast<int>(this->scene()->sceneRect().right());
     return distance;
 }
+

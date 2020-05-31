@@ -105,10 +105,16 @@ void Robot::advance(int phase)
 }
 
 bool Robot::avoidLineCollision(QGraphicsItem *curItem, int clearAhead)
+
 {
     Robot *robot;
     if (clearAhead <= RADAR_SEARCH_AHEAD){
         speed = std::min(speed, dynamic_cast<Robot *>(curItem)->getSpeed());
+    }
+
+    else
+    {
+        speed = std::min(++speed, maxSpeed); //accelerate if path is clear
     }
     else
     {
@@ -139,3 +145,4 @@ int Robot::getSpeed()
 {
     return speed;
 }
+

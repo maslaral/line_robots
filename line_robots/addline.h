@@ -6,6 +6,7 @@
 #include "pathline.h"
 
 
+
 class AddLine : public QUndoCommand
 {
 public:

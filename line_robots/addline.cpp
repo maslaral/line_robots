@@ -1,5 +1,6 @@
 #include "addline.h"
 
+
 AddLine::AddLine(QGraphicsScene *scene, pathLine *item, QUndoStack *undoStack)
 {
     mScene = scene;

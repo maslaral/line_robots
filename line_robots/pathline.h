@@ -37,6 +37,7 @@ class north : public pathLine {
 public:
     north(QPoint location, QRectF bounds);
     QPointF getSnapPoint(QPointF nearPoint);
+
     void addIntersections();
     int distance(QGraphicsItem *from, QGraphicsItem *to);
 protected:
@@ -50,12 +51,14 @@ class south : public pathLine {
 public:
     south(QPoint location, QRectF bounds);
     QPointF getSnapPoint(QPointF nearPoint);
+
     void addIntersections();
     int distance(QGraphicsItem *from, QGraphicsItem *to);
 protected:
     void advance(int phase);
     void wrapRobots(QList<QGraphicsItem *> *siblingRobots);
     QList<QGraphicsItem *> getSortedChildren();
+
 };
 
 class east : public pathLine {
@@ -63,6 +66,7 @@ class east : public pathLine {
 public:
     east(QPoint location, QRectF bounds);
     QPointF getSnapPoint(QPointF nearPoint);
+
     void addIntersections();
     int distance(QGraphicsItem *from, QGraphicsItem *to);
 protected:
