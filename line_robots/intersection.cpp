@@ -1,4 +1,5 @@
 #include "intersection.h"
+#include <QDebug>
 
 intersection::intersection()
 {
@@ -8,14 +9,9 @@ intersection::intersection()
 
 void intersection::checkClear(Robot *thisPrev)
 {
-    if(blocker == nullptr){
-        //check this line
-        //check other line
-    }
-    else
-    {
-        //check blocker's parent
-    }
+    QPoint place = this->pos().toPoint();
+    QGraphicsItem *closestCrosser = this->otherLine->getPrevRobot(place);
+
 }
 
 void intersection::setCross(pathLine *crossingLine)

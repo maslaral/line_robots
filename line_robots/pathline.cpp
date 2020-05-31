@@ -166,7 +166,7 @@ QGraphicsItem * pathLine::getPrevRobot(QPoint intersectionLoc)
         if (tempIntersection == *it)
         {
             found = true;
-            qDebug()<<"did find";
+            qDebug()<<"found intersection";
         }
         else
         {
@@ -182,6 +182,7 @@ QGraphicsItem * pathLine::getPrevRobot(QPoint intersectionLoc)
     {
         if ((aRobot = dynamic_cast<Robot *>(*it)) && dynamic_cast<QGraphicsItem *>(aRobot)->isVisible() == true)
         {
+            qDebug() << "found previous robot";
             found = true;
         }
         else
@@ -191,6 +192,7 @@ QGraphicsItem * pathLine::getPrevRobot(QPoint intersectionLoc)
     }
     this->scene()->removeItem(dynamic_cast<QGraphicsItem *>(tempIntersection));
     delete tempIntersection;
+    qDebug() << "deleted temp intersection";
     if (found)
     {
         return (*it);
