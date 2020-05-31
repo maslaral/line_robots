@@ -9,7 +9,7 @@ class intersection : public QGraphicsItem
 {
 public:
     intersection();
-    void checkClear(Robot *thisPrev, Robot *otherPrev);
+    void checkClear(Robot *thisPrev);
     void setCross(pathLine *crossingLine);
     void clean();
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
