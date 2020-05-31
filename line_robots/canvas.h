@@ -13,6 +13,7 @@
 #include <QPoint>
 #include <QUndoStack>
 #include <QObject>
+#include <QList>
 
 class Canvas : public QGraphicsScene
 {
@@ -37,6 +38,7 @@ private:
     int roboticSpeed;
     QColor roboticColor;
     void pollIntersections();
+    QList<pathLine *> getLines();
 public slots:
     void tick();
 };

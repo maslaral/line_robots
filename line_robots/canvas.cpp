@@ -207,5 +207,25 @@ void Canvas::tick()
 
 void Canvas::pollIntersections()
 {
+    QList<pathLine *> lineItems = this->getLines();
+    for (auto it = lineItems.begin(); it != lineItems.end(); ++it)
+    {
+        (*it)->checkIntersections();
+    }
+}
 
+QList<pathLine *> Canvas::getLines()
+{
+    pathLine *aLine;
+    QList<QGraphicsItem *> children = this->items();
+    QList<pathLine *> linesOnly;
+
+    for (auto it = children.begin(); it != children.end(); ++it)
+    {
+        if ((aLine = dynamic_cast<pathLine *>(*it)))
+        {
+            linesOnly.append(dynamic_cast<pathLine *>(*it));
+        }
+    }
+    return linesOnly;
 }

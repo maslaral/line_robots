@@ -1,5 +1,6 @@
 #include "pathline.h"
 #include "robot.h"
+#include "intersection.h"
 #include <QGraphicsPolygonItem>
 #include <QLineF>
 #include <QPoint>
@@ -69,6 +70,25 @@ QList<QGraphicsItem *> pathLine::extractRobots(QList<QGraphicsItem *> mixedSibli
         }
     }
     return robotsOnly;
+}
+
+QList<QGraphicsItem *> pathLine::extractIntersections(QList<QGraphicsItem *> mixedSiblings)
+{
+    QList<QGraphicsItem *> intersectionsOnly;
+    intersection *anIntersection;
+    for (auto it = mixedSiblings.begin(); it != mixedSiblings.end(); ++it)
+    {
+        if((anIntersection = dynamic_cast<intersection *>(*it)))
+        {
+           intersectionsOnly.append(*it);
+        }
+    }
+    return intersectionsOnly;
+}
+
+void pathLine::checkIntersections()
+{
+
 }
 
 north::north(QPoint location, QRectF bounds)

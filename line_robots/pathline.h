@@ -15,13 +15,15 @@ class pathLine : public QGraphicsLineItem
 protected:
     QGraphicsPolygonItem *makeArrow(QPoint Location, int bearing);
     void adjustInlineSpeeds(QList<QGraphicsItem *> *siblingRobots, std::function<int(int,int)> distance);
-    QList<QGraphicsItem *> extractRobots(QList<QGraphicsItem *> mixedSiblings);
     std::deque<QGraphicsItem *> wrapBuffer;
     virtual void wrapRobots(QList<QGraphicsItem *> *siblingRobots) = 0;
+    QList<QGraphicsItem *> extractRobots(QList<QGraphicsItem *> mixedSiblings);
+    QList<QGraphicsItem *> extractIntersections(QList<QGraphicsItem *> mixedSiblings);
     virtual QList<QGraphicsItem *> getSortedChildren() = 0;
 public:
     static pathLine *makeLine(QString lineType, QPoint location, QRectF bounds);
     virtual QPointF getSnapPoint(QPointF nearPoint) = 0;
+    void checkIntersections();
 };
 
 class north : public pathLine {
