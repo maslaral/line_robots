@@ -57,23 +57,19 @@ void pathLine::adjustInlineSpeeds(QList<QGraphicsItem *> *siblingRobots, std::fu
     }
 }
 
-//delete all non-robots from a list of graphics items
-void pathLine::removeNonRobots(QList<QGraphicsItem *> *mixedSiblings)
+QList<QGraphicsItem *> pathLine::extractRobots(QList<QGraphicsItem *> mixedSiblings)
 {
+    QList<QGraphicsItem *> robotsOnly;
     Robot *aRobot;
-    auto place = mixedSiblings->begin();
-    while (place != mixedSiblings->end()) //remove all non-robots from list
+    for (auto it = mixedSiblings.begin(); it != mixedSiblings.end(); ++it)
     {
-        if (!(aRobot = dynamic_cast<Robot *>(*place))) {
-            place = mixedSiblings->erase(place);
-        }
-        else
+        if((aRobot = dynamic_cast<Robot *>(*it)))
         {
-            ++place;
+            robotsOnly.append(*it);
         }
     }
+    return robotsOnly;
 }
-
 
 north::north(QPoint location, QRectF bounds)
 {
@@ -108,8 +104,9 @@ QList<QGraphicsItem *> north::getSortedChildren(){
 void north::advance(int phase) {
     if (!phase)
     {
-        QList<QGraphicsItem *> siblings = this->getSortedChildren();
-        removeNonRobots(&siblings);
+        //QList<QGraphicsItem *> siblings = this->getSortedChildren();
+        QList<QGraphicsItem *>siblings = this->extractRobots(this->getSortedChildren());
+        //removeNonRobots(&siblings);
         this->wrapRobots(&siblings);
 
         if (siblings.size() > 1) //if there are multiple robots on this line, have the robots radar each other
@@ -187,8 +184,8 @@ QList<QGraphicsItem *> south::getSortedChildren(){
 void south::advance(int phase) {
     if (!phase)
     {
-        QList<QGraphicsItem *> siblings = this->getSortedChildren();
-        removeNonRobots(&siblings);
+        QList<QGraphicsItem *>siblings = this->extractRobots(this->getSortedChildren());
+
         this->wrapRobots(&siblings);
         if (siblings.size() > 1) //if there are multiple robots on this line, have the robots radar each other
         {
@@ -264,8 +261,8 @@ QList<QGraphicsItem *> west::getSortedChildren(){
 void west::advance(int phase) {
     if (!phase)
     {
-        QList<QGraphicsItem *> siblings = this->getSortedChildren();
-        removeNonRobots(&siblings);
+        QList<QGraphicsItem *>siblings = this->extractRobots(this->getSortedChildren());
+
         this->wrapRobots(&siblings);
         if (siblings.size() > 1) //if there are multiple robots on this line, have the robots radar each other
         {
@@ -341,8 +338,8 @@ QList<QGraphicsItem *> east::getSortedChildren(){
 void east::advance(int phase) {
     if (!phase)
     {
-        QList<QGraphicsItem *> siblings = this->getSortedChildren();
-        removeNonRobots(&siblings);
+        QList<QGraphicsItem *>siblings = this->extractRobots(this->getSortedChildren());
+
         this->wrapRobots(&siblings);
         if (siblings.size() > 1) //if there are multiple robots on this line, have the robots radar each other
         {

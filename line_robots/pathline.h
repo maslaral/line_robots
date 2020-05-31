@@ -15,7 +15,7 @@ class pathLine : public QGraphicsLineItem
 protected:
     QGraphicsPolygonItem *makeArrow(QPoint Location, int bearing);
     void adjustInlineSpeeds(QList<QGraphicsItem *> *siblingRobots, std::function<int(int,int)> distance);
-    void removeNonRobots(QList<QGraphicsItem *> *siblings);
+    QList<QGraphicsItem *> extractRobots(QList<QGraphicsItem *> mixedSiblings);
     std::deque<QGraphicsItem *> wrapBuffer;
     virtual void wrapRobots(QList<QGraphicsItem *> *siblingRobots) = 0;
     virtual QList<QGraphicsItem *> getSortedChildren() = 0;
