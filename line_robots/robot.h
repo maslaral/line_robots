@@ -18,16 +18,10 @@ public:
     void setColor(QColor);
     bool avoidLineCollision(QGraphicsItem *curItem, int clearAhead);
     int getBufferSpace();
+    int getSpeed();
 
 protected:
     void advance(int phase);
-    //void boundaryDetection();
-    //void collisionDetectionNorth();
-    //void collisionDetectionSouth();
-    //void collisionDetectionEast();
-    //void collisionDetectionWest();
-    bool avoidIntersectionCollision(QGraphicsItem *curItem);
-
     void saveSpeed();
     void restoreSpeed();
 
