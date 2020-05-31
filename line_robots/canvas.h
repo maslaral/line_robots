@@ -1,7 +1,6 @@
 #ifndef CANVAS_H
 #define CANVAS_H
 
-#include "pathline.h"
 #include "addline.h"
 #include "addrobot.h"
 #include <robot.h>

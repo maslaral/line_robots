@@ -9,7 +9,6 @@
 #include <QWidget>
 #include <functional>
 #include <deque>
-#include "robot.h"
 
 class pathLine : public QGraphicsLineItem
 {

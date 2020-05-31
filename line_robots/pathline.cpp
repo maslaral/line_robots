@@ -141,56 +141,6 @@ void pathLine::checkIntersections()
         }
 }
 
-//return the closest robot approaching a point
-Robot * pathLine::getPrevRobot(QPoint intersectionLoc)
-{
-    intersection *tempIntersection = new intersection();
-    Robot *aRobot;
-    tempIntersection->setPos(intersectionLoc);
-    tempIntersection->setParentItem(this);
-    QList<QGraphicsItem *> children = this->getSortedChildren();
-    auto it = children.begin();
-    bool found = false;
-    while (it != children.end() && !found)
-    {
-        if (tempIntersection == *it)
-        {
-            found = true;
-            qDebug()<<"did find";
-        }
-        else
-        {
-            ++it;
-        }
-    }
-    if (it != children.end())
-    {
-        ++it;
-    }
-    found = false;
-    while (it != children.end() && !found)
-    {
-        if ((aRobot = dynamic_cast<Robot *>(*it)) && dynamic_cast<QGraphicsItem *>(aRobot)->isVisible() == true)
-        {
-            found = true;
-        }
-        else
-        {
-            ++it;
-        }
-    }
-    this->scene()->removeItem(dynamic_cast<QGraphicsItem *>(tempIntersection));
-    delete tempIntersection;
-    if (found)
-    {
-        return aRobot;
-    }
-    else
-    {
-        return nullptr;
-    }
-}
-
 void pathLine::cleanIntersections()
 {
     QList<QGraphicsItem *> intList = extractIntersections(childItems());
@@ -273,14 +223,6 @@ QPointF north::getSnapPoint(QPointF nearPoint){
     return QPointF(this->line().x1(), nearPoint.y());
 }
 
-//get the distance between two object on a line
-int north::distance(QGraphicsItem *from, QGraphicsItem *to)
-{
-    int distance = to->pos().y() - from->pos().y();
-    distance += this->scene()->sceneRect().bottom();
-    distance %= static_cast<int>(this->scene()->sceneRect().bottom());
-    return distance;
-}
 
 //return list of children sorted with closest to the end of the line first
 QList<QGraphicsItem *> north::getSortedChildren(){
@@ -389,14 +331,6 @@ QPointF south::getSnapPoint(QPointF nearPoint){
     return QPointF(this->line().x1(), nearPoint.y());
 }
 
-//get the distance between two object on a line
-int south::distance(QGraphicsItem *from, QGraphicsItem *to)
-{
-    int distance = from->pos().y() - to->pos().y();
-    distance += this->scene()->sceneRect().bottom();
-    distance %= static_cast<int>(this->scene()->sceneRect().bottom());
-    return distance;
-}
 
 //return list of children sorted with closest to the end of the line first
 QList<QGraphicsItem *> south::getSortedChildren(){
@@ -500,15 +434,6 @@ QPointF west::getSnapPoint(QPointF nearPoint){
     return QPointF(nearPoint.x(), this->line().y1());
 }
 
-//get the distance between two object on a line
-int west::distance(QGraphicsItem *from, QGraphicsItem *to)
-{
-    int distance = to->pos().x() - from->pos().x();
-    distance += this->scene()->sceneRect().right();
-    distance %= static_cast<int>(this->scene()->sceneRect().right());
-    return distance;
-}
-
 //return list of children sorted with closest to the end of the line first
 QList<QGraphicsItem *> west::getSortedChildren(){
     QList<QGraphicsItem *> children = this->childItems();
@@ -610,15 +535,6 @@ east::east(QPoint location, QRectF bounds)
 
 QPointF east::getSnapPoint(QPointF nearPoint){
     return QPointF(nearPoint.x(), this->line().y1());
-}
-
-//get the distance between two object on a line
-int east::distance(QGraphicsItem *from, QGraphicsItem *to)
-{
-    int distance = from->pos().x() - to->pos().x();
-    distance += this->scene()->sceneRect().right();
-    distance %= static_cast<int>(this->scene()->sceneRect().right());
-    return distance;
 }
 
 //return list of children sorted with closest to the end of the line first
