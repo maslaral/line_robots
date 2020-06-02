@@ -23,7 +23,6 @@ public:
     bool hasNext();
     void reset();
     QPoint nextPixel();
-signals:
 };
 
 #endif // PIXELSPIRAL_H

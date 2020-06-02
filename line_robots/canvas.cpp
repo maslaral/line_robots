@@ -51,7 +51,8 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
             newLine->setPen(QPen(Qt::black, 3));
             newLine->setAcceptDrops(true);
             newLine->setZValue(-1);
-            undoStack->push(new CommandAdd(this, newLine, undoStack));
+            qDebug()<<QPoint(x,y);
+            undoStack->push(new AddLine(this, newLine, undoStack));
 
         } else if (dragObjectType.contains("Robot")) { // dragging a robot object onto the canvas
             pathLine *lineDroppedOn = detectLine(&x, &y);
@@ -66,7 +67,7 @@ void Canvas::dropEvent(QGraphicsSceneDragDropEvent *event)
                         newRobot->setSpeed(roboticSpeed);
                         newRobot->setColor(roboticColor);
                         newRobot->setZValue(1);
-                        undoStack->push(new CommandAdd(this, newRobot, undoStack));
+                        undoStack->push(new AddRobot(lineDroppedOn, newRobot, undoStack));
                       
                     }
                 }
@@ -134,6 +135,7 @@ pathLine *Canvas::detectLine(int *x, int *y)
     while (search.hasNext()) {
         temp = search.nextPixel();
         if (this->inBounds(temp, LINE_SEARCH_RADIUS)) {
+            qDebug()<<temp;
             curItem = itemAt(temp, QTransform());
             if ((line = dynamic_cast<pathLine *>(curItem))) {
                 *x = temp.x();
@@ -191,10 +193,86 @@ void Canvas::errorMsg(int error)
 
 bool Canvas::inBounds(QPoint checkPixel, int buffer)
 {
-    if (checkPixel.x() >= 30 + buffer && checkPixel.x() <= this->sceneRect().width() - buffer
-        && checkPixel.y() >= 30 + buffer && checkPixel.y() <= this->sceneRect().height() - buffer) {
+    /*if (checkPixel.x() >= 30 + buffer && checkPixel.x() <= this->sceneRect().width() - buffer
+        && checkPixel.y() >= 30 + buffer && checkPixel.y() <= this->sceneRect().height() - buffer) {*/
+    if (checkPixel.x() >= this->sceneRect().left() && checkPixel.x() <= this->sceneRect().right()
+            && checkPixel.y() >= this->sceneRect().top() && checkPixel.y() <= this->sceneRect().bottom())
+    {
         return true;
     } else {
         return false;
     }
+}
+
+// slot to implement an intersection check phase prior to triggering advance
+// trigger this slot on each clock tick
+void Canvas::tick()
+{
+    pollIntersections();
+    this->advance();
+    clearIntersections();
+}
+
+//iterate through a list of lines and have them check their intersections
+void Canvas::pollIntersections()
+{
+    QList<pathLine *> lineItems = this->getLines();
+    for (auto it = lineItems.begin(); it != lineItems.end(); ++it)
+    {
+        (*it)->checkIntersections();
+    }
+}
+
+//iterate through a list of lines and have them clean their intersections
+void Canvas::clearIntersections()
+{
+    QList<pathLine *> lineItems = this->getLines();
+    for (auto it = lineItems.begin(); it != lineItems.end(); ++it)
+    {
+        (*it)->cleanIntersections();
+    }
+}
+
+// return a list of all the lines currently on the canvas
+QList<pathLine *> Canvas::getLines()
+{
+    pathLine *aLine;
+    QList<QGraphicsItem *> children = this->items();
+    QList<pathLine *> linesOnly;
+
+    for (auto it = children.begin(); it != children.end(); ++it)
+    {
+        if ((aLine = dynamic_cast<pathLine *>(*it)))
+        {
+            linesOnly.append(dynamic_cast<pathLine *>(*it));
+        }
+    }
+    return linesOnly;
+}
+//filter a mixed list of lines and return only the horizontals
+QList<pathLine *> Canvas::extractHorizontalLines(QList<pathLine *> mixedLines)
+{
+    QList<pathLine *> horizontals;
+    for (auto it = mixedLines.begin(); it != mixedLines.end(); ++it)
+    {
+        if ((*it)->line().toLine().x1() != (*it)->line().toLine().x2())
+        {
+            horizontals.append(*it);
+        }
+    }
+    return horizontals;
+}
+
+// filter a mixed list of lines and return only the verticals
+QList<pathLine *> Canvas::extractVerticalLines(QList<pathLine *> mixedLines)
+{
+    QList<pathLine *> verticals;
+    for (auto it = mixedLines.begin(); it != mixedLines.end(); ++it)
+    {
+        if ((*it)->line().toLine().y1() != (*it)->line().toLine().y2())
+        {
+            verticals.append(*it);
+        }
+    }
+    return verticals;
 }

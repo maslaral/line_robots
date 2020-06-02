@@ -16,10 +16,11 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
     createMenus();
 
     // Sets the size of the canvas
-    scene->setSceneRect(0, 0, 554, 466);
+    //scene->setSceneRect(0, 0, 554, 466);
 
     // sets the canvas on the scene
     ui->canvas->setScene(scene);
+    scene->setSceneRect(0,0,ui->canvas->width(),ui->canvas->height());
 
     // Smoth out the movement of the robot
     ui->canvas->setRenderHint(QPainter::Antialiasing);
@@ -29,7 +30,7 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent), ui(new Ui::MainWi
 
     // connect timer object to ui widgets
     timer->setInterval(1000 / ui->speed->value());
-    connect(timer, SIGNAL(timeout()), scene, SLOT(advance()));
+    connect(timer, SIGNAL(timeout()), scene, SLOT(tick()));
     connect(timer, SIGNAL(isRunning(bool)), this, SLOT(setPause(bool)));
     connect(ui->pauseButton, SIGNAL(clicked()), timer, SLOT(toggleActive()));
     connect(ui->speed, SIGNAL(valueChanged(int)), timer, SLOT(setFrameRate(int)));

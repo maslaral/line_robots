@@ -16,16 +16,12 @@ public:
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
     void setSpeed(double);
     void setColor(QColor);
+    bool avoidLineCollision(QGraphicsItem *curItem, int clearAhead);
+    int getBufferSpace();
+    int getSpeed();
 
 protected:
     void advance(int phase);
-    void boundaryDetection();
-    void collisionDetectionNorth();
-    void collisionDetectionSouth();
-    void collisionDetectionEast();
-    void collisionDetectionWest();
-    bool avoidIntersectionCollision(QGraphicsItem *curItem);
-    bool avoidLineCollision(QGraphicsItem *curItem);
     void saveSpeed();
     void restoreSpeed();
 
@@ -39,6 +35,7 @@ private:
 
     int speed;
     int tempSpeed;
+    int maxSpeed; //save the robot's original speed as a ceiling
     int x;
     int y;
     QString type;

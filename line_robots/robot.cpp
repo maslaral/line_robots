@@ -1,6 +1,8 @@
 #include "robot.h"
 #include "pathline.h"
 #include <QProgressBar>
+#include <QList>
+#include <algorithm>
 
 Robot::Robot(int x, int y, pathLine *line, QString type)
 {
@@ -71,6 +73,7 @@ void Robot::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWi
 void Robot::setSpeed(double barspeed)
 {
     speed = barspeed;
+    maxSpeed = speed;
 }
 
 void Robot::setColor(QColor color)
@@ -80,191 +83,38 @@ void Robot::setColor(QColor color)
 
 void Robot::advance(int phase)
 {
-    if (!phase)
-        return;
+    if (phase) // robots move on the action phase, not the prep phase
+    {
+        // check if at the boundary of board
+        //this->boundaryDetection();
 
-    // check if at the boundary of board
-    this->boundaryDetection();
-
-    if (line->line().p2().x() - line->line().p1().x() > 0) {
-        collisionDetectionEast();
-        setPos(mapToParent(0, (-speed)));
-    } else if (line->line().p2().x() - line->line().p1().x() < 0) {
-        collisionDetectionWest();
-        setPos(mapToParent(0, speed));
-    } else if (line->line().p2().y() - line->line().p1().y() < 0) {
-        collisionDetectionNorth();
-        setPos(mapToParent((-speed), 0));
-    } else {
-        collisionDetectionSouth();
-        setPos(mapToParent((speed), 0));
-    }
-}
-
-void Robot::boundaryDetection()
-{
-    // boundary for moving east
-    if (this->pos().x() >= 554) {
-        setPos(30, y);
-    }
-    // boundary for moving west
-    else if (this->pos().x() <= 30) {
-        setPos(524, y);
-    }
-    // boundary for moving north
-    else if (this->pos().y() <= 0) {
-        setPos(x, 436);
-    }
-    // boundary for moving south
-    else if (this->pos().y() >= 436) {
-        setPos(x, 30);
-    }
-}
-
-void Robot::collisionDetectionEast()
-{
-    QGraphicsItem *curItem;
-    QPointF radar = pos();
-    int overflow = 0;
-
-    for (int i = 0; i <= RADAR_SEARCH_AHEAD; i++) {
-        if (radar.x() + i > EAST_BORDER) {      // if greater than border, radar should look
-            overflow += 1;                      // "around the corner" to the other side of
-            radar.setX(WEST_BORDER + overflow); // of the canvas
+        if (line->line().p2().x() - line->line().p1().x() > 0) {
+            //collisionDetectionEast();
+            setPos(mapToParent(0, (-speed)));
+        } else if (line->line().p2().x() - line->line().p1().x() < 0) {
+            //collisionDetectionWest();
+            setPos(mapToParent(0, speed));
+        } else if (line->line().p2().y() - line->line().p1().y() < 0) {
+            //collisionDetectionNorth();
+            setPos(mapToParent((-speed), 0));
         } else {
-            radar.setX(radar.x() + i); // otherwise, just look ahead
+            //collisionDetectionSouth();
+            setPos(mapToParent((speed), 0));
         }
-
-        curItem = scene()->itemAt(radar, QTransform());
-
-        if (avoidLineCollision(curItem)) {
-            return;
-        }
-
-        radar = pos(); // reset the radar to current position
-        overflow = 0;  // reset the overflow value
-    }
-
-    if (speed == 0) {   // if speed was set to 0
-        restoreSpeed(); // restore it to the value stored in tempSpeed
     }
 }
 
-void Robot::collisionDetectionWest()
-{
-    QGraphicsItem *curItem;
-    QPointF radar = pos();
-    int overflow = 0;
+bool Robot::avoidLineCollision(QGraphicsItem *curItem, int clearAhead)
 
-    for (int i = 0; i <= RADAR_SEARCH_AHEAD; i++) {
-        if (radar.x() - i < WEST_BORDER) {
-            overflow += 1;
-            radar.setX(EAST_BORDER - overflow);
-        } else {
-            radar.setX(radar.x() - i);
-        }
-
-        curItem = scene()->itemAt(radar, QTransform());
-
-        if (avoidLineCollision(curItem)) {
-            return;
-        }
-
-        radar = pos();
-        overflow = 0;
-    }
-
-    if (speed == 0) {
-        restoreSpeed();
-    }
-}
-
-void Robot::collisionDetectionNorth()
-{
-    QGraphicsItem *curItem;
-    QPointF radar = pos();
-    int overflow = 0;
-
-    for (int i = 0; i < RADAR_SEARCH_AHEAD; i++) {
-        if (radar.y() - i < NORTH_BORDER) {
-            overflow++;
-            radar.setY(SOUTH_BORDER - overflow);
-        } else {
-            radar.setY(radar.y() - i);
-        }
-
-        curItem = scene()->itemAt(radar, QTransform());
-
-        if (avoidLineCollision(curItem)) {
-            return;
-        }
-
-        radar = pos();
-        overflow = 0;
-    }
-
-    if (speed == 0) {
-        restoreSpeed();
-    }
-}
-
-void Robot::collisionDetectionSouth()
-{
-    QGraphicsItem *curItem;
-    QPointF radar = pos();
-    int overflow = 0;
-
-    for (int i = 0; i < RADAR_SEARCH_AHEAD; i++) {
-        if (radar.y() + i > SOUTH_BORDER) {
-            overflow++;
-            radar.setY(NORTH_BORDER + overflow);
-        } else {
-            radar.setY(radar.y() + i);
-        }
-
-        curItem = scene()->itemAt(radar, QTransform());
-
-        if (avoidLineCollision(curItem)) {
-            return;
-        }
-
-        radar = pos();
-        overflow = 0;
-    }
-
-    if (speed == 0) {
-        restoreSpeed();
-    }
-}
-
-bool Robot::avoidIntersectionCollision(QGraphicsItem *curItem)
 {
     Robot *robot;
-
-    if ((robot = dynamic_cast<Robot *>(curItem)) && (line != robot->line)) {
-        if (robot->speed >= speed) {
-            saveSpeed();
-            speed = 0;
-        }
-        return true;
+    if (clearAhead <= RADAR_SEARCH_AHEAD){
+        speed = std::min(speed, dynamic_cast<Robot *>(curItem)->getSpeed());
     }
 
-    return false;
-}
-
-bool Robot::avoidLineCollision(QGraphicsItem *curItem)
-{
-    Robot *robot;
-
-    if ((robot = dynamic_cast<Robot *>(curItem)) && (line == robot->line)) {
-        if (speed > robot->speed) {
-            speed = robot->speed;
-            saveSpeed();
-            return true;
-        } else if (speed == 0 && robot->speed == 0) {
-            restoreSpeed();
-            return true;
-        }
+    else
+    {
+        speed = std::min(++speed, maxSpeed); //accelerate if path is clear
     }
 
     return false;
@@ -281,3 +131,14 @@ void Robot::restoreSpeed()
 {
     speed = tempSpeed;
 }
+
+int Robot::getBufferSpace()
+{
+    return RADAR_SEARCH_AHEAD;
+}
+
+int Robot::getSpeed()
+{
+    return speed;
+}
+
